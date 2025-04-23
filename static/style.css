@@ -1,0 +1,26 @@
+:root{
+	/*Esquema de cores do site*/
+	--accent-strong: #f4f410;
+	--accent-intermediate: #e0d83e;
+	--accent-light: #a19c14;
+	--accent-black: #000000; /*Cor do fundo do site*/
+	--font-color: #FFFFFF; /*Cor da fonte*/
+}
+
+/*Regras gerais de conteúdo para o corpo de todas as páginas*/
+body {
+	font: 100%/1.5 system-ui;
+	max-width: 95%;
+	margin-inline: max(2em, (5%) / 2);
+	padding: 1ch;
+	background-color: var(--accent-black);
+}
+
+* {
+	color: var(--font-color);
+}
+
+.justified-text {
+	text-align: justify;
+}
+
