@@ -10,6 +10,8 @@
 	let angle = { X: 0, Y: 0 };
 	let dragSpeed = 0.002;
 
+	const graticule = d3.geoGraticule10();
+
 	$: xScale = d3.scaleLinear().range([0, width]);
 	$: yScale = d3.scaleLinear().range([0, height]);
 
@@ -34,12 +36,29 @@
 
 	$: stars = starsRaw
 		.map((d) => rotate(d, angle))
-		.filter((star) => star.z >= 0);
+		.filter(
+			(star) =>
+				star.z >= 0 &&
+				(star.proper == "Polaris" || star.proper == "Sol"),
+		);
+	// $: console.log(angle);
+	$: projection = d3
+		.geoOrthographic()
+		.scale(width, height)
+		.translate([0, 0])
+		.rotate([angle.Y * (-180 / Math.PI), angle.X * (180 / Math.PI)]);
+	$: pathGenerator = d3.geoPath(projection);
 </script>
 
 <input type="number" bind:value={angle.X} />
 
 <svg {width} {height} viewBox="-{width} -{height} {width * 2} {height * 2}">
+	<path
+		d={pathGenerator(graticule)}
+		fill="none"
+		stroke="#777"
+		stroke-width="1.5"
+	/>
 	<g class="stars">
 		{#each stars as star}
 			<circle
