@@ -11,7 +11,8 @@
 
     function searchPlaces(evt){
         evt.preventDefault();
-        fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(userInput)}&layer=adress&featureType=city&addressdetails=1`)
+        let link = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(userInput)}&layer=adress&featureType=city&addressdetails=1`
+        fetch(link)
             .then(response => response.json())
             .then(data => {
                 successfulRequest = true;
@@ -58,49 +59,79 @@
         console.log(coordinates);
     }
 </script>
+<div class = "container">
+    <h3>Busque por uma cidade.</h3>
 
-Procure por uma cidade.
+    <form on:submit={searchPlaces}>
+        <input type="text" bind:value={userInput} required>
+        <button type="submit">Buscar</button>
+    </form>
 
-<form on:submit={searchPlaces}>
-    <input type="text" bind:value={userInput} required>
-    <button type="submit">Buscar</button>
-</form>
-
-{#if successfulRequest == false}
-    <p>Erro na busca. Tente novamente.</p>
-{:else if successfulSearch == false}
-    <p>Busca sem resultados. Dê preferência por digitar nomes completos de
-       cidade ao invés de apenas um pedaço do nome.</p>
-{:else}
-    <div class = "results">
-    {#each searchResults as result, index}
-    {#if selectedResult == index}
-        <div class="searchResult selected" on:click={evt => onResultClick(evt, index)}>
-            {result.display_text}
-        </div>
+    {#if successfulRequest == false}
+        <p class = "erro">Erro na busca. Tente novamente.</p>
+    {:else if successfulSearch == false}
+        <p class = "erro">Busca sem resultados. Dê preferência por digitar nomes
+        completos de cidade ao invés de apenas um pedaço do nome.</p>
     {:else}
-        <div class="searchResult" on:click={evt => onResultClick(evt, index)}>
-            {result.display_text}
+        <div class = "results">
+        {#each searchResults as result, index}
+        {#if selectedResult == index}
+            <div class="searchResult selected" on:click={evt => onResultClick(evt, index)}>
+                {result.display_text}
+            </div>
+        {:else}
+            <div class="searchResult" on:click={evt => onResultClick(evt, index)}>
+                {result.display_text}
+            </div>
+        {/if}
+        {/each}
         </div>
     {/if}
-    {/each}
-    </div>
-{/if}
 
-<p>Texto digitado na caixa de texto: {userInput}</p>
+    <p>Texto digitado na caixa de texto: {userInput}</p>
+</div>
 
 <style>
+/*Coloquei borda aqui pra não me perder na estilização dos outros componentes.  Depois é só tirar*/
+.container{
+/*    border-style: solid;
+    border-radius: 6px;
+    border-width: 2px;*/
+
+    padding: 20px;
+
+}
+
+h3{
+    margin: auto;
+    text-align: justify;
+}
+
+form {
+    margin: 5px 0;
+
+    display: grid;
+    grid-template-columns: auto 6ch;
+    gap: 1ch;
+}
+
+.erro{
+    color: #ff4c4c
+}
+
 .results {
     display: flex;
     flex-wrap: wrap;
+    justify-content: center;
 }
+
 .searchResult{
     max-width: 20ch;
 
     margin: 4px;
 
     border-style: solid;
-    border-color: #888888;
+    border-color: #777777;
     border-width: 2px;
     border-radius: 4px;
 
@@ -111,8 +142,9 @@ Procure por uma cidade.
     text-transform: uppercase;
     font-weight: bold;
 }
+
 .selected{
-    border-color: #2f05d9A0;
-    background-color: #2f05d930;
+    border-color: #2f05d9B6;
+    background-color: #2f05d93a;
 }
 </style>
