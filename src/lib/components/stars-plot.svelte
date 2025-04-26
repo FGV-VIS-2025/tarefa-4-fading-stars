@@ -6,14 +6,16 @@
 
 	let width = 600;
 	let height = 600;
+	let margin = { v: 20, h: 20 };
 
 	let angle = { X: 0, Y: 0 };
 	let dragSpeed = 0.002;
 
 	const graticule = d3.geoGraticule10();
+	const sphere = { type: "Sphere" };
 
-	$: xScale = d3.scaleLinear().range([0, width]);
-	$: yScale = d3.scaleLinear().range([0, height]);
+	$: xScale = d3.scaleLinear([-1, 1], [margin.v, width - margin.v]);
+	$: yScale = d3.scaleLinear([-1, 1], [margin.h, height - margin.h]);
 
 	onMount(() => {
 		const dragFun = d3.drag().on("drag", (event) => {
@@ -39,13 +41,13 @@
 		.filter(
 			(star) =>
 				star.z >= 0 &&
-				(star.proper == "Polaris" || star.proper == "Sol"),
+				(star.proper != "Polaris" || star.proper == "Sol"),
 		);
-	// $: console.log(angle);
+	$: console.log(angle);
 	$: projection = d3
 		.geoOrthographic()
-		.scale(width, height)
-		.translate([0, 0])
+		.scale(width / 2 - margin.v, height / 2 - margin.h)
+		.translate([width / 2, height / 2])
 		.rotate([angle.Y * (-180 / Math.PI), angle.X * (180 / Math.PI)]);
 	$: pathGenerator = d3.geoPath(projection);
 </script>
@@ -53,7 +55,7 @@
 <input type="number" bind:value={angle.X} />
 <input type="number" bind:value={angle.Y} />
 
-<svg {width} {height} viewBox="-{width} -{height} {width * 2} {height * 2}">
+<svg {width} {height} viewBox="0 0 {width} {height}">
 	<path
 		d={pathGenerator(graticule)}
 		fill="none"
@@ -70,4 +72,10 @@
 			/>
 		{/each}
 	</g>
+	<path
+		d={pathGenerator(sphere)}
+		fill="none"
+		stroke="#FFF"
+		stroke-width="3"
+	/>
 </svg>
