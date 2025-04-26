@@ -26,6 +26,7 @@
 </script>
 
 <input type="number" bind:value={angle.X} />
+<input type="number" bind:value={angle.Y} />
 
 <svg {width} {height} viewBox="-600 -600 {width * 2} {height * 2}">
 	<g class="stars">
