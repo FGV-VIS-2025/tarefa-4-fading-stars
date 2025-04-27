@@ -3,6 +3,7 @@
 	import { onMount } from "svelte";
 
 	import starsRaw from "$lib/data/stars-data.json";
+	import linesRaw from "$lib/data/lines-data.json";
 
 	let width = 600;
 	let height = 600;
@@ -41,8 +42,11 @@
 		.filter(
 			(star) =>
 				star.z >= 0 &&
-				(star.proper != "Polaris" || star.proper == "Sol"),
+				(star.proper == "Polaris" || star.proper != "Sol"),
 		);
+	$: lines = linesRaw
+		.map(([a, b]) => [rotate(a, angle), rotate(b, angle)])
+		.filter(([a, b]) => a.z >= 0 && b.z >= 0);
 	$: console.log(angle);
 	$: projection = d3
 		.geoOrthographic()
@@ -59,15 +63,27 @@
 	<path
 		d={pathGenerator(graticule)}
 		fill="none"
-		stroke="#777"
+		stroke="#444"
 		stroke-width="1.5"
 	/>
+	<g class="constellation-lines">
+		{#each lines as [starA, starB]}
+			<line
+				x1={xScale(starA.x)}
+				y1={yScale(starA.y)}
+				x2={xScale(starB.x)}
+				y2={yScale(starB.y)}
+				stroke="#aaa"
+				stroke-width="1"
+			/>
+		{/each}
+	</g>
 	<g class="stars">
 		{#each stars as star}
 			<circle
 				cx={xScale(star.x)}
 				cy={yScale(star.y)}
-				r={2 * ((5 * (star.mag - 7)) / (-1.45 - 7)) ** 0.5}
+				r={((5 * (star.mag - 7)) / (-1.45 - 7)) ** 0.9}
 				fill={star.rgb}
 			/>
 		{/each}
@@ -76,6 +92,6 @@
 		d={pathGenerator(sphere)}
 		fill="none"
 		stroke="#FFF"
-		stroke-width="3"
+		stroke-width="1.5"
 	/>
 </svg>
