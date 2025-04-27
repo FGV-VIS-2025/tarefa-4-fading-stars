@@ -7,7 +7,7 @@
     maxDataMagnitude = d3.max(starsRaw.map(star => star.mag));
     minDataMagnitude = d3.min(starsRaw.slice(1).map(star => star.mag));
 
-    let userBarInput = 0;
+    let userBarInput = 200;
     let linScale = d3.scaleLinear().domain([minDataMagnitude, maxDataMagnitude]).range([0,200]);
     $: maxMagnitude = linScale.invert(userBarInput);
 

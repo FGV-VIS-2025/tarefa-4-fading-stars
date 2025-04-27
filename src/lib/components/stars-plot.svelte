@@ -1,25 +1,25 @@
 <script>
 	import * as d3 from "d3";
+	import {computePosition, autoPlacement, offset} from '@floating-ui/dom';
 	import { onMount } from "svelte";
+
 	export let starsRaw = [];
+	//SVG canvas spec
 	let width = 600;
 	let height = 600;
 	let margin = { v: 20, h: 20 };
-
+	//Localization
 	let angle = { X: 0, Y: 0 };
 	let dragSpeed = 0.002;
 
+	//D3 scale creation
 	const graticule = d3.geoGraticule10();
 	const sphere = { type: "Sphere" };
 
 	$: xScale = d3.scaleLinear([-1, 1], [margin.v, width - margin.v]);
 	$: yScale = d3.scaleLinear([-1, 1], [margin.h, height - margin.h]);
 
-	function onMouseDrag(evt){
-		angle.X -= event.dy * dragSpeed;
-		angle.Y -= event.dx * dragSpeed;
-	}
-
+	//Mouse movement handlers
 	onMount(() => {
 		const dragFun = d3.drag().on("drag", (event) => {
 			angle.X -= event.dy * dragSpeed;
@@ -39,6 +39,7 @@
 		return { ...d, x: x, y: y, z: z };
 	}
 
+	//Star filter by movement and then projection
 	$: stars = starsRaw
 		.map((d) => rotate(d, angle))
 		.filter(
@@ -53,6 +54,27 @@
 		.translate([width / 2, height / 2])
 		.rotate([angle.Y * (-180 / Math.PI), angle.X * (180 / Math.PI)]);
 	$: pathGenerator = d3.geoPath(projection);
+
+	//Tooltip handlers
+	let hoveredIndex = -1;
+	$: hoveredStar = stars[hoveredIndex] ?? hoveredStar ?? {};
+	let cursorPos = {x: 0, y: 0}, tooltipPos = {x: 0, y: 0};
+	let starTooltip;
+
+	async function mouseTooltipHandler (index, evt){
+		let hoveredDot = evt.target;
+		if (evt.type == "mouseenter") {
+			hoveredIndex = index;
+			cursorPos = {x: evt.x, y: evt.y};
+			tooltipPos = await computePosition(hoveredDot, starTooltip, {
+				strategy: "fixed",
+				middleware: [offset(5), autoPlacement()]
+			});
+		}
+		else if (evt.type == "mouseleave") {
+			hoveredIndex = -1;
+		}
+	};
 </script>
 
 <input type="number" bind:value={angle.X} />
@@ -66,8 +88,10 @@
 		stroke-width="1.5"
 	/>
 	<g class="stars">
-		{#each stars as star}
+		{#each stars as star, index}
 			<circle
+				on:mouseenter = {evt => mouseTooltipHandler(index, evt)}
+				on:mouseleave = {evt => mouseTooltipHandler(index, evt)}
 				cx={xScale(star.x)}
 				cy={yScale(star.y)}
 				r={2 * ((5 * (star.mag - 7)) / (-1.45 - 7)) ** 0.5}
@@ -82,3 +106,80 @@
 		stroke-width="3"
 	/>
 </svg>
+
+<!-- Tooltip container - use dl tag since its key value-->
+<dl class = "info tooltip"
+    hidden = {hoveredIndex === -1}
+    style = "top: {tooltipPos.y}px; left: {tooltipPos.x}px"
+    bind:this = {starTooltip}>
+    {#if hoveredStar.proper != null}
+		<dt>Nome</dt>
+		<dd>{hoveredStar.proper}<dd>
+	{/if}
+
+	<dt>Magnitude aparente</dt>
+	<dd>{hoveredStar.mag}</dd>
+
+	<dt>Magnitude absoluta</dt>
+	<dd>{hoveredStar.absmag}</dd>
+
+	{#if hoveredStar.dist != null}
+		<dt>Luminosidade</dt>
+		<dd>{hoveredStar.lum.toFixed(3)}</dd>
+	{/if}
+
+	{#if hoveredStar.dist < 100000}
+		<dt>Distância da Terra</dt>
+		<dd>{(hoveredStar.dist * 3.262).toFixed(2)} anos-luz</dd>
+	{/if}
+	<!--  Não parece ser muito útil kkkk-->
+	{#if hoveredStar.con != null}
+		<dt>Constelação</dt>
+		<dd>{hoveredStar.con}</dd>
+	{/if}
+</dl>
+
+
+<style>
+.info{
+    margin: 0;
+
+    display: grid;
+    grid-template-columns: 2;
+
+    padding: 5px;
+
+    background-color: #393939E0;
+    box-shadow: 1px 1px 2px 2px #60606050;
+    border-radius: 4px;
+
+    font-size: 80%;
+
+    transition-duration: 300ms;
+    transition-property: opacity, visibility;
+    &[hidden]:not(:hover, :focus-within) {
+        opacity: 0;
+        visibility: hidden;
+    }
+
+}
+
+.info dt{
+    grid-column: 1;
+    grid-row: auto;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+.info dd{
+    grid-column: 2;
+    grid-row: auto;
+    font-weight: 400;
+}
+
+.tooltip{
+    position: fixed;
+    top: 1em;
+    left: 1em;
+}
+</style>
