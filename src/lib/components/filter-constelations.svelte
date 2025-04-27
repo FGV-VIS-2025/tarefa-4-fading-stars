@@ -81,6 +81,8 @@
     border-radius: 6px;
     border-width: 2px;
 
+    margin-bottom: 20px;
+
     padding: 20px;
 }
 
@@ -92,6 +94,7 @@ h3{
 .searchBox{
     position: relative;
     width: 100%;
+    margin-bottom: 1ch;
 }
 
 #consSearch {

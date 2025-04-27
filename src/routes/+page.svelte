@@ -9,6 +9,8 @@
 	import starsRaw from "$lib/data/stars-data.json";
 	import linesRaw from "$lib/data/lines-data.json";
 
+	let customAngle = {X: 0, Y: 0};
+
 	//Magnitude Filter
 	let maxMagnitude = 30;
 	let startsFiltered = [];
@@ -21,31 +23,34 @@
 	$: linesFiltered = linesRaw.filter(
 		([A, B]) => selectedCons.includes(A.con) && selectedCons.includes(B.con)
 	)
+	$: customAngle = consPos;
 
 	//Place finder
 	let userCoordinates = {lat: 0, lon: 0};
-
+	$: customAngle = {X: -(userCoordinates.lat * Math.PI)/180, Y: 0}
 </script>
 
 <div class="all">
 	<div class="filters">
 		<h2>Aqui entram os filtros</h2>
-		<LocationFinder bind:coordinates = {userCoordinates}/>
-		<p>Você está em {userCoordinates.lat}, {userCoordinates.lon}</p>
-		<MagnitudeFilter starsRaw = {starsRaw} bind:maxMagnitude = {maxMagnitude}/>
 		<ConstelationFilter starsRaw = {starsRaw} bind:selectedCons = {selectedCons} bind:consPosition = {consPos}/>
-		<p>Você está em {consPos.X}, {consPos.Y}</p>
+		<p>posição saída da constelation filter: {consPos.X}, {consPos.Y}</p>
+		<MagnitudeFilter starsRaw = {starsRaw} bind:maxMagnitude = {maxMagnitude}/>
+		<p>Magnitude máxima de saída da magnitude filter: {maxMagnitude}</p>
+		<LocationFinder bind:coordinates = {userCoordinates}/>
+		<p>posição saída da location finder: {userCoordinates.lat}, {userCoordinates.lon}</p>
 	</div>
 
 	<div class="viz">
 		<h2>Aqui entra a viz</h2>
-		<StarsPlot starsRaw = {starsFiltered} linesRaw = {linesFiltered} customAngle = {consPos}/>
+		<StarsPlot starsRaw = {starsFiltered} linesRaw = {linesFiltered} customAngle = {customAngle}/>
 	</div>
 </div>
 
 <style>
 	.all {
 		display: grid;
-		grid-template-columns: 30% 70%;
+		grid-template-columns: 25% 70%;
+		padding-left: 1%;
 	}
 </style>

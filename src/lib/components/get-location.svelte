@@ -48,8 +48,6 @@
     }
 
     function onResultClick(evt, index){
-        console.log("clicou no ");
-        console.log(index);
         selectedResult = index;
     }
 
@@ -58,7 +56,6 @@
             coordinates.lat = searchResults[selectedResult].lat;
             coordinates.lon = searchResults[selectedResult].lon;
         } else {coordinates = {lat: 0, lon: 0}}
-        console.log(coordinates);
     }
 </script>
 <div class = "container">
@@ -99,11 +96,14 @@
 </div>
 
 <style>
+
 /*Coloquei borda aqui pra não me perder na estilização dos outros componentes.  Depois é só tirar*/
 .container{
     border-style: solid;
     border-radius: 6px;
     border-width: 2px;
+
+    margin-bottom: 20px;
 
     padding: 20px;
 

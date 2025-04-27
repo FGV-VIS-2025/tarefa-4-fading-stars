@@ -33,6 +33,8 @@
     border-radius: 6px;
     border-width: 2px;
 
+    margin-bottom: 20px;
+
     padding: 20px;
 
 }
