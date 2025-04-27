@@ -17,6 +17,7 @@
 	//Constelation Filter
 	let selectedCons = [];
 	let linesFiltered = {};
+	let consPos = {X: 0, Y: 0};
 	$: linesFiltered = linesRaw.filter(
 		([A, B]) => selectedCons.includes(A.con) && selectedCons.includes(B.con)
 	)
@@ -32,12 +33,13 @@
 		<LocationFinder bind:coordinates = {userCoordinates}/>
 		<p>Você está em {userCoordinates.lat}, {userCoordinates.lon}</p>
 		<MagnitudeFilter starsRaw = {starsRaw} bind:maxMagnitude = {maxMagnitude}/>
-		<ConstelationFilter starsRaw = {starsRaw} bind:selectedCons = {selectedCons}/>
+		<ConstelationFilter starsRaw = {starsRaw} bind:selectedCons = {selectedCons} bind:consPosition = {consPos}/>
+		<p>Você está em {consPos.X}, {consPos.Y}</p>
 	</div>
 
 	<div class="viz">
 		<h2>Aqui entra a viz</h2>
-		<StarsPlot starsRaw = {starsFiltered} linesRaw = {linesFiltered}/>
+		<StarsPlot starsRaw = {starsFiltered} linesRaw = {linesFiltered} customAngle = {consPos}/>
 	</div>
 </div>
 

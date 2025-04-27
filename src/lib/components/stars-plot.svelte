@@ -6,13 +6,15 @@
 
 	export let starsRaw = [];
 	export let linesRaw = [];
+	export let customAngle;
+
 
 	//SVG canvas spec
 	let width = 600;
 	let height = 600;
 	let margin = { v: 20, h: 20 };
 	//Localization
-	let angle = { X: 0, Y: 0 };
+	let angle = {X: 0, Y: 0};
 	let dragSpeed = 0.002;
 
 	//D3 scale creation
@@ -67,6 +69,8 @@
 	let cursorPos = {x: 0, y: 0}, tooltipPos = {x: 0, y: 0};
 	let starTooltip;
 
+	$: angle = customAngle;
+
 	async function mouseTooltipHandler (index, evt){
 		let hoveredDot = evt.target;
 		if (evt.type == "mouseenter") {
@@ -81,6 +85,7 @@
 			hoveredIndex = -1;
 		}
 	};
+
 </script>
 
 <input type="number" bind:value={angle.X} />
@@ -158,6 +163,10 @@
 		<dt>Constelação</dt>
 		<dd>{consMap[hoveredStar.con]}</dd>
 	{/if}
+
+	<dt>x y z p</dt>
+	<dd>{hoveredStar.x_proj} {hoveredStar.y_proj} {hoveredStar.z_proj}</dd>
+
 </dl>
 
 

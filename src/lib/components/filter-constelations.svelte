@@ -5,33 +5,46 @@
     export let selectedCons; //Output of the component - the filtered cons
     export let consPosition; //Output of the component - the selected cons location
 
+    //To hold what the user types in input
     let userQuery = "";
-
+    //Initial constellation list
     let constellationList = d3.rollups(
         starsRaw, v => v.length, d => d.con
     ).map(
         ([cons, appearances]) => cons
     ).sort();
+    //object to mark whenever a constellation is checked
     let checkedCons = {};
+    //map of constellation -> angle to focus
+    let consAngle = {};
+    function consFocus(cons){
+        //star with lowest magnitude
+        let stars = starsRaw.filter(star => star.con == cons);
+        let x_proj = stars.map(star => star.x_proj).reduce((a, b) => a + b) / stars.length,
+            y_proj = stars.map(star => star.y_proj).reduce((a, b) => a + b) / stars.length,
+            z_proj = stars.map(star => star.z_proj).reduce((a, b) => a + b) / stars.length;
+        let X, Y;
+        if(star.z_proj > 0){
+            Y = Math.sign(x_proj) * Math.atan(Math.abs(x_proj/z_proj));
+        } else {
+            Y = Math.sign(x_proj) * (Math.atan(Math.abs(z_proj/x_proj)) + Math.PI/2);
+        }
+        X = Math.sign(y_proj) * Math.atan(Math.abs(y_proj/z_proj));
+        return {X: X, Y: Y};
+    }
+
     for(let cons of constellationList){
         checkedCons[cons] = true;
+        consAngle[cons] = consFocus(cons);
     }
 
     let queriedCons;
     $: queriedCons = constellationList.filter(
-        cons => ((cons != null) && (cons.toLowerCase().includes(userQuery.toLowerCase())))
+        cons => ((cons != null) && (consMap[cons].toLowerCase().includes(userQuery.toLowerCase())))
     );
 
     $: selectedCons = Object.keys(checkedCons).filter(key => checkedCons[key]);
 
-    //TODO: Computar antes e fazer de um jeito inteligente
-    function consFocus(evt, cons){
-        for(let star of starsRaw){
-            if(star.con == cons){
-                console.log(star);
-            }
-        }
-    }
 
 </script>
 
@@ -46,7 +59,7 @@
                 <input name = "marker{cons}" type="checkbox" bind:checked={checkedCons[cons]}/>
                 {consMap[cons]}
             </label>
-            <span class="showButton" on:click={evt => consFocus(evt, cons)}>(focar)</span>
+            <span class="showButton" on:click={evt => consPosition = consAngle[cons]}>(focar)</span>
         </div>
         {/each}
     </fieldset>
