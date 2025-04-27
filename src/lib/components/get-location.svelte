@@ -3,6 +3,7 @@
     //To get what the user typed
     let userInput;
     //To manage search success
+    let interacted = false;
     let successfulRequest = false;
     let successfulSearch = false;
     //To manage user choice on results
@@ -11,6 +12,7 @@
 
     function searchPlaces(evt){
         evt.preventDefault();
+        interacted = true;
         let link = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(userInput)}&layer=adress&featureType=city&addressdetails=1`
         fetch(link)
             .then(response => response.json())
@@ -63,11 +65,16 @@
     <h3>Busque por uma cidade.</h3>
 
     <form on:submit={searchPlaces}>
-        <input type="text" bind:value={userInput} required>
-        <button type="submit">Buscar</button>
+        <label for="cityInput">Escreva o nome de uma cidade e aperte em buscar.</label>
+        <div class = "searchBar">
+            <input id="cityInput" type="text" bind:value={userInput} required>
+            <button type="submit">Buscar</button>
+        </div>
     </form>
 
-    {#if successfulRequest == false}
+    {#if interacted == false}
+        <p>Nenhuma busca foi feita.</p>
+    {:else if successfulRequest == false}
         <p class = "erro">Erro na busca. Tente novamente.</p>
     {:else if successfulSearch == false}
         <p class = "erro">Busca sem resultados. Dê preferência por digitar nomes
@@ -107,7 +114,7 @@ h3{
     text-align: justify;
 }
 
-form {
+.searchBar {
     margin: 5px 0;
 
     display: grid;

@@ -38,6 +38,12 @@
         consAngle[cons] = consFocus(cons);
     }
 
+    function setVisibility(bool){
+        for(let cons of constellationList){
+            checkedCons[cons] = bool;
+        }
+    }
+
     let queriedCons;
     $: queriedCons = constellationList.filter(
         cons => ((cons != null) && (consMap[cons].toLowerCase().includes(userQuery.toLowerCase())))
@@ -45,25 +51,27 @@
 
     $: selectedCons = Object.keys(checkedCons).filter(key => checkedCons[key]);
 
-
 </script>
 
 <div class = "container">
     <h3>Filtre as constelações visíveis.</h3>
-    <label for="consSearch">Busque por uma constelação!</label>
-    <input type="text" id = "consSearch" bind:value = {userQuery}/>
-    <fieldset class="constelations">
-        {#each queriedCons as cons, index}
-        <div class = consName>
-            <label>
-                <input name = "marker{cons}" type="checkbox" bind:checked={checkedCons[cons]}/>
-                {consMap[cons]}
-            </label>
-            <span class="showButton" on:click={evt => consPosition = consAngle[cons]}>(focar)</span>
+    <div class="searchBox">
+        <label for="consSearch">Busque por uma constelação!</label>
+        <input type="text" id = "consSearch" bind:value = {userQuery}/>
+        <div class="constellations">
+            {#each queriedCons as cons, index}
+            <div class = "constellation">
+                <label class="consName">
+                    <input name = "marker{cons}" type="checkbox" bind:checked={checkedCons[cons]}/>
+                    {consMap[cons]}
+                </label>
+                <span class="showButton" on:click={evt => consPosition = consAngle[cons]}>(focar)</span>
+            </div>
+            {/each}
         </div>
-        {/each}
-    </fieldset>
-    <p>Valor digitado na caixa de texto: {userQuery}</p>
+    </div>
+    <button type="button" on:click = {evt => setVisibility(true)}>Mostrar todas</button>
+    <button type="button" on:click = {evt => setVisibility(false)}>Ocultar todas</button>
 </div>
 
 
@@ -81,21 +89,56 @@ h3{
     text-align: justify;
 }
 
-.constelations{
-    display: flex;
+.searchBox{
+    position: relative;
+    width: 100%;
+}
+
+#consSearch {
+    width: 100%;
+    box-sizing: border-box
+}
+
+.constellations{
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+
+    margin: 0;
+    padding: 0 1ch;
+
+    background-color: white;
+    border-style: solid;
+    border-top-style: none;
+    border-color: #777777;
+    border-width: 2px;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+
     flex-direction: column;
+
     max-height: 15ch;
-    width: 21ch;
+    width: auto;
     overflow-y: auto;
 }
 
-.consName:hover .showButton{
+.searchBox:hover .constellations{
+    display: flex;
+}
+
+.constellation:hover .showButton{
     display: inline;
+}
+
+.consName{
+    color: black;
 }
 
 .showButton{
     display: none;
-    color: #e6e6e6;
+    color: #555555;
     font-size: 80%;
     text-decoration: underline;
 }

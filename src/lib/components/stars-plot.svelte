@@ -151,21 +151,18 @@
 
 	{#if hoveredStar.dist != null}
 		<dt>Luminosidade</dt>
-		<dd>{hoveredStar.lum.toFixed(1)}x a do Sol</dd>
+		<dd>{hoveredStar.lum.toFixed(0)}x a do Sol</dd>
 	{/if}
 
 	{#if hoveredStar.dist < 100000}
 		<dt>Distância da Terra</dt>
 		<dd>{(hoveredStar.dist * 3.262).toFixed(2)} anos-luz</dd>
 	{/if}
-	<!--  Não parece ser muito útil kkkk-->
+
 	{#if hoveredStar.con != null}
 		<dt>Constelação</dt>
 		<dd>{consMap[hoveredStar.con]}</dd>
 	{/if}
-
-	<dt>x y z p</dt>
-	<dd>{hoveredStar.x_proj} {hoveredStar.y_proj} {hoveredStar.z_proj}</dd>
 
 </dl>
 
@@ -191,7 +188,6 @@
         opacity: 0;
         visibility: hidden;
     }
-
 }
 
 .info dt{

@@ -42,9 +42,6 @@ h3{
     text-align: justify;
 }
 
-.slider-container{
-    max-width: 30ch;
-}
 #slider{
 	justify-content: fill;
 	width: 100%;
