@@ -1,20 +1,19 @@
 <script>
 	import consMap from "$lib/data/constellations-map.json";
 	import * as d3 from "d3";
-	import {computePosition, autoPlacement, offset} from '@floating-ui/dom';
+	import { computePosition, autoPlacement, offset } from "@floating-ui/dom";
 	import { onMount } from "svelte";
 
 	export let starsRaw = [];
 	export let linesRaw = [];
 	export let customAngle;
 
-
 	//SVG canvas spec
 	let width = 600;
 	let height = 600;
 	let margin = { v: 20, h: 20 };
 	//Localization
-	let angle = {X: 0, Y: 0};
+	let angle = { X: 0, Y: 0 };
 	let dragSpeed = 0.002;
 
 	//D3 scale creation
@@ -47,11 +46,7 @@
 	//Star filter by movement and then projection
 	$: stars = starsRaw
 		.map((d) => rotate(d, angle))
-		.filter(
-			(star) =>
-				star.z >= 0 &&
-				(star.proper == "Polaris" || star.proper != "Sol"),
-		);
+		.filter((star) => star.z >= 0 && star.proper != "Sol");
 	$: lines = linesRaw
 		.map(([a, b]) => [rotate(a, angle), rotate(b, angle)])
 		.filter(([a, b]) => a.z >= 0 && b.z >= 0);
@@ -66,26 +61,29 @@
 	//Tooltip handlers
 	let hoveredIndex = -1;
 	$: hoveredStar = stars[hoveredIndex] ?? hoveredStar ?? {};
-	let cursorPos = {x: 0, y: 0}, tooltipPos = {x: 0, y: 0};
+	let cursorPos = { x: 0, y: 0 },
+		tooltipPos = { x: 0, y: 0 };
 	let starTooltip;
 
 	$: angle = customAngle;
+	$: {
+		angle.X = Math.max(-Math.PI / 2, Math.min(Math.PI / 2, angle.X));
+		angle.Y = ((angle.Y % (2 * Math.PI)) + 2 * Math.PI) % (2 * Math.PI);
+	}
 
-	async function mouseTooltipHandler (index, evt){
+	async function mouseTooltipHandler(index, evt) {
 		let hoveredDot = evt.target;
 		if (evt.type == "mouseenter") {
 			hoveredIndex = index;
-			cursorPos = {x: evt.x, y: evt.y};
+			cursorPos = { x: evt.x, y: evt.y };
 			tooltipPos = await computePosition(hoveredDot, starTooltip, {
 				strategy: "fixed",
-				middleware: [offset(5), autoPlacement()]
+				middleware: [offset(5), autoPlacement()],
 			});
-		}
-		else if (evt.type == "mouseleave") {
+		} else if (evt.type == "mouseleave") {
 			hoveredIndex = -1;
 		}
-	};
-
+	}
 </script>
 
 <input type="number" bind:value={angle.X} />
@@ -112,9 +110,10 @@
 	</g>
 	<g class="stars">
 		{#each stars as star, index}
-			<circle role="tooltip"
-				on:mouseenter = {evt => mouseTooltipHandler(index, evt)}
-				on:mouseleave = {evt => mouseTooltipHandler(index, evt)}
+			<circle
+				role="tooltip"
+				on:mouseenter={(evt) => mouseTooltipHandler(index, evt)}
+				on:mouseleave={(evt) => mouseTooltipHandler(index, evt)}
 				cx={xScale(star.x)}
 				cy={yScale(star.y)}
 				r={((5 * (star.mag - 7)) / (-1.45 - 7)) ** 0.9}
@@ -131,14 +130,16 @@
 </svg>
 
 <!-- Tooltip container - use dl tag since its key value-->
-<dl class = "info tooltip"
-    hidden = {hoveredIndex === -1}
-    style = "top: {tooltipPos.y}px; left: {tooltipPos.x}px"
-    bind:this = {starTooltip}>
-    {#if hoveredStar.proper != null}
+<dl
+	class="info tooltip"
+	hidden={hoveredIndex === -1}
+	style="top: {tooltipPos.y}px; left: {tooltipPos.x}px"
+	bind:this={starTooltip}
+>
+	{#if hoveredStar.proper != null}
 		<dt>Nome</dt>
-		<dd>{hoveredStar.proper}<dd>
-	{/if}
+		<dd>{hoveredStar.proper}</dd>
+		<dd></dd>{/if}
 
 	<dt>Magnitude aparente</dt>
 	<dd>{hoveredStar.mag}</dd>
@@ -146,7 +147,7 @@
 	<dt>Magnitude absoluta</dt>
 	<dd>{hoveredStar.absmag}</dd>
 
-<!--	<dt>Temperatura</dt>
+	<!--	<dt>Temperatura</dt>
 	<dd>{hoveredStar.temp} K</dd>-->
 
 	{#if hoveredStar.dist != null}
@@ -163,49 +164,47 @@
 		<dt>Constelação</dt>
 		<dd>{consMap[hoveredStar.con]}</dd>
 	{/if}
-
 </dl>
 
-
 <style>
-.info{
-    margin: 0;
+	.info {
+		margin: 0;
 
-    display: grid;
-    grid-template-columns: 2;
+		display: grid;
+		grid-template-columns: 2;
 
-    padding: 5px;
+		padding: 5px;
 
-    background-color: #393939E0;
-    box-shadow: 1px 1px 2px 2px #60606050;
-    border-radius: 4px;
+		background-color: #393939e0;
+		box-shadow: 1px 1px 2px 2px #60606050;
+		border-radius: 4px;
 
-    font-size: 80%;
+		font-size: 80%;
 
-    transition-duration: 300ms;
-    transition-property: opacity, visibility;
-    &[hidden]:not(:hover, :focus-within) {
-        opacity: 0;
-        visibility: hidden;
-    }
-}
+		transition-duration: 300ms;
+		transition-property: opacity, visibility;
+		&[hidden]:not(:hover, :focus-within) {
+			opacity: 0;
+			visibility: hidden;
+		}
+	}
 
-.info dt{
-    grid-column: 1;
-    grid-row: auto;
-    text-transform: uppercase;
-    font-weight: bold;
-}
+	.info dt {
+		grid-column: 1;
+		grid-row: auto;
+		text-transform: uppercase;
+		font-weight: bold;
+	}
 
-.info dd{
-    grid-column: 2;
-    grid-row: auto;
-    font-weight: 400;
-}
+	.info dd {
+		grid-column: 2;
+		grid-row: auto;
+		font-weight: 400;
+	}
 
-.tooltip{
-    position: fixed;
-    top: 1em;
-    left: 1em;
-}
+	.tooltip {
+		position: fixed;
+		top: 1em;
+		left: 1em;
+	}
 </style>
