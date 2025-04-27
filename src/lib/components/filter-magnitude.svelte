@@ -11,8 +11,6 @@
     let linScale = d3.scaleLinear().domain([minDataMagnitude, maxDataMagnitude]).range([0,200]);
     $: maxMagnitude = linScale.invert(userBarInput);
 
-    console.log(starsRaw.map(star => star.mag));
-    console.log(maxDataMagnitude, minDataMagnitude);
 </script>
 
 <div class = "container">
@@ -30,6 +28,20 @@
 
 
 <style>
+.container{
+    border-style: solid;
+    border-radius: 6px;
+    border-width: 2px;
+
+    padding: 20px;
+
+}
+
+h3{
+    margin: auto;
+    text-align: justify;
+}
+
 .slider-container{
     max-width: 30ch;
 }

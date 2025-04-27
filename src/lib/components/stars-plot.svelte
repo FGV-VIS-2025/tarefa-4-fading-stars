@@ -4,7 +4,7 @@
 	import { onMount } from "svelte";
 
 	export let starsRaw = [];
-	import linesRaw from "$lib/data/lines-data.json";
+	export let linesRaw = [];
 
 	//SVG canvas spec
 	let width = 600;
@@ -140,9 +140,12 @@
 	<dt>Magnitude absoluta</dt>
 	<dd>{hoveredStar.absmag}</dd>
 
+<!--	<dt>Temperatura</dt>
+	<dd>{hoveredStar.temp} K</dd>-->
+
 	{#if hoveredStar.dist != null}
 		<dt>Luminosidade</dt>
-		<dd>{hoveredStar.lum.toFixed(3)}</dd>
+		<dd>{hoveredStar.lum.toFixed(1)}x a do Sol</dd>
 	{/if}
 
 	{#if hoveredStar.dist < 100000}

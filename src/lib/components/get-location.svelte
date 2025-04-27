@@ -94,9 +94,9 @@
 <style>
 /*Coloquei borda aqui pra não me perder na estilização dos outros componentes.  Depois é só tirar*/
 .container{
-/*    border-style: solid;
+    border-style: solid;
     border-radius: 6px;
-    border-width: 2px;*/
+    border-width: 2px;
 
     padding: 20px;
 
