@@ -1,0 +1,45 @@
+<script>
+	import * as d3 from "d3";
+    export let starsRaw; //Input of all stars, this slider never changes so it needs to be made with all the data
+    export let maxMagnitude; //Output of the component - the max magnitude value selected
+
+    let maxDataMagnitude, minDataMagnitude;
+    maxDataMagnitude = d3.max(starsRaw.map(star => star.mag));
+    minDataMagnitude = d3.min(starsRaw.slice(1).map(star => star.mag));
+
+    let userBarInput = 0;
+    let linScale = d3.scaleLinear().domain([minDataMagnitude, maxDataMagnitude]).range([0,200]);
+    $: maxMagnitude = linScale.invert(userBarInput);
+
+    console.log(starsRaw.map(star => star.mag));
+    console.log(maxDataMagnitude, minDataMagnitude);
+</script>
+
+<div class = "container">
+    <h3>Filtre por magnitude.</h3>
+
+    <div class="slider-container">
+        <div class="slider">
+            <label for="slider">Magnitude máxima:</label>
+            <input type="range" id="slider" name="slider" min=0 max=200 bind:value={userBarInput}/>
+            <div class="minmax"><span>{minDataMagnitude} m</span><span>{maxDataMagnitude} m</span></div>
+            <span>Magnitude máxima selecionada: {maxMagnitude.toFixed(2)} m</span>
+        </div>
+    </div>
+</div>
+
+
+<style>
+.slider-container{
+    max-width: 30ch;
+}
+#slider{
+	justify-content: fill;
+	width: 100%;
+}
+.minmax{
+    display: flex;
+    justify-content:space-between;
+    font-size: 70%;
+}
+</style>

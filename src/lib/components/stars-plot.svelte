@@ -1,9 +1,7 @@
 <script>
 	import * as d3 from "d3";
 	import { onMount } from "svelte";
-
-	import starsRaw from "$lib/data/stars-data.json";
-
+	export let starsRaw = [];
 	let width = 600;
 	let height = 600;
 	let margin = { v: 20, h: 20 };
@@ -17,13 +15,18 @@
 	$: xScale = d3.scaleLinear([-1, 1], [margin.v, width - margin.v]);
 	$: yScale = d3.scaleLinear([-1, 1], [margin.h, height - margin.h]);
 
+	function onMouseDrag(evt){
+		angle.X -= event.dy * dragSpeed;
+		angle.Y -= event.dx * dragSpeed;
+	}
+
 	onMount(() => {
 		const dragFun = d3.drag().on("drag", (event) => {
 			angle.X -= event.dy * dragSpeed;
 			angle.Y -= event.dx * dragSpeed;
 		});
 
-		d3.select("body").call(dragFun);
+		d3.select("svg").call(dragFun);
 	});
 
 	function rotate(d, angle) {
