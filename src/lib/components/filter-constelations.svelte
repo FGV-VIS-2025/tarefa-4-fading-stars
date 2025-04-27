@@ -24,7 +24,7 @@
             y_proj = stars.map(star => star.y_proj).reduce((a, b) => a + b) / stars.length,
             z_proj = stars.map(star => star.z_proj).reduce((a, b) => a + b) / stars.length;
         let X, Y;
-        if(star.z_proj > 0){
+        if(z_proj > 0){
             Y = Math.sign(x_proj) * Math.atan(Math.abs(x_proj/z_proj));
         } else {
             Y = Math.sign(x_proj) * (Math.atan(Math.abs(z_proj/x_proj)) + Math.PI/2);
