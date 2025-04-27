@@ -1,4 +1,5 @@
 <script>
+	import consMap from "$lib/data/constellations-map.json";
 	import * as d3 from "d3";
 	import {computePosition, autoPlacement, offset} from '@floating-ui/dom';
 	import { onMount } from "svelte";
@@ -155,7 +156,7 @@
 	<!--  Não parece ser muito útil kkkk-->
 	{#if hoveredStar.con != null}
 		<dt>Constelação</dt>
-		<dd>{hoveredStar.con}</dd>
+		<dd>{consMap[hoveredStar.con]}</dd>
 	{/if}
 </dl>
 
