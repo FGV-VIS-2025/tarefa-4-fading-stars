@@ -7,10 +7,12 @@
 	export let starsRaw = [];
 	export let linesRaw = [];
 	export let customAngle;
+	export let size = 800;
 
 	//SVG canvas spec
-	let width = 800;
-	let height = 800;
+	let width, height;
+	$: width = size;
+	$: height = size;
 	let margin = { v: 20, h: 20 };
 	//Localization
 	let angle = { X: 0, Y: 0 };

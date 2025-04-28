@@ -43,7 +43,11 @@
 
 	<div class="viz">
 		<h2>Aqui entra a viz</h2>
-		<StarsPlot starsRaw = {starsFiltered} linesRaw = {linesFiltered} customAngle = {customAngle}/>
+		<StarsPlot starsRaw = {starsFiltered}
+				   linesRaw = {linesFiltered}
+				   customAngle = {customAngle}
+				   size = {800}
+				   />
 	</div>
 </div>
 
