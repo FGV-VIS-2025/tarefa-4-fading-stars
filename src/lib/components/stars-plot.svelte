@@ -9,8 +9,8 @@
 	export let customAngle;
 
 	//SVG canvas spec
-	let width = 600;
-	let height = 600;
+	let width = 800;
+	let height = 800;
 	let margin = { v: 20, h: 20 };
 	//Localization
 	let angle = { X: 0, Y: 0 };
@@ -86,9 +86,7 @@
 	}
 </script>
 
-<input type="number" bind:value={angle.X} />
-<input type="number" bind:value={angle.Y} />
-
+<!-- svg used as canvas for d3 plotting -->
 <svg {width} {height} viewBox="0 0 {width} {height}">
 	<path
 		d={pathGenerator(graticule)}
@@ -129,6 +127,9 @@
 	/>
 </svg>
 
+<input type="number" bind:value={angle.X} />
+<input type="number" bind:value={angle.Y} />
+
 <!-- Tooltip container - use dl tag since its key value-->
 <dl
 	class="info tooltip"
@@ -152,21 +153,18 @@
 
 	{#if hoveredStar.dist != null}
 		<dt>Luminosidade</dt>
-		<dd>{hoveredStar.lum.toFixed(1)}x a do Sol</dd>
+		<dd>{hoveredStar.lum.toFixed(0)}x a do Sol</dd>
 	{/if}
 
 	{#if hoveredStar.dist < 100000}
 		<dt>Distância da Terra</dt>
 		<dd>{(hoveredStar.dist * 3.262).toFixed(2)} anos-luz</dd>
 	{/if}
-	<!--  Não parece ser muito útil kkkk-->
+
 	{#if hoveredStar.con != null}
 		<dt>Constelação</dt>
 		<dd>{consMap[hoveredStar.con]}</dd>
 	{/if}
-
-	<dt>x y z p</dt>
-	<dd>{hoveredStar.x_proj} {hoveredStar.y_proj} {hoveredStar.z_proj}</dd>
 </dl>
 
 <style>
