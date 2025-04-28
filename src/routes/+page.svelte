@@ -30,31 +30,67 @@
 	$: customAngle = {X: -(userCoordinates.lat * Math.PI)/180, Y: 0}
 </script>
 
-<div class="all">
-	<div class="filters">
-		<h2>Aqui entram os filtros</h2>
-		<ConstelationFilter starsRaw = {starsRaw} bind:selectedCons = {selectedCons} bind:consPosition = {consPos}/>
-		<p>posição saída da constelation filter: {consPos.X}, {consPos.Y}</p>
-		<MagnitudeFilter starsRaw = {starsRaw} bind:maxMagnitude = {maxMagnitude}/>
-		<p>Magnitude máxima de saída da magnitude filter: {maxMagnitude}</p>
-		<LocationFinder bind:coordinates = {userCoordinates}/>
-		<p>posição saída da location finder: {userCoordinates.lat}, {userCoordinates.lon}</p>
+<div class="container">
+	<div class="left">
+		<div class="snap-item">
+			<ConstelationFilter starsRaw = {starsRaw} bind:selectedCons = {selectedCons} bind:consPosition = {consPos}/>
+			<p>posição saída da constelation filter: {consPos.X}, {consPos.Y}</p>
+			<MagnitudeFilter starsRaw = {starsRaw} bind:maxMagnitude = {maxMagnitude}/>
+			<p>Magnitude máxima de saída da magnitude filter: {maxMagnitude}</p>
+			<LocationFinder bind:coordinates = {userCoordinates}/>
+			<p>posição saída da location finder: {userCoordinates.lat}, {userCoordinates.lon}</p>
+		</div>
+		<div class="snap-item">
+			bla bla bla
+		</div>
+		<div class="snap-item">
+			blu blu blu
+		</div>
 	</div>
-
-	<div class="viz">
-		<h2>Aqui entra a viz</h2>
+	<div class="right">
+		<div id="viz">
 		<StarsPlot starsRaw = {starsFiltered}
 				   linesRaw = {linesFiltered}
 				   customAngle = {customAngle}
 				   size = {800}
 				   />
+		</div>
+
 	</div>
 </div>
 
 <style>
-	.all {
-		display: grid;
-		grid-template-columns: 25% 70%;
-		padding-left: 1%;
-	}
+.container {
+	height: 100%;
+	width: 100%;
+    overflow: hidden;
+    display: flex;
+    overflow: hidden;
+}
+
+.left {
+	flex: 1;
+	height: 100vh;
+	max-width: 40%;
+	overflow-y: scroll;
+	scroll-snap-type: y mandatory;
+}
+
+.right {
+	width: 60%;
+	align-items: center;
+	justify-content: center;
+	position: fixed;
+	display: flex;
+	right: 0;
+	height: 100vh;
+}
+
+.snap-item {
+	padding: 100px;
+	height: 100vh;
+	scroll-snap-align: start;
+	border-bottom: 2px solid #ccc;
+}
+
 </style>

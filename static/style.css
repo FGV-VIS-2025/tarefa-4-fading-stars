@@ -8,11 +8,10 @@
 }
 
 /*Regras gerais de conteúdo para o corpo de todas as páginas*/
-body {
-	font: 100%/1.5 system-ui;
-	max-width: 95%;
-	margin-inline: max(2em, (5%) / 2);
-	padding: 1ch;
+body, html {
+	margin: 0;
+	padding: 0;
+	height: 100%;
 	background-color: var(--accent-black);
 }
 
