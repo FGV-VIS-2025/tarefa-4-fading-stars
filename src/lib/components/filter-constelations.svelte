@@ -57,7 +57,7 @@
     <h3>Filtre as constelações visíveis.</h3>
     <div class="searchBox">
         <label for="consSearch">Busque por uma constelação!</label>
-        <input type="text" id = "consSearch" bind:value = {userQuery}/>
+        <input type="text" id="consSearch" bind:value={userQuery}/>
         <div class="constellations">
             {#each queriedCons as cons, index}
             <div class = "constellation">
@@ -70,8 +70,11 @@
             {/each}
         </div>
     </div>
-    <button type="button" on:click = {evt => setVisibility(true)}>Mostrar todas</button>
-    <button type="button" on:click = {evt => setVisibility(false)}>Ocultar todas</button>
+    {#if !constellationList.map(cons => checkedCons[cons]).every(b => b)}
+        <button type="button" on:click = {evt => setVisibility(true)}>Mostrar todas</button>
+    {:else}
+        <button type="button" on:click = {evt => setVisibility(false)}>Ocultar todas</button>
+    {/if}
 </div>
 
 
@@ -128,6 +131,10 @@ h3{
 }
 
 .searchBox:hover .constellations{
+    display: flex;
+}
+
+.searchBox:focus-within .constellations{
     display: flex;
 }
 

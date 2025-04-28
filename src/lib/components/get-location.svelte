@@ -4,6 +4,7 @@
     let userInput;
     //To manage search success
     let interacted = false;
+    let searching = false;
     let successfulRequest = false;
     let successfulSearch = false;
     //To manage user choice on results
@@ -13,10 +14,12 @@
     function searchPlaces(evt){
         evt.preventDefault();
         interacted = true;
+        searching = true;
         let link = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(userInput)}&layer=adress&featureType=city&addressdetails=1`
         fetch(link)
             .then(response => response.json())
             .then(data => {
+                searching = false;
                 successfulRequest = true;
                 if (data.length > 0) {
                     console.log(data);
@@ -63,7 +66,6 @@
 </script>
 <div class = "container">
     <h3>Busque por uma cidade.</h3>
-
     <form on:submit={searchPlaces}>
         <label for="cityInput">Escreva o nome de uma cidade e aperte em buscar.</label>
         <div class = "searchBar">
@@ -74,6 +76,8 @@
 
     {#if interacted == false}
         <p>Nenhuma busca foi feita.</p>
+    {:else if searching == true}
+        <p>Pesquisando cidades...</p>
     {:else if successfulRequest == false}
         <p class = "erro">Erro na busca. Tente novamente.</p>
     {:else if successfulSearch == false}
@@ -94,8 +98,9 @@
         {/each}
         </div>
     {/if}
-
-    <p>Texto digitado na caixa de texto: {userInput}</p>
+    {#if successfulSearch}
+        <p>A cidade selecionada está localizada na latitude {coordinates.lat}° e na longitude {coordinates.lon}°.</p>
+    {/if}
 </div>
 
 <style>
@@ -121,7 +126,7 @@ h3{
     margin: 5px 0;
 
     display: grid;
-    grid-template-columns: auto 6ch;
+    grid-template-columns: auto 7ch;
     gap: 1ch;
 }
 
