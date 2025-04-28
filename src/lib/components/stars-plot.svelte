@@ -65,7 +65,26 @@
 		tooltipPos = { x: 0, y: 0 };
 	let starTooltip;
 
-	$: angle = customAngle;
+	let transitionTimer;
+	$: if (customAngle.X != 0 || customAngle.Y != 0) {
+		const interpolator = d3.interpolateObject(angle, customAngle);
+
+		const duration = 500;
+		const start = Date.now();
+
+		transitionTimer = d3.timer(() => {
+			const elapsed = Date.now() - start;
+			const t = Math.min(1, elapsed / duration);
+
+			angle = interpolator(t);
+
+			if (t >= 1) {
+				transitionTimer.stop();
+			}
+		});
+		customAngle = {X: 0, Y: 0};
+	}
+
 	$: {
 		angle.X = Math.max(-Math.PI / 2, Math.min(Math.PI / 2, angle.X));
 		angle.Y = ((angle.Y % (2 * Math.PI)) + 2 * Math.PI) % (2 * Math.PI);
@@ -115,7 +134,7 @@
 				cx={xScale(star.x)}
 				cy={yScale(star.y)}
 				r={((5 * (star.mag - 7)) / (-1.45 - 7)) ** 0.9}
-				fill={star.rgb}
+				fill="white"
 			/>
 		{/each}
 	</g>

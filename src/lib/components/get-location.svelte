@@ -38,12 +38,15 @@
                 } else {
                     successfulSearch = false;
                     searchResults = [];
+                    selectedResults = -1;
                 }
               })
           .catch(error => {
             console.error('Error while searching for places:', error);
             successfulRequest = false;
             successfulSearch = false;
+            searchResults = [];
+            selectedResult = -1;
         });
     }
 
