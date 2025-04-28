@@ -11,17 +11,25 @@
 
 	let customAngle = {X: 0, Y: 0};
 
+	let starsRawTotalCount = starsRaw.length;
 	//Magnitude Filter
 	let maxMagnitude = 30;
-	let startsFiltered = [];
+	let starsFiltered = [];
+	let starsFilteredIds = [];
+	let percentageFiltered = 1;
 	$: starsFiltered = starsRaw.filter(star => star.mag <= maxMagnitude);
+	$: starsFilteredIds = starsFiltered.map(star => star.id);
+	$: percentageFiltered = starsFiltered.length/starsRawTotalCount;
 
 	//Constelation Filter
 	let selectedCons = [];
 	let linesFiltered = {};
 	let consPos = {X: 0, Y: 0};
 	$: linesFiltered = linesRaw.filter(
-		([A, B]) => selectedCons.includes(A.con) && selectedCons.includes(B.con)
+		([A, B]) => selectedCons.includes(A.con) &&
+					selectedCons.includes(B.con) &&
+					starsFilteredIds.includes(A.id) &&
+					starsFilteredIds.includes(B.id)
 	)
 	$: customAngle = consPos;
 
@@ -34,11 +42,11 @@
 	<div class="left">
 		<div class="snap-item">
 			<ConstelationFilter starsRaw = {starsRaw} bind:selectedCons = {selectedCons} bind:consPosition = {consPos}/>
-			<p>posição saída da constelation filter: {consPos.X}, {consPos.Y}</p>
-			<MagnitudeFilter starsRaw = {starsRaw} bind:maxMagnitude = {maxMagnitude}/>
-			<p>Magnitude máxima de saída da magnitude filter: {maxMagnitude}</p>
+<!-- 			<p>posição saída da constelation filter: {consPos.X}, {consPos.Y}</p> -->
+			<MagnitudeFilter starsRaw = {starsRaw} bind:maxMagnitude = {maxMagnitude} percentage = {percentageFiltered}/>
+<!-- 			<p>Magnitude máxima de saída da magnitude filter: {maxMagnitude}</p> -->
 			<LocationFinder bind:coordinates = {userCoordinates}/>
-			<p>posição saída da location finder: {userCoordinates.lat}, {userCoordinates.lon}</p>
+<!-- 			<p>posição saída da location finder: {userCoordinates.lat}, {userCoordinates.lon}</p> -->
 		</div>
 		<div class="snap-item">
 			bla bla bla
@@ -55,7 +63,6 @@
 				   size = {800}
 				   />
 		</div>
-
 	</div>
 </div>
 
