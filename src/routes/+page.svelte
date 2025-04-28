@@ -64,7 +64,7 @@
 
 .left {
 	flex: 1;
-	height: 100vh;
+	min-height: 100vh;
 	max-width: 40%;
 	overflow-y: scroll;
 	scroll-snap-type: y mandatory;
