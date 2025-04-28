@@ -1,4 +1,5 @@
 <script>
+    // //Output of the component - a lat lon pair from the place the user searched and searched
     export let coordinates = {lat: 0, lon: 0};
     //To get what the user typed
     let userInput;

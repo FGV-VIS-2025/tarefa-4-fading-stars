@@ -1,6 +1,8 @@
 <script>
-	//Components
+	//Components - visualizations
 	import StarsPlot from "$lib/components/stars-plot.svelte";
+	import StarsHistogram from "$lib/components/star-histogram.svelte";
+	//Components - filters
 	import LocationFinder from "$lib/components/get-location.svelte";
 	import MagnitudeFilter from "$lib/components/filter-magnitude.svelte";
 	import ConstelationFilter from "$lib/components/filter-constelations.svelte"
@@ -11,15 +13,17 @@
 
 	let customAngle = {X: 0, Y: 0};
 
-	let starsRawTotalCount = starsRaw.length;
 	//Magnitude Filter
 	let maxMagnitude = 30;
 	let starsFiltered = [];
 	let starsFilteredIds = [];
 	let percentageFiltered = 1;
-	$: starsFiltered = starsRaw.filter(star => star.mag <= maxMagnitude);
-	$: starsFilteredIds = starsFiltered.map(star => star.id);
-	$: percentageFiltered = starsFiltered.length/starsRawTotalCount;
+	let starsRawTotalCount = starsRaw.length;
+	$: {
+		starsFiltered = starsRaw.filter(star => star.mag <= maxMagnitude);
+		starsFilteredIds = starsFiltered.map(star => star.id);
+		percentageFiltered = starsFiltered.length/starsRawTotalCount;
+	};
 
 	//Constelation Filter
 	let selectedCons = [];
@@ -36,6 +40,10 @@
 	//Place finder
 	let userCoordinates = {lat: 0, lon: 0};
 	$: customAngle = {X: -(userCoordinates.lat * Math.PI)/180, Y: 0}
+
+	//histogram inputs
+	let visibleStars = starsRaw;
+
 </script>
 
 <div class="container">
@@ -48,8 +56,17 @@
 			<LocationFinder bind:coordinates = {userCoordinates}/>
 <!-- 			<p>posição saída da location finder: {userCoordinates.lat}, {userCoordinates.lon}</p> -->
 		</div>
-		<div class="snap-item">
-			bla bla bla
+		<div class="snap-item" style="padding-top:2%;">
+			<h3>Distribuição das temperaturas das estrelas visíveis</h3>
+			<StarsHistogram starsRaw = {visibleStars}
+							variable = "tem"
+							label = "Temperatura (K)"
+							dims = {{height: 400, width: 600}}/>
+			<h3>Distribuição das magnitudes absolutas das estrelas visíveis</h3>
+			<StarsHistogram starsRaw = {visibleStars}
+							variable = "absmag"
+							label = "Magnitude absoluta"
+							dims = {{height: 400, width: 600}}/>
 		</div>
 		<div class="snap-item">
 			blu blu blu
@@ -61,6 +78,7 @@
 				   linesRaw = {linesFiltered}
 				   customAngle = {customAngle}
 				   size = {800}
+				   bind:stars = {visibleStars}
 				   />
 		</div>
 	</div>

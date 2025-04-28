@@ -8,6 +8,7 @@
 	export let linesRaw = [];
 	export let customAngle;
 	export let size = 800;
+	export let stars;
 
 	//SVG canvas spec
 	let width, height;
@@ -32,7 +33,7 @@
 			angle.Y -= event.dx * dragSpeed;
 		});
 
-		d3.select("svg").call(dragFun);
+		d3.select("#celest").call(dragFun);
 	});
 
 	function rotate(d, angle) {
@@ -108,7 +109,7 @@
 </script>
 
 <!-- svg used as canvas for d3 plotting -->
-<svg {width} {height} viewBox="0 0 {width} {height}">
+<svg {width} {height} viewBox="0 0 {width} {height}" id="celest">
 	<path
 		d={pathGenerator(graticule)}
 		fill="none"
@@ -166,8 +167,10 @@
 	<dt>Magnitude absoluta</dt>
 	<dd>{hoveredStar.absmag}</dd>
 
-	<!--	<dt>Temperatura</dt>
-	<dd>{hoveredStar.temp} K</dd>-->
+	{#if hoveredStar.tem != null}
+	<dt>Temperatura</dt>
+	<dd>{hoveredStar.tem.toFixed(2)} K</dd>
+	{/if}
 
 	{#if hoveredStar.dist != null}
 		<dt>Luminosidade</dt>
