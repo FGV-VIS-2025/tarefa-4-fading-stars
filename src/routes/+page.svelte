@@ -32,7 +32,6 @@
 
 <div class="all">
 	<div class="filters">
-		<h2>Aqui entram os filtros</h2>
 		<ConstelationFilter starsRaw = {starsRaw} bind:selectedCons = {selectedCons} bind:consPosition = {consPos}/>
 		<p>posição saída da constelation filter: {consPos.X}, {consPos.Y}</p>
 		<MagnitudeFilter starsRaw = {starsRaw} bind:maxMagnitude = {maxMagnitude}/>
@@ -42,7 +41,6 @@
 	</div>
 
 	<div class="viz">
-		<h2>Aqui entra a viz</h2>
 		<StarsPlot starsRaw = {starsFiltered} linesRaw = {linesFiltered} customAngle = {customAngle}/>
 	</div>
 </div>

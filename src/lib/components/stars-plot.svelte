@@ -146,9 +146,6 @@
 	/>
 </svg>
 
-<input type="number" bind:value={angle.X} />
-<input type="number" bind:value={angle.Y} />
-
 <!-- Tooltip container - use dl tag since its key value-->
 <dl
 	class="info tooltip"
