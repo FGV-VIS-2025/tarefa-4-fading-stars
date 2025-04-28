@@ -113,21 +113,22 @@ h3{
     right: 0;
 
     margin: 0;
-    padding: 0 1ch;
+    padding: 1ch;
 
-    background-color: white;
-    border-style: solid;
-    border-top-style: none;
-    border-color: #777777;
-    border-width: 2px;
-    border-bottom-left-radius: 5px;
-    border-bottom-right-radius: 5px;
+    background-color: var(--accent-black);
+    backdrop-filter: 20px;
+    border: 2px solid var(--border-color);
+    border-radius: 12px;
 
     flex-direction: column;
 
     max-height: 15ch;
     width: auto;
     overflow-y: auto;
+}
+
+.constellation {
+    margin: 0.5ch 0;
 }
 
 .searchBox:hover .constellations{
@@ -142,9 +143,9 @@ h3{
     display: inline;
 }
 
-.consName{
+/* .consName{
     color: black;
-}
+} */
 
 .showButton{
     display: none;

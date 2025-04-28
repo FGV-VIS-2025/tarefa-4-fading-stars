@@ -1,10 +1,11 @@
-:root{
+:root {
 	/*Esquema de cores do site*/
 	--accent-strong: #f4f410;
 	--accent-intermediate: #e0d83e;
 	--accent-light: #a19c14;
-	--accent-black: #000000; /*Cor do fundo do site*/
+	--accent-black: #1F1F1F; /*Cor do fundo do site*/
 	--font-color: #FFFFFF; /*Cor da fonte*/
+	--border-color: #FFFFFF;
 }
 
 /*Regras gerais de conteúdo para o corpo de todas as páginas*/
@@ -23,3 +24,20 @@ body, html {
 	text-align: justify;
 }
 
+input[type="text"] {
+	background-color: transparent;
+	border: 2px solid var(--border-color);
+	outline: none;
+	padding: 10px;
+	margin: 5px 0;
+	border-radius: 8px;
+}
+
+button {
+	background-color: transparent;
+	border: 2px solid var(--border-color);
+	outline: none;
+	padding: 10px 0;
+	margin: 5px 0;
+	border-radius: 8px;
+}
