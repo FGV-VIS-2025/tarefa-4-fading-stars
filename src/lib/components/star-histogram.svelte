@@ -7,15 +7,13 @@
 	export let dims = {width: 400, height: 300}; //input of size of viz
 	export let variable; //input of which variable to use for hist plotting
 	export let label; //label to show in x axis
+	export let fixedY = 0;
 
 	//SVG canvas spec
 	let width, height;
 	$: width = dims.width;
 	$: height = dims.height;
 	let margin = {left: 40, right: 20, top: 20, bottom: 30};
-	//Localization
-	let angle = { X: 0, Y: 0 };
-	let dragSpeed = 0.002;
 
 	//Bin data distribution
 	let bins;
@@ -32,7 +30,7 @@
 			.domain([bins[0].x0, bins[bins.length - 1].x1])
 			.range([margin.left, width - margin.right]);
 		yScale = d3.scaleLinear()
-			.domain([0, d3.max(bins, b => b.length)])
+			.domain([0, (d3.max(bins, b => b.length) > fixedY)? d3.max(bins, b => b.length) : fixedY])
 			.range([height - margin.bottom, margin.top]);
 		};
 

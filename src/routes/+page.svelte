@@ -25,7 +25,8 @@
 	$: console.log(innerHeight, innerWidth);
 
 	let customAngle = {X: 0, Y: 0};
-
+	let fixedYabsmag = 2300;
+	let fixedYtemp = 1450;
 	//Magnitude Filter
 	let maxMagnitude = 30;
 	let starsFiltered = [];
@@ -36,6 +37,8 @@
 		starsFiltered = starsRaw.filter(star => star.mag <= maxMagnitude);
 		starsFilteredIds = starsFiltered.map(star => star.id);
 		percentageFiltered = starsFiltered.length/starsRawTotalCount;
+		fixedYabsmag = 2130 * percentageFiltered;
+		fixedYtemp = 1360 * percentageFiltered;
 	};
 
 	//Constelation Filter
@@ -75,11 +78,13 @@
 			<StarsHistogram starsRaw = {visibleStars}
 							variable = "tem"
 							label = "Temperatura (K)"
+							fixedY = {fixedYtemp}
 							dims = {{height: 0.35*innerHeight, width: innerWidth*0.3}}/>
 			<h3>Distribuição das magnitudes absolutas das estrelas visíveis</h3>
 			<StarsHistogram starsRaw = {visibleStars}
 							variable = "absmag"
 							label = "Magnitude absoluta"
+							fixedY = {fixedYabsmag}
 							dims = {{height: 0.35*innerHeight, width: innerWidth*0.3}}/>
 		</div>
 		<div class="snap-item">
