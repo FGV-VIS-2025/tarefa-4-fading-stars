@@ -14,7 +14,7 @@
 	let width, height;
 	$: width = size;
 	$: height = size;
-	let margin = { v: 20, h: 20 };
+	let margin = { v: 40, h: 40 };
 	//Localization
 	let angle = { X: 0, Y: 0 };
 	let dragSpeed = 0.002;
@@ -47,9 +47,6 @@
 	}
 
 	//Star filter by movement and then projection
-	$: stars = starsRaw
-		.map((d) => rotate(d, angle))
-		.filter((star) => star.z >= 0 && star.proper != "Sol");
 	$: lines = linesRaw
 		.map(([a, b]) => [rotate(a, angle), rotate(b, angle)])
 		.filter(([a, b]) => a.z >= 0 && b.z >= 0);
@@ -106,47 +103,87 @@
 			hoveredIndex = -1;
 		}
 	}
-</script>
 
+	const starsCopy = starsRaw.filter((d)=>d.tem != null && d.absmag >= -10).map((d) => ({
+				...d,
+				x: d.tem,
+				y: d.lum
+			}))
+
+	const tempExtent = [Math.max(...starsCopy.map(stars3 => stars3.tem)), Math.min(...starsCopy.map(stars3 => stars3.tem))];
+	const lumExtent = [Math.max(...starsCopy.map(stars3 => stars3.lum)), Math.min(...starsCopy.map(stars3 => stars3.lum))];
+
+	$ : {
+		if (showHR) {
+			xScale = d3.scaleLog(tempExtent, [margin.v, width - margin.v]);
+			yScale = d3.scaleLog(lumExtent, [margin.h, height - margin.h]);
+			stars = starsCopy;
+		} else {
+			xScale = d3.scaleLinear([-1, 1], [margin.v, width - margin.v]);
+			yScale = d3.scaleLinear([-1, 1], [margin.h, height - margin.h]);
+			stars = starsRaw
+				.map((d) => rotate(d, angle))
+				.filter((star) => star.z >= 0 && star.proper != "Sol");
+		}
+	}
+
+	let xAxis, yAxis;
+	$: {
+		d3.select(xAxis).call(d3.axisBottom(xScale));
+		d3.select(yAxis).call(d3.axisLeft(yScale));
+	}
+
+	let showHR = false;
+</script>
+<input type="checkbox" bind:checked={showHR}>
+<p>
+	{showHR}
+</p>
 <!-- svg used as canvas for d3 plotting -->
 <svg {width} {height} viewBox="0 0 {width} {height}" id="celest">
-	<path
+	{#if showHR}
+		<g transform = "translate({margin.v-2}, 0)" bind:this={yAxis}></g>
+		<g transform = "translate(0, {height+margin.h-2})" bind:this={xAxis}></g>
+	{:else}	
+		<path
 		d={pathGenerator(graticule)}
 		fill="none"
 		stroke="#444"
 		stroke-width="1.5"
-	/>
-	<g class="constellation-lines">
-		{#each lines as [starA, starB]}
+		/>
+		<g class="constellation-lines">
+			{#each lines as [starA, starB]}
 			<line
-				x1={xScale(starA.x)}
-				y1={yScale(starA.y)}
-				x2={xScale(starB.x)}
-				y2={yScale(starB.y)}
-				stroke="#aaa"
-				stroke-width="1"
+			x1={xScale(starA.x)}
+			y1={yScale(starA.y)}
+			x2={xScale(starB.x)}
+			y2={yScale(starB.y)}
+			stroke="#aaa"
+			stroke-width="1"
 			/>
-		{/each}
-	</g>
+			{/each}
+		</g>
+		<path
+			d={pathGenerator(sphere)}
+			fill="none"
+			stroke="#FFF"
+			stroke-width="1.5"
+		/>
+	{/if}
+
 	<g class="stars">
-		{#each stars as star, index}
-			<circle
-				role="tooltip"
-				on:mouseenter={(evt) => mouseTooltipHandler(index, evt)}
-				on:mouseleave={(evt) => mouseTooltipHandler(index, evt)}
-				cx={xScale(star.x)}
-				cy={yScale(star.y)}
-				r={((5 * (star.mag - 7)) / (-1.45 - 7)) ** 0.9}
-				fill="white"
-			/>
+		{#each stars as star, index (star.id)}
+		<circle
+		role="tooltip"
+		on:mouseenter={(evt) => mouseTooltipHandler(index, evt)}
+		on:mouseleave={(evt) => mouseTooltipHandler(index, evt)}
+		cx={xScale(star.x)}
+		cy={yScale(star.y)}
+		r={((5 * (star.mag - 7)) / (-1.45 - 7)) ** 0.9}
+		fill="white"
+		/>
 		{/each}
 	</g>
-	<path
-		d={pathGenerator(sphere)}
-		fill="none"
-		stroke="#FFF"
-		stroke-width="1.5"
-	/>
 </svg>
 
 <!-- Tooltip container - use dl tag since its key value-->
@@ -189,6 +226,16 @@
 </dl>
 
 <style>
+
+    circle {
+        transition: 0ms;
+        transform-origin: center;
+        transform-box: fill-box;
+		@starting-style {
+	        r: 0;
+        }
+    }
+
 	.info {
 		margin: 0;
 
