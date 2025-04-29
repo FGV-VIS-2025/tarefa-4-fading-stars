@@ -189,8 +189,8 @@
 		on:mouseleave={(evt) => mouseTooltipHandler(index, evt)}
 		cx={xScale(star.x)}
 		cy={yScale(star.y)}
-		r={((5 * (star.mag - 7)) / (-1.45 - 7)) ** 0.9}
-		fill="white"
+		r={1.2 * ((5 * (star.mag - 7)) / (-1.45 - 7)) ** 0.9}
+		fill={star.rgb}
 		/>
 		{/each}
 	</g>
