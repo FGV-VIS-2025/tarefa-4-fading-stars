@@ -1,3 +1,5 @@
+<svelte:window bind:innerWidth bind:innerHeight />
+
 <script>
 	//Components - visualizations
 	import StarsPlot from "$lib/components/stars-plot.svelte";
@@ -6,10 +8,21 @@
 	import LocationFinder from "$lib/components/get-location.svelte";
 	import MagnitudeFilter from "$lib/components/filter-magnitude.svelte";
 	import ConstelationFilter from "$lib/components/filter-constelations.svelte"
+	//Svelte on mount
+	import { onMount } from "svelte";
+	//D3
 	import * as d3 from "d3";
 	//Data
 	import starsRaw from "$lib/data/stars-data.json";
 	import linesRaw from "$lib/data/lines-data.json";
+
+	let innerWidth;
+	let innerHeight;
+	onMount(() => {
+		innerWidth = window.innerWidth;
+		innerHeight = window.innerHeight;
+	});
+	$: console.log(innerHeight, innerWidth);
 
 	let customAngle = {X: 0, Y: 0};
 
@@ -46,9 +59,10 @@
 
 </script>
 
+
 <div class="container">
 	<div class="left">
-		<div class="snap-item">
+		<div class="snap-item" style="padding-top:10%;">
 			<ConstelationFilter starsRaw = {starsRaw} bind:selectedCons = {selectedCons} bind:consPosition = {consPos}/>
 <!-- 			<p>posição saída da constelation filter: {consPos.X}, {consPos.Y}</p> -->
 			<MagnitudeFilter starsRaw = {starsRaw} bind:maxMagnitude = {maxMagnitude} percentage = {percentageFiltered}/>
@@ -56,17 +70,17 @@
 			<LocationFinder bind:coordinates = {userCoordinates}/>
 <!-- 			<p>posição saída da location finder: {userCoordinates.lat}, {userCoordinates.lon}</p> -->
 		</div>
-		<div class="snap-item" style="padding-top:2%;">
+		<div class="snap-item" style="padding-top:5%;">
 			<h3>Distribuição das temperaturas das estrelas visíveis</h3>
 			<StarsHistogram starsRaw = {visibleStars}
 							variable = "tem"
 							label = "Temperatura (K)"
-							dims = {{height: 400, width: 600}}/>
+							dims = {{height: 0.35*innerHeight, width: innerWidth*0.3}}/>
 			<h3>Distribuição das magnitudes absolutas das estrelas visíveis</h3>
 			<StarsHistogram starsRaw = {visibleStars}
 							variable = "absmag"
 							label = "Magnitude absoluta"
-							dims = {{height: 400, width: 600}}/>
+							dims = {{height: 0.35*innerHeight, width: innerWidth*0.3}}/>
 		</div>
 		<div class="snap-item">
 			blu blu blu
@@ -77,7 +91,7 @@
 		<StarsPlot starsRaw = {starsFiltered}
 				   linesRaw = {linesFiltered}
 				   customAngle = {customAngle}
-				   size = {800}
+				   size = {0.9*innerHeight}
 				   bind:stars = {visibleStars}
 				   />
 		</div>
@@ -113,7 +127,7 @@
 
 .snap-item {
 	padding: 100px;
-	height: 100vh;
+	min-height: 90vh;
 	scroll-snap-align: start;
 	border-bottom: 2px solid #ccc;
 }
