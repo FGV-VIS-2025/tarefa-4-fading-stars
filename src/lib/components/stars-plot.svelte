@@ -238,7 +238,7 @@
 <style>
 
     circle {
-        transition: 1200ms;
+        transition: 0ms;
         transform-origin: center;
         transform-box: fill-box;
 		@starting-style {
