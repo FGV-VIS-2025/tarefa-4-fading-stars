@@ -74,7 +74,21 @@
 <div class="container">
 	<div class="left" bind:this={leftPanel} on:scroll={handleScroll}>
 		<div class="snap-item">
-			Hello!
+			<p>O diagrama de Hertzprung-Russell, também conhecido como diagrama HR,
+			é um tipo de visualização muito conhecida na astronomia. Ele consiste
+			em um scatterplot que mostra relações entre magnitude (luminosidade)
+			absoluta de diversas estrelas com suas respectivas temperaturas.</p>
+			<p>Essa forma de representação ignora a posição das estrelas em relação
+			à Terra, já que seu objetivo é mostrar que existem relações entre
+			os atributos plotados das estrelas. Essas relações evidenciam o ciclo de
+			vida de uma estrela.</p>
+			<p>A formação de uma estrela inicia com a concentração de gás
+			hidrogênio em um único ponto. A temperatura e luminosidade desse ponto,
+			que é a estrela em formação, são altíssimos. Essas são as estrelas
+			localizadas no canto superior esquerdo do diagrama</p>
+			<p>Depois de milhões de anos nesse estado, o gás hidrogênio vai se esgotando,
+			e a estrela pode seguir por dois caminhos diferentes: se tornar uma anã branca
+			ou uma gigante vermelha.</p>
 		</div>
 		<div class="snap-item" style="padding-top:10%;">
 			<ConstelationFilter starsRaw = {starsRaw} bind:selectedCons = {selectedCons} bind:consPosition = {consPos}/>
