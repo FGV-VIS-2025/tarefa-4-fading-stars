@@ -61,11 +61,12 @@
         <div class="constellations">
             {#each queriedCons as cons, index}
             <div class = "constellation">
+                <a class="showButton" on:click={evt => consPosition = consAngle[cons]}>Focar </a>
                 <label class="consName">
-                    <input name = "marker{cons}" type="checkbox" bind:checked={checkedCons[cons]}/>
                     {consMap[cons]}
+                    <input name = "marker{cons}" class="showCheck" type="checkbox" bind:checked={checkedCons[cons]}/>
+
                 </label>
-                <span class="showButton" on:click={evt => consPosition = consAngle[cons]}>(focar)</span>
             </div>
             {/each}
         </div>
@@ -131,6 +132,10 @@ h3{
     margin: 0.5ch 0;
 }
 
+.showCheck{
+    display: none;
+}
+
 .searchBox:hover .constellations{
     display: flex;
 }
@@ -139,7 +144,7 @@ h3{
     display: flex;
 }
 
-.constellation:hover .showButton{
+.constellation:hover .showCheck{
     display: inline;
 }
 
@@ -148,8 +153,8 @@ h3{
 } */
 
 .showButton{
-    display: none;
-    color: #555555;
+    cursor: pointer;
+    color: #b4b4b4;
     font-size: 80%;
     text-decoration: underline;
 }

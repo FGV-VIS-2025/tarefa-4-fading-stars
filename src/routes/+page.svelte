@@ -74,6 +74,7 @@
 <!-- 			<p>posição saída da location finder: {userCoordinates.lat}, {userCoordinates.lon}</p> -->
 		</div>
 		<div class="snap-item" style="padding-top:5%;">
+			{#if innerHeight != null}
 			<h3>Distribuição das temperaturas das estrelas visíveis</h3>
 			<StarsHistogram starsRaw = {visibleStars}
 							variable = "tem"
@@ -86,6 +87,7 @@
 							label = "Magnitude absoluta"
 							fixedY = {fixedYabsmag}
 							dims = {{height: 0.35*innerHeight, width: innerWidth*0.3}}/>
+			{/if}
 		</div>
 		<div class="snap-item">
 			blu blu blu

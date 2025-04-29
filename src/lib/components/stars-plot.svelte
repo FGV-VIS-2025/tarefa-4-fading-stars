@@ -133,7 +133,7 @@
 		d3.select(yAxis).call(d3.axisLeft(yScale));
 	}
 
-	let showHR = false;
+	let showHR = true;
 </script>
 <input type="checkbox" bind:checked={showHR}>
 <p>
@@ -142,8 +142,18 @@
 <!-- svg used as canvas for d3 plotting -->
 <svg {width} {height} viewBox="0 0 {width} {height}" id="celest">
 	{#if showHR}
-		<g transform = "translate({margin.v-2}, 0)" bind:this={yAxis}></g>
-		<g transform = "translate(0, {height+margin.h-2})" bind:this={xAxis}></g>
+		<g transform = "translate({margin.v-2}, 0)" bind:this={yAxis}>
+		<text x={margin.v}
+			  fill="currentcolor"
+			  transform="rotate(270) translate(-{height/2 - margin.v} -30)"
+			  text-anchor="end">Luminosidade (L)</text>
+		</g>
+		<g transform = "translate(0, {height - margin.h +2})" bind:this={xAxis}>
+		<text x={width/2 + margin.v}
+			  y={margin.h - 3}
+			  fill="currentcolor"
+			  text-anchor="end">Temperatura (K)</text>
+		</g>
 	{:else}	
 		<path
 		d={pathGenerator(graticule)}
