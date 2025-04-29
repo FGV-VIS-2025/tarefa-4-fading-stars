@@ -9,6 +9,7 @@
 	export let customAngle;
 	export let size = 800;
 	export let stars;
+	export let snapCurr;
 
 	//SVG canvas spec
 	let width, height;
@@ -133,12 +134,11 @@
 		d3.select(yAxis).call(d3.axisLeft(yScale));
 	}
 
-	let showHR = true;
+	let showHR;
+	$: showHR = snapCurr == 0;
+
 </script>
-<input type="checkbox" bind:checked={showHR}>
-<p>
-	{showHR}
-</p>
+
 <!-- svg used as canvas for d3 plotting -->
 <svg {width} {height} viewBox="0 0 {width} {height}" id="celest">
 	{#if showHR}
@@ -156,10 +156,10 @@
 		</g>
 	{:else}	
 		<path
-		d={pathGenerator(graticule)}
-		fill="none"
-		stroke="#444"
-		stroke-width="1.5"
+			d={pathGenerator(graticule)}
+			fill="none"
+			stroke="#444"
+			stroke-width="1.5"
 		/>
 		<g class="constellation-lines">
 			{#each lines as [starA, starB]}
@@ -238,7 +238,7 @@
 <style>
 
     circle {
-        transition: 0ms;
+        transition: 1200ms;
         transform-origin: center;
         transform-box: fill-box;
 		@starting-style {
