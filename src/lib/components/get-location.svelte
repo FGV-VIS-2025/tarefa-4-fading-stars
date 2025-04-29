@@ -16,7 +16,7 @@
         evt.preventDefault();
         interacted = true;
         searching = true;
-        let link = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(userInput)}&layer=adress&featureType=city&addressdetails=1`
+        let link = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(userInput)}&layer=adress&featureType=city&addressdetails=1&limit=9`
         fetch(link)
             .then(response => response.json())
             .then(data => {
