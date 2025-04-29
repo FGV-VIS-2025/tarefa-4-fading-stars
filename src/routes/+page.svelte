@@ -57,11 +57,22 @@
 	//histogram inputs
 	let visibleStars = starsRaw;
 
+	let leftPanel;
+	let snapCurr = 0;
+	function handleScroll() {
+		const scrollPosition = leftPanel.scrollTop;
+		const snapHeight = leftPanel.scrollHeight / leftPanel.children.length;
+		snapCurr = Math.round(scrollPosition / snapHeight);
+		console.log('Snap atual:', snapCurr);
+	}
 </script>
 
 
 <div class="container">
-	<div class="left">
+	<div class="left" bind:this={leftPanel} on:scroll={handleScroll}>
+		<div class="snap-item">
+			Hello!
+		</div>
 		<div class="snap-item" style="padding-top:10%;">
 			<ConstelationFilter starsRaw = {starsRaw} bind:selectedCons = {selectedCons} bind:consPosition = {consPos}/>
 <!-- 			<p>posição saída da constelation filter: {consPos.X}, {consPos.Y}</p> -->
@@ -82,18 +93,18 @@
 							label = "Magnitude absoluta"
 							dims = {{height: 0.35*innerHeight, width: innerWidth*0.3}}/>
 		</div>
-		<div class="snap-item">
-			blu blu blu
-		</div>
 	</div>
 	<div class="right">
 		<div id="viz">
+		{#if innerHeight != null}
 		<StarsPlot starsRaw = {starsFiltered}
 				   linesRaw = {linesFiltered}
 				   customAngle = {customAngle}
 				   size = {0.9*innerHeight}
+				   snapCurr = {snapCurr}
 				   bind:stars = {visibleStars}
 				   />
+		{/if}
 		</div>
 	</div>
 </div>
