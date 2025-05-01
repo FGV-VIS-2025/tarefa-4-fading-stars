@@ -151,7 +151,7 @@
 	}
 
 	let showHR;
-	$: showHR = snapCurr == 0;
+	$: showHR = snapCurr <= 1;
 
 	$: if (action === "latitude") {
 		angleAnimation({ X: Math.PI / 3, Y: 0 }, true);

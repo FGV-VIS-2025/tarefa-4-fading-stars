@@ -20,12 +20,15 @@
 	let innerHeight;
 
 	let highlightAction = null;
-
+	let vizElement = null;
 	onMount(() => {
 		innerWidth = window.innerWidth;
 		innerHeight = window.innerHeight;
 
 		const highlights = document.querySelectorAll(".highlight");
+		vizElement = document.getElementById("viz");
+		vizElement.classList.add("focused");
+
 		highlights.forEach((span) => {
 			const action = span.dataset.action;
 			span.addEventListener("mouseover", () => {
@@ -42,6 +45,7 @@
 		.setup({
 			step: '.snap-item',
 			offset: 0.5,
+			container: 'body'
 			// debug: true,
 		})
 		.onStepEnter(({ element, direction, index }) => {
@@ -51,9 +55,12 @@
 		.onStepExit(({ element, direction, index }) => {
 			element.classList.remove('focused');
 		});
-
-		scroller = scrollerInstance;
 	});
+	$: if (snapCurr !== null && vizElement) {
+		vizElement.classList.add("focused");
+	} else if (vizElement) {
+		vizElement.classList.remove("focused");
+	}
 	$: console.log("highlightaction: ", highlightAction);
 	$: console.log(innerHeight, innerWidth);
 
@@ -94,12 +101,14 @@
 	//histogram inputs
 	let visibleStars = starsRaw;
 
-	let snapCurr = 0;
+	let snapCurr = null;
 </script>
 
 <svelte:window bind:innerWidth bind:innerHeight />
 
-<div class="container">
+<div class="debugbox"> </div>
+
+<div class="scroller">
 	<div class="left">
 		<div class="snap-item">
 			<p>
@@ -198,7 +207,17 @@
 	</div>
 </div>
 
+<div class="debugbox">
+
+</div>
+
 <style>
+	.debugbox {
+		scroll-snap-align: start;
+		background-color: antiquewhite;
+		height: 50vh;
+	}
+
 	.highlight {
 		background-color: #f1f1f1;
 		color: #000;
@@ -206,15 +225,18 @@
 		margin: 3px 0;
 		padding: 3px;
 		font-weight: bold;
-		cursor: pointer;
+		cursor: default;
 	}
 
-	.container {
-		height: 100%;
-		width: 100%;
-		overflow: hidden;
+	.scroller {
+		position: relative;
 		display: flex;
-		overflow: hidden;
+	}
+
+	.scroller>* {
+		-webkit-box-flex: 1;
+		-ms-flex: 1;
+		flex: 1;
 	}
 
 	.snap-item:not(.focused) {
@@ -222,27 +244,33 @@
 		opacity: 0.5;
 	}
 
+	#viz:not(.focused) {
+		filter: blur(2px);
+		opacity: 0.5;
+	}
+
+	#viz {
+		transition: filter 0.3s ease, opacity 0.3s ease;
+	}
+
 	.left {
-		flex: 1;
-		min-height: 100vh;
-		max-width: 40%;
-		overflow-y: scroll;
-		scroll-snap-type: y mandatory;
+		margin-top: 10%;
 	}
 
 	.right {
-		width: 60%;
+		position: sticky;
+		top: 0;
+		height: 100vh;
+
+		display: flex;
 		align-items: center;
 		justify-content: center;
-		position: fixed;
-		display: flex;
-		right: 0;
-		height: 100vh;
 	}
 
 	.snap-item {
 		padding: 100px;
 		scroll-snap-align: center;
+		scroll-snap-stop: always;
 		transition: filter 0.3s ease, opacity 0.3s ease;
 	}
 </style>

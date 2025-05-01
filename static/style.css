@@ -12,8 +12,10 @@
 body, html {
 	margin: 0;
 	padding: 0;
-	height: 100%;
 	background-color: var(--accent-black);
+
+	scroll-snap-type: y proximity;
+	scroll-behavior: smooth;
 }
 
 * {
