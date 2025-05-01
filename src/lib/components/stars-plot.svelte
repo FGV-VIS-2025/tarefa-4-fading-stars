@@ -68,9 +68,9 @@
 	let starTooltip;
 
 	let transitionTimer;
-	function angleAnimation(newAngle) {
+	function angleAnimation(newAngle, ignoreY=false) {
 		const interpolator = d3.interpolateObject(angle, newAngle);
-
+		
 		const duration = 500;
 		const start = Date.now();
 
@@ -78,7 +78,11 @@
 			const elapsed = Date.now() - start;
 			const t = Math.min(1, elapsed / duration);
 
-			angle = interpolator(t);
+			if (ignoreY) {
+				angle.X = interpolator(t).X;
+			} else {
+				angle = interpolator(t);
+			}
 
 			if (t >= 1) {
 				transitionTimer.stop();
@@ -150,7 +154,7 @@
 	$: showHR = snapCurr == 0;
 
 	$: if (action === "latitude") {
-		angleAnimation({ X: Math.PI / 3, Y: 0 });
+		angleAnimation({ X: Math.PI / 3, Y: 0 }, true);
 	}
 
 	let interval;

@@ -1,5 +1,7 @@
 <script>
 	//Components - visualizations
+	import scrollama from 'scrollama';
+
 	import StarsPlot from "$lib/components/stars-plot.svelte";
 	import StarsHistogram from "$lib/components/star-histogram.svelte";
 	//Components - filters
@@ -33,6 +35,24 @@
 				highlightAction = null;
 			});
 		});
+
+		const scrollerInstance = new scrollama();
+
+		scrollerInstance
+		.setup({
+			step: '.snap-item',
+			offset: 0.5,
+			// debug: true,
+		})
+		.onStepEnter(({ element, direction, index }) => {
+			element.classList.add('focused');
+			snapCurr = index;
+		})
+		.onStepExit(({ element, direction, index }) => {
+			element.classList.remove('focused');
+		});
+
+		scroller = scrollerInstance;
 	});
 	$: console.log("highlightaction: ", highlightAction);
 	$: console.log(innerHeight, innerWidth);
@@ -74,20 +94,13 @@
 	//histogram inputs
 	let visibleStars = starsRaw;
 
-	let leftPanel;
 	let snapCurr = 0;
-	function handleScroll() {
-		const scrollPosition = leftPanel.scrollTop;
-		const snapHeight = leftPanel.scrollHeight / leftPanel.children.length;
-		snapCurr = Math.round(scrollPosition / snapHeight);
-		console.log("Snap atual:", snapCurr);
-	}
 </script>
 
 <svelte:window bind:innerWidth bind:innerHeight />
 
 <div class="container">
-	<div class="left" bind:this={leftPanel} on:scroll={handleScroll}>
+	<div class="left">
 		<div class="snap-item">
 			<p>
 				O diagrama de Hertzprung-Russell, também conhecido como diagrama
@@ -189,8 +202,9 @@
 	.highlight {
 		background-color: #f1f1f1;
 		color: #000;
+		display: inline-block;
+		margin: 3px 0;
 		padding: 3px;
-		margin: 2ch 0;
 		font-weight: bold;
 		cursor: pointer;
 	}
@@ -201,6 +215,11 @@
 		overflow: hidden;
 		display: flex;
 		overflow: hidden;
+	}
+
+	.snap-item:not(.focused) {
+		filter: blur(2px);
+		opacity: 0.5;
 	}
 
 	.left {
@@ -223,8 +242,7 @@
 
 	.snap-item {
 		padding: 100px;
-		min-height: 90vh;
-		scroll-snap-align: start;
-		border-bottom: 2px solid #ccc;
+		scroll-snap-align: center;
+		transition: filter 0.3s ease, opacity 0.3s ease;
 	}
 </style>
