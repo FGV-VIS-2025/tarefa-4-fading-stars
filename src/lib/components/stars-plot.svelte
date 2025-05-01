@@ -10,6 +10,7 @@
 	export let size = 800;
 	export let stars;
 	export let snapCurr;
+	export let action;
 
 	//SVG canvas spec
 	let width, height;
@@ -67,8 +68,8 @@
 	let starTooltip;
 
 	let transitionTimer;
-	$: if (customAngle.X != 0 || customAngle.Y != 0) {
-		const interpolator = d3.interpolateObject(angle, customAngle);
+	function angleAnimation(newAngle) {
+		const interpolator = d3.interpolateObject(angle, newAngle);
 
 		const duration = 500;
 		const start = Date.now();
@@ -83,7 +84,10 @@
 				transitionTimer.stop();
 			}
 		});
-		customAngle = {X: 0, Y: 0};
+	}
+	$: if (customAngle.X != 0 || customAngle.Y != 0) {
+		angleAnimation(customAngle);
+		customAngle = { X: 0, Y: 0 };
 	}
 
 	$: {
@@ -105,16 +109,24 @@
 		}
 	}
 
-	const starsCopy = starsRaw.filter((d)=>d.tem != null && d.absmag >= -10).map((d) => ({
-				...d,
-				x: d.tem,
-				y: d.lum
-			}))
+	const starsCopy = starsRaw
+		.filter((d) => d.tem != null && d.absmag >= -10)
+		.map((d) => ({
+			...d,
+			x: d.tem,
+			y: d.lum,
+		}));
 
-	const tempExtent = [Math.max(...starsCopy.map(stars3 => stars3.tem)), Math.min(...starsCopy.map(stars3 => stars3.tem))];
-	const lumExtent = [Math.max(...starsCopy.map(stars3 => stars3.lum)), Math.min(...starsCopy.map(stars3 => stars3.lum))];
+	const tempExtent = [
+		Math.max(...starsCopy.map((stars3) => stars3.tem)),
+		Math.min(...starsCopy.map((stars3) => stars3.tem)),
+	];
+	const lumExtent = [
+		Math.max(...starsCopy.map((stars3) => stars3.lum)),
+		Math.min(...starsCopy.map((stars3) => stars3.lum)),
+	];
 
-	$ : {
+	$: {
 		if (showHR) {
 			xScale = d3.scaleLog(tempExtent, [margin.v, width - margin.v]);
 			yScale = d3.scaleLog(lumExtent, [margin.h, height - margin.h]);
@@ -137,24 +149,44 @@
 	let showHR;
 	$: showHR = snapCurr == 0;
 
+	$: if (action === "latitude") {
+			angleAnimation({ X: Math.PI / 3, Y: 0});
+		}
+	
+	let interval = null;
+	$: {
+	if (action === "rotate" && !interval) {
+		interval = setInterval(() => {
+			angle.Y += 0.005;
+		}, 20);
+	} else if (action !== "rotate" && interval) {
+		clearInterval(interval);
+		interval = null;
+	}
+}
+
 </script>
 
 <!-- svg used as canvas for d3 plotting -->
 <svg {width} {height} viewBox="0 0 {width} {height}" id="celest">
 	{#if showHR}
-		<g transform = "translate({margin.v-2}, 0)" bind:this={yAxis}>
-		<text x={margin.v}
-			  fill="currentcolor"
-			  transform="rotate(270) translate(-{height/2 - margin.v} -30)"
-			  text-anchor="end">Luminosidade (L)</text>
+		<g transform="translate({margin.v - 2}, 0)" bind:this={yAxis}>
+			<text
+				x={margin.v}
+				fill="currentcolor"
+				transform="rotate(270) translate(-{height / 2 - margin.v} -30)"
+				text-anchor="end">Luminosidade (L)</text
+			>
 		</g>
-		<g transform = "translate(0, {height - margin.h +2})" bind:this={xAxis}>
-		<text x={width/2 + margin.v}
-			  y={margin.h - 3}
-			  fill="currentcolor"
-			  text-anchor="end">Temperatura (K)</text>
+		<g transform="translate(0, {height - margin.h + 2})" bind:this={xAxis}>
+			<text
+				x={width / 2 + margin.v}
+				y={margin.h - 3}
+				fill="currentcolor"
+				text-anchor="end">Temperatura (K)</text
+			>
 		</g>
-	{:else}	
+	{:else}
 		<path
 			d={pathGenerator(graticule)}
 			fill="none"
@@ -163,14 +195,14 @@
 		/>
 		<g class="constellation-lines">
 			{#each lines as [starA, starB]}
-			<line
-			x1={xScale(starA.x)}
-			y1={yScale(starA.y)}
-			x2={xScale(starB.x)}
-			y2={yScale(starB.y)}
-			stroke="#aaa"
-			stroke-width="1"
-			/>
+				<line
+					x1={xScale(starA.x)}
+					y1={yScale(starA.y)}
+					x2={xScale(starB.x)}
+					y2={yScale(starB.y)}
+					stroke="#aaa"
+					stroke-width="1"
+				/>
 			{/each}
 		</g>
 		<path
@@ -183,15 +215,15 @@
 
 	<g class="stars">
 		{#each stars as star, index (star.id)}
-		<circle
-		role="tooltip"
-		on:mouseenter={(evt) => mouseTooltipHandler(index, evt)}
-		on:mouseleave={(evt) => mouseTooltipHandler(index, evt)}
-		cx={xScale(star.x)}
-		cy={yScale(star.y)}
-		r={1.2 * ((5 * (star.mag - 7)) / (-1.45 - 7)) ** 0.9}
-		fill={star.rgb}
-		/>
+			<circle
+				role="tooltip"
+				on:mouseenter={(evt) => mouseTooltipHandler(index, evt)}
+				on:mouseleave={(evt) => mouseTooltipHandler(index, evt)}
+				cx={xScale(star.x)}
+				cy={yScale(star.y)}
+				r={1.2 * ((5 * (star.mag - 7)) / (-1.45 - 7)) ** 0.9}
+				fill={star.rgb}
+			/>
 		{/each}
 	</g>
 </svg>
@@ -215,8 +247,8 @@
 	<dd>{hoveredStar.absmag}</dd>
 
 	{#if hoveredStar.tem != null}
-	<dt>Temperatura</dt>
-	<dd>{hoveredStar.tem.toFixed(2)} K</dd>
+		<dt>Temperatura</dt>
+		<dd>{hoveredStar.tem.toFixed(2)} K</dd>
 	{/if}
 
 	{#if hoveredStar.dist != null}
@@ -236,15 +268,14 @@
 </dl>
 
 <style>
-
-    circle {
-        transition: 0ms;
-        transform-origin: center;
-        transform-box: fill-box;
+	circle {
+		transition: 0ms;
+		transform-origin: center;
+		transform-box: fill-box;
 		@starting-style {
-	        r: 0;
-        }
-    }
+			r: 0;
+		}
+	}
 
 	.info {
 		margin: 0;
