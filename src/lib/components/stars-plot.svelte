@@ -150,21 +150,24 @@
 	$: showHR = snapCurr == 0;
 
 	$: if (action === "latitude") {
-			angleAnimation({ X: Math.PI / 3, Y: 0});
-		}
-	
-	let interval = null;
-	$: {
-	if (action === "rotate" && !interval) {
-		interval = setInterval(() => {
-			angle.Y += 0.005;
-		}, 20);
-	} else if (action !== "rotate" && interval) {
-		clearInterval(interval);
-		interval = null;
+		angleAnimation({ X: Math.PI / 3, Y: 0 });
 	}
-}
 
+	let interval;
+	$: {
+		if (action === "rotate") {
+			if (!interval) {
+				interval = d3.interval(() => {
+					angle.Y -= 0.005;
+				}, 10);
+			}
+		} else {
+			if (interval) {
+				interval.stop();
+				interval = null;
+			}
+		}
+	}
 </script>
 
 <!-- svg used as canvas for d3 plotting -->
