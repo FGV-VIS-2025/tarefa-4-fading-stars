@@ -24,23 +24,20 @@
 		//star with lowest magnitude
 		let stars = starsRaw.filter((star) => star.con == cons);
 		let x_proj =
-				stars.map((star) => star.x_proj).reduce((a, b) => a + b) /
-				stars.length,
-			y_proj =
-				stars.map((star) => star.y_proj).reduce((a, b) => a + b) /
-				stars.length,
-			z_proj =
-				stars.map((star) => star.z_proj).reduce((a, b) => a + b) /
-				stars.length;
-		let X, Y;
-		if (z_proj > 0) {
-			Y = Math.sign(x_proj) * Math.atan(Math.abs(x_proj / z_proj));
-		} else {
-			Y =
-				Math.sign(x_proj) *
-				(Math.atan(Math.abs(z_proj / x_proj)) + Math.PI / 2);
-		}
-		X = Math.sign(y_proj) * Math.atan(Math.abs(y_proj / z_proj));
+			stars.map((star) => star.x_proj).reduce((a, b) => a + b) /
+			stars.length;
+		let y_proj =
+			stars.map((star) => star.y_proj).reduce((a, b) => a + b) /
+			stars.length;
+		let z_proj =
+			stars.map((star) => star.z_proj).reduce((a, b) => a + b) /
+			stars.length;
+		let length = Math.sqrt(x_proj ** 2 + y_proj ** 2 + z_proj ** 2);
+		x_proj /= length;
+		y_proj /= length;
+		z_proj /= length;
+		let X = Math.asin(y_proj);
+		let Y = Math.atan2(x_proj, z_proj);
 		return {position: { X: X, Y: Y }, name: cons};
 	}
 
