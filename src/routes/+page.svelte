@@ -1,6 +1,6 @@
 <script>
 	//Components - visualizations
-	import scrollama from 'scrollama';
+	import scrollama from "scrollama";
 
 	import StarsPlot from "$lib/components/stars-plot.svelte";
 	import StarsHistogram from "$lib/components/star-histogram.svelte";
@@ -25,10 +25,9 @@
 		innerWidth = window.innerWidth;
 		innerHeight = window.innerHeight;
 
-		const sizeSteps = document.querySelectorAll('.step').length
+		const sizeSteps = document.querySelectorAll(".step").length;
 		const highlights = document.querySelectorAll(".highlight");
 		vizElement = document.getElementById("viz");
-		vizElement.classList.add("focused");
 
 		highlights.forEach((span) => {
 			const action = span.dataset.action;
@@ -43,30 +42,30 @@
 		const scrollInstance = new scrollama();
 
 		scrollInstance
-		.setup({
-			step: '.step',
-			offset: 0.5,
-			// debug: true,
-		})
-		.onStepEnter(({ element, direction, index }) => {
-			element.classList.add('focused');
-			snapCurr = index;
-			if (direction === "down") {
-				vizElement.classList.add("focused");
-			}
-			if (index === sizeSteps - 1 && direction === "up") {
-				vizElement.classList.add("focused");
-			}
-		})
-		.onStepExit(({ element, direction, index }) => {
-			element.classList.remove('focused');
-			if (direction === "up" && index == 0) {
-				vizElement.classList.remove("focused");
-			}
-			if (index === sizeSteps - 1 && direction === "down") {
-				vizElement.classList.remove("focused");
-			}
-		});
+			.setup({
+				step: ".step",
+				offset: 0.5,
+				// debug: true,
+			})
+			.onStepEnter(({ element, direction, index }) => {
+				element.classList.add("focused");
+				snapCurr = index;
+				if (direction === "down") {
+					vizElement.classList.add("focused");
+				}
+				if (index === sizeSteps - 1 && direction === "up") {
+					vizElement.classList.add("focused");
+				}
+			})
+			.onStepExit(({ element, direction, index }) => {
+				element.classList.remove("focused");
+				if (direction === "up" && index == 0) {
+					vizElement.classList.remove("focused");
+				}
+				if (index === sizeSteps - 1 && direction === "down") {
+					vizElement.classList.remove("focused");
+				}
+			});
 	});
 	$: console.log("highlightaction: ", highlightAction);
 	$: console.log(innerHeight, innerWidth);
@@ -113,7 +112,7 @@
 
 <svelte:window bind:innerWidth bind:innerHeight />
 
-<div class="debugbox"> </div>
+<div class="debugbox"></div>
 
 <div class="scroll">
 	<div class="scroll__text">
@@ -214,24 +213,7 @@
 	</div>
 </div>
 
-<div class="debugbox">
-
-<div id="scroll">
-	<div class="scroll__graph">
-		<div class="chart">
-		</div>
-	</div>
-	<div class="scroll__text">
-		<div class="snap" data-step="1">
-		</div>
-		<div class="snap" data-step="2">
-		</div>
-		<div class="snap" data-step="3">
-		</div>
-	</div>
-</div>
-
-</div>
+<div class="debugbox"></div>
 
 <style>
 	.debugbox {
@@ -255,13 +237,14 @@
 		display: flex;
 	}
 
-	.scroll>* {
+	.scroll > * {
 		-webkit-box-flex: 1;
 		-ms-flex: 1;
 		flex: 1;
 	}
 
 	.step:not(.focused) {
+		display: block;
 		filter: blur(2px);
 		opacity: 0.5;
 	}
@@ -272,7 +255,9 @@
 	}
 
 	#viz {
-		transition: filter 0.3s ease, opacity 0.3s ease;
+		transition:
+			filter 0.3s ease,
+			opacity 0.3s ease;
 	}
 
 	.scroll__text {
@@ -294,6 +279,8 @@
 		padding-right: 150px;
 		scroll-snap-align: center;
 		scroll-snap-stop: always;
-		transition: filter 0.3s ease, opacity 0.3s ease;
+		transition:
+			filter 0.3s ease,
+			opacity 0.3s ease;
 	}
 </style>
