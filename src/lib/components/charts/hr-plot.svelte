@@ -176,49 +176,22 @@
 
 <!-- svg used as canvas for d3 plotting -->
 <svg {width} {height} viewBox="0 0 {width} {height}" id="celest">
-	{#if showHR}
-		<g transform="translate({margin.v - 2}, 0)" bind:this={yAxis}>
-			<text
-				x={margin.v}
-				fill="currentcolor"
-				transform="rotate(270) translate(-{height / 2 - margin.v} -30)"
-				text-anchor="end">Luminosidade (L)</text
-			>
-		</g>
-		<g transform="translate(0, {height - margin.h + 2})" bind:this={xAxis}>
-			<text
-				x={width / 2 + margin.v}
-				y={margin.h - 3}
-				fill="currentcolor"
-				text-anchor="end">Temperatura (K)</text
-			>
-		</g>
-	{:else}
-		<path
-			d={pathGenerator(graticule)}
-			fill="none"
-			stroke="#444"
-			stroke-width="1.5"
-		/>
-		<g class="constellation-lines">
-			{#each lines as [starA, starB]}
-				<line
-					x1={xScale(starA.x)}
-					y1={yScale(starA.y)}
-					x2={xScale(starB.x)}
-					y2={yScale(starB.y)}
-					stroke="#aaa"
-					stroke-width="1"
-				/>
-			{/each}
-		</g>
-		<path
-			d={pathGenerator(sphere)}
-			fill="none"
-			stroke="#FFF"
-			stroke-width="1.5"
-		/>
-	{/if}
+    <g transform="translate({margin.v - 2}, 0)" bind:this={yAxis}>
+        <text
+            x={margin.v}
+            fill="currentcolor"
+            transform="rotate(270) translate(-{height / 2 - margin.v} -30)"
+            text-anchor="end">Luminosidade (L)</text
+        >
+    </g>
+    <g transform="translate(0, {height - margin.h + 2})" bind:this={xAxis}>
+        <text
+            x={width / 2 + margin.v}
+            y={margin.h - 3}
+            fill="currentcolor"
+            text-anchor="end">Temperatura (K)</text
+        >
+    </g>
 
 	<g class="stars">
 		{#each stars as star, index (star.id)}

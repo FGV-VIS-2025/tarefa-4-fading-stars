@@ -2,7 +2,9 @@
 	//Components - visualizations
 	import scrollama from "scrollama";
 
-	import StarsPlot from "$lib/components/stars-plot.svelte";
+	import StarsPlot from "$lib/components/charts/stars-plot.svelte";
+	import HRPlot from "$lib/components/charts/hr-plot.svelte";
+	
 	import StarsHistogram from "$lib/components/star-histogram.svelte";
 	//Components - filters
 	import LocationFinder from "$lib/components/get-location.svelte";
