@@ -73,9 +73,8 @@
 				: normalizeAngle(angle.Y) + shortestPath(angle.Y, newAngle.Y),
 		};
 
-
 		const interpolator = d3.interpolateObject(angle, targetAngle);
-		
+
 		const duration = 500;
 		const start = Date.now();
 
@@ -95,7 +94,7 @@
 		});
 	}
 
-	$: if (customAngle.X != 0 || customAngle.Y != 0){
+	$: if (customAngle.X != 0 || customAngle.Y != 0) {
 		angleAnimation(customAngle);
 		customAngle = { X: 0, Y: 0 };
 	}
@@ -153,7 +152,7 @@
 			if (!interval) {
 				interval = d3.interval(() => {
 					angle.Y -= 0.005;
-				}, 10);
+				}, 10);gem
 			}
 		} else {
 			if (interval) {
@@ -164,12 +163,12 @@
 	}
 	$: {
 		console.log(constellation);
-		if(constellation != null){
-			const timeout = setTimeout(() => {constellation = null;}, 3000);
+		if (constellation != null) {
+			const timeout = setTimeout(() => {
+				constellation = null;
+			}, 3000);
 		}
 	}
-
-
 </script>
 
 <!-- svg used as canvas for d3 plotting -->
@@ -181,27 +180,18 @@
 		stroke-width="1.5"
 	/>
 	<g class="constellation-lines">
-		{#each lines as [starA, starB]}
+		{#each lines as [starA, starB], index (starA.id + "-" + starB.id)}
 			<line
 				x1={xScale(starA.x)}
 				y1={yScale(starA.y)}
 				x2={xScale(starB.x)}
 				y2={yScale(starB.y)}
-				stroke="#aaa"
-				stroke-width="1"
+				class="constellation"
+				class:highlight={constellation === starA.con}
 			/>
-			{#if constellation === starA.con}
-			<line
-				x1={xScale(starA.x)}
-				y1={yScale(starA.y)}
-				x2={xScale(starB.x)}
-				y2={yScale(starB.y)}
-				stroke="#d9ed2880"
-				stroke-width="4"
-			/>
+			<!--amarelo: #d9ed2880 -->
 			<!--azul: #2f05d990-->
 			<!--rosa maluco: #e94b8aB0-->
-			{/if}
 		{/each}
 	</g>
 	<path
@@ -273,6 +263,19 @@
 		@starting-style {
 			r: 0;
 		}
+	}
+
+	.constellation {
+		stroke-width: 1;
+		stroke: #aaa;
+		transition:
+			stroke 0.6s ease,
+			stroke-width 0.6s ease;
+	}
+
+	.constellation.highlight {
+		stroke: #e94b8ab0;
+		stroke-width: 3;
 	}
 
 	.info {
