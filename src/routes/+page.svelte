@@ -206,7 +206,6 @@
 					linesRaw={linesFiltered}
 					{customAngle}
 					size={0.9 * innerHeight}
-					{snapCurr}
 					action={highlightAction}
 					bind:stars={visibleStars}
 				/>

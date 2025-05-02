@@ -47,8 +47,33 @@
 		return { ...d, x: x, y: y, z: z };
 	}
 
-	function angleAnimation(newAngle, ignoreY=false) {
-		const interpolator = d3.interpolateObject(angle, newAngle);
+	function angleAnimation(newAngle, ignoreY = false) {
+		const normalizeAngle = (angle) => {
+			return angle % (2 * Math.PI);
+		};
+
+		const shortestPath = (current, target) => {
+			const normCurrent = normalizeAngle(current);
+			const normTarget = normalizeAngle(target);
+
+			let diff1 = normTarget - normCurrent;
+			let diff2 = diff1 - 2 * Math.PI;
+			if (diff1 < 0) {
+				diff2 = diff1 + 2 * Math.PI;
+			}
+
+			return Math.abs(diff1) < Math.abs(diff2) ? diff1 : diff2;
+		};
+
+		const targetAngle = {
+			X: normalizeAngle(angle.X) + shortestPath(angle.X, newAngle.X),
+			Y: ignoreY
+				? angle.Y
+				: normalizeAngle(angle.Y) + shortestPath(angle.Y, newAngle.Y),
+		};
+
+
+		const interpolator = d3.interpolateObject(angle, targetAngle);
 		
 		const duration = 500;
 		const start = Date.now();
@@ -96,7 +121,6 @@
 
 	$: pathGenerator = d3.geoPath(projection);
 
-
 	//Tooltip handlers
 	let hoveredIndex = -1;
 	$: hoveredStar = stars[hoveredIndex] ?? hoveredStar ?? {};
@@ -117,7 +141,6 @@
 			hoveredIndex = -1;
 		}
 	}
-
 
 	$: if (action === "latitude") {
 		angleAnimation({ X: Math.PI / 3, Y: 0 }, true);
@@ -142,7 +165,7 @@
 
 <!-- svg used as canvas for d3 plotting -->
 <svg {width} {height} viewBox="0 0 {width} {height}" id="celest">
-"		<path
+	" <path
 		d={pathGenerator(graticule)}
 		fill="none"
 		stroke="#444"
