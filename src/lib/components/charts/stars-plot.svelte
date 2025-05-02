@@ -152,7 +152,7 @@
 			if (!interval) {
 				interval = d3.interval(() => {
 					angle.Y -= 0.005;
-				}, 10);gem
+				}, 10);
 			}
 		} else {
 			if (interval) {
