@@ -62,6 +62,8 @@
 	$: selectedCons = Object.keys(checkedCons).filter(
 		(key) => checkedCons[key],
 	);
+
+	let hoveredButton = false;
 </script>
 
 <div class="container">
@@ -99,23 +101,26 @@
 			>Ocultar todas</button
 		>
 	{/if}
-	<div class="help-box">
-		?
-		<div class="help-hover">
-			<p>As constelações foram essenciais para a história humana. Cada uma das
-			88 constelações definidas atualmente é relacionada com diferentes mitos e
-			lendas, e seus papéis foram importantes para o desenvolvimento humano:
-			constelações como Ursa Maior e o Cruzeiro do Sul, por exemplo, permitiam
-			com que humanos se localizassem e guiassem suas viagens sem a necessidade de
-			GPS.</p>
-			<p>Por meio desse filtro, é possível tanto selecionar quais constelações
-			aparecem na visualização do globo celeste quanto focar em alguma
-			específica. Quando o foco é aplicado, o globo se move para simular um
-			observador que tem a constelação no topo do céu, e ela brilha
-			momentaneamente para sua localização fique clara. é possível filtrar a
-			lista pelo nome de uma constelação específica, em inglês.</p>
-		</div>
+	<div class="help-box"
+		 on:mouseenter={evt => hoveredButton = true}
+		 on:mouseleave={evt => hoveredButton = false}
+	>?</div>
+	{#if hoveredButton}
+	<div class="help-hover">
+		<p>As constelações foram essenciais para a história humana. Cada uma das
+		88 constelações definidas atualmente é relacionada com diferentes mitos e
+		lendas, e seus papéis foram importantes para o desenvolvimento humano:
+		constelações como Ursa Maior e o Cruzeiro do Sul, por exemplo, permitiam
+		com que humanos se localizassem e guiassem suas viagens sem a necessidade de
+		GPS.</p>
+		<p>Por meio desse filtro, é possível tanto selecionar quais constelações
+		aparecem na visualização do globo celeste quanto focar em alguma
+		específica. Quando o foco é aplicado, o globo se move para simular um
+		observador que tem a constelação no topo do céu, e ela brilha
+		momentaneamente para sua localização fique clara. é possível filtrar a
+		lista pelo nome de uma constelação específica, em inglês.</p>
 	</div>
+	{/if}
 </div>
 
 <style>
@@ -157,7 +162,6 @@
 		padding: 1ch;
 
 		background-color: var(--accent-black);
-		backdrop-filter: 20px;
 		border: 2px solid var(--border-color);
 		border-radius: 12px;
 
@@ -166,6 +170,7 @@
 		max-height: 15ch;
 		width: auto;
 		overflow-y: auto;
+		z-index: 2;
 	}
 
 	.constellation {
@@ -217,24 +222,22 @@
 		right: 2ch;
 	}
 
-	.help-box div {
-		display: none;
+	.help-hover {
+		position: absolute;
+		top: 10%;
+		left: 10%;
+		width: 80%;
+
 		font-size: 80%;
 		text-align: justify;
-		width: 70ch;
 
 		border-style: solid;
 		border-radius: 6px;
 		border-width: 2px;
 		padding: 5px;
-		background-color: var(--accent-black);
-	}
 
-	.help-box:hover div {
-		display: block;
-		position: absolute;
-		bottom: 100%;
-		right: 100%;
+		background-color: var(--accent-black);
+		z-index: 2;
 	}
 
 </style>

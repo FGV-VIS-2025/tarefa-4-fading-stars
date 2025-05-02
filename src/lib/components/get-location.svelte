@@ -64,7 +64,9 @@
             coordinates.lon = searchResults[selectedResult].lon;
         } else {coordinates = {lat: 0, lon: 0}}
     }
+    let hoveredButton = false;
 </script>
+
 <div class = "container">
     <h3>Busque por uma cidade.</h3>
     <form on:submit={searchPlaces}>
@@ -102,12 +104,15 @@
     {#if successfulSearch}
         <p>A cidade selecionada está localizada na latitude {coordinates.lat}° e na longitude {coordinates.lon}°.</p>
     {/if}
-    <div class="help-box">
-        ?
-        <div class="help-hover">
-            <p>TODO</p>
-        </div>
+    <div class="help-box"
+		 on:mouseenter={evt => hoveredButton = true}
+		 on:mouseleave={evt => hoveredButton = false}
+	>?</div>
+	{#if hoveredButton}
+	<div class="help-hover">
+        <p>TODO</p>
     </div>
+    {/if}
 </div>
 
 <style>
@@ -171,38 +176,41 @@ h3{
     background-color: #2f05d93a;
 }
 
+
 .help-box {
-	width: 2.5ch;
-	height: 2.5ch;
-	border-style: solid;
-	border-radius: 6px;
-	border-width: 2px;
-	text-align: center;
-	align-self: end;
-	padding: 1px;
-	position: absolute;
-	bottom: 2ch;
-	right: 2ch;
+    width: 2.5ch;
+    height: 2.5ch;
+
+    border-style: solid;
+    border-radius: 6px;
+    border-width: 2px;
+
+    text-align: center;
+    align-self: end;
+
+    padding: 1px;
+
+    position: absolute;
+    bottom: 2ch;
+    right: 2ch;
 }
 
-.help-box div {
-	display: none;
-	font-size: 80%;
-	text-align: justify;
-	width: 55ch;
-	border-style: solid;
-	border-radius: 6px;
-	border-width: 2px;
-	padding: 5px;
-	background-color: var(--accent-black);
-}
+.help-hover {
+    position: absolute;
+    top: 10%;
+    left: 10%;
+    width: 80%;
 
-.help-box:hover div {
-	display: block;
-	position: absolute;
-	bottom: 100%;
-	right: 100%;
-}
+    font-size: 80%;
+    text-align: justify;
 
+    border-style: solid;
+    border-radius: 6px;
+    border-width: 2px;
+    padding: 5px;
+
+    background-color: var(--accent-black);
+    z-index: 2;
+}
 
 </style>
