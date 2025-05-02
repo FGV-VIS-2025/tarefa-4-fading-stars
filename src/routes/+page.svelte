@@ -25,6 +25,7 @@
 		innerWidth = window.innerWidth;
 		innerHeight = window.innerHeight;
 
+		const sizeSteps = document.querySelectorAll('.snap-item').length
 		const highlights = document.querySelectorAll(".highlight");
 		vizElement = document.getElementById("viz");
 		vizElement.classList.add("focused");
@@ -45,22 +46,28 @@
 		.setup({
 			step: '.snap-item',
 			offset: 0.5,
-			container: 'body'
 			// debug: true,
 		})
 		.onStepEnter(({ element, direction, index }) => {
 			element.classList.add('focused');
 			snapCurr = index;
+			if (direction === "down") {
+				vizElement.classList.add("focused");
+			}
+			if (index === sizeSteps - 1 && direction === "up") {
+				vizElement.classList.add("focused");
+			}
 		})
 		.onStepExit(({ element, direction, index }) => {
 			element.classList.remove('focused');
+			if (direction === "up" && index == 0) {
+				vizElement.classList.remove("focused");
+			}
+			if (index === sizeSteps - 1 && direction === "down") {
+				vizElement.classList.remove("focused");
+			}
 		});
 	});
-	$: if (snapCurr !== null && vizElement) {
-		vizElement.classList.add("focused");
-	} else if (vizElement) {
-		vizElement.classList.remove("focused");
-	}
 	$: console.log("highlightaction: ", highlightAction);
 	$: console.log(innerHeight, innerWidth);
 
@@ -209,6 +216,21 @@
 
 <div class="debugbox">
 
+<div id="scroll">
+	<div class="scroll__graph">
+		<div class="chart">
+		</div>
+	</div>
+	<div class="scroll__text">
+		<div class="snap" data-step="1">
+		</div>
+		<div class="snap" data-step="2">
+		</div>
+		<div class="snap" data-step="3">
+		</div>
+	</div>
+</div>
+
 </div>
 
 <style>
@@ -269,8 +291,25 @@
 
 	.snap-item {
 		padding: 100px;
+		padding-right: 150px;
 		scroll-snap-align: center;
 		scroll-snap-stop: always;
 		transition: filter 0.3s ease, opacity 0.3s ease;
+	}
+
+
+
+
+
+	#scroll {
+		position: relative;
+	}
+
+	.scroll__graph {
+		position: absolute;
+		top: 0;
+		left: 0;
+		bottom: auto;
+		width: 100%;
 	}
 </style>
