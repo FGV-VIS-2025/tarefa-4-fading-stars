@@ -25,7 +25,7 @@
 		innerWidth = window.innerWidth;
 		innerHeight = window.innerHeight;
 
-		const sizeSteps = document.querySelectorAll('.snap-item').length
+		const sizeSteps = document.querySelectorAll('.step').length
 		const highlights = document.querySelectorAll(".highlight");
 		vizElement = document.getElementById("viz");
 		vizElement.classList.add("focused");
@@ -40,11 +40,11 @@
 			});
 		});
 
-		const scrollerInstance = new scrollama();
+		const scrollInstance = new scrollama();
 
-		scrollerInstance
+		scrollInstance
 		.setup({
-			step: '.snap-item',
+			step: '.step',
 			offset: 0.5,
 			// debug: true,
 		})
@@ -115,9 +115,9 @@
 
 <div class="debugbox"> </div>
 
-<div class="scroller">
-	<div class="left">
-		<div class="snap-item">
+<div class="scroll">
+	<div class="scroll__text">
+		<div class="step">
 			<p>
 				O diagrama de Hertzprung-Russell, também conhecido como diagrama
 				HR, é um tipo de visualização muito conhecida na astronomia. Ele
@@ -143,7 +143,7 @@
 				se tornar uma anã branca ou uma gigante vermelha.
 			</p>
 		</div>
-		<div class="snap-item">
+		<div class="step">
 			Hello, I'm testing a highlight: <span
 				class="highlight"
 				data-action="latitude">highlight</span
@@ -152,7 +152,7 @@
 			Hello, I'm testing another highlight:
 			<span class="highlight" data-action="rotate">highlight</span>
 		</div>
-		<div class="snap-item" style="padding-top:10%;">
+		<div class="step" style="padding-top:10%;">
 			<ConstelationFilter
 				{starsRaw}
 				bind:selectedCons
@@ -168,7 +168,7 @@
 			<LocationFinder bind:coordinates={userCoordinates} />
 			<!-- 			<p>posição saída da location finder: {userCoordinates.lat}, {userCoordinates.lon}</p> -->
 		</div>
-		<div class="snap-item" style="padding-top:5%;">
+		<div class="step" style="padding-top:5%;">
 			{#if innerHeight != null}
 				<h3>Distribuição das temperaturas das estrelas visíveis</h3>
 				<StarsHistogram
@@ -197,7 +197,7 @@
 			{/if}
 		</div>
 	</div>
-	<div class="right">
+	<div class="scroll__graphic">
 		<div id="viz">
 			{#if innerHeight != null}
 				<StarsPlot
@@ -250,18 +250,18 @@
 		cursor: default;
 	}
 
-	.scroller {
+	.scroll {
 		position: relative;
 		display: flex;
 	}
 
-	.scroller>* {
+	.scroll>* {
 		-webkit-box-flex: 1;
 		-ms-flex: 1;
 		flex: 1;
 	}
 
-	.snap-item:not(.focused) {
+	.step:not(.focused) {
 		filter: blur(2px);
 		opacity: 0.5;
 	}
@@ -275,11 +275,11 @@
 		transition: filter 0.3s ease, opacity 0.3s ease;
 	}
 
-	.left {
+	.scroll__text {
 		margin-top: 10%;
 	}
 
-	.right {
+	.scroll__graphic {
 		position: sticky;
 		top: 0;
 		height: 100vh;
@@ -289,27 +289,11 @@
 		justify-content: center;
 	}
 
-	.snap-item {
+	.step {
 		padding: 100px;
 		padding-right: 150px;
 		scroll-snap-align: center;
 		scroll-snap-stop: always;
 		transition: filter 0.3s ease, opacity 0.3s ease;
-	}
-
-
-
-
-
-	#scroll {
-		position: relative;
-	}
-
-	.scroll__graph {
-		position: absolute;
-		top: 0;
-		left: 0;
-		bottom: auto;
-		width: 100%;
 	}
 </style>
