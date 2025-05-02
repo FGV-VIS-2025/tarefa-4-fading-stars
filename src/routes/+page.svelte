@@ -145,6 +145,11 @@
 				Depois de milhões de anos nesse estado, o gás hidrogênio vai se
 				esgotando, e a estrela pode seguir por dois caminhos diferentes:
 				se tornar uma anã branca ou uma gigante vermelha.
+
+				<span class="highlight" data-action="mainseq">highlight</span>
+				<span class="highlight" data-action="supgig">highlight</span>
+				<span class="highlight" data-action="gig">highlight</span>
+				<span class="highlight" data-action="dwarf">highlight</span>
 			</p>
 		</div>
 		<div class="step">
@@ -204,7 +209,7 @@
 	<div class="scroll__graphic">
 		<div id="viz">
 			{#if innerHeight != null}
-				<StarsPlot
+				<HRPlot
 					starsRaw={starsFiltered}
 					linesRaw={linesFiltered}
 					{customAngle}
