@@ -10,6 +10,7 @@
 	export let size = 800;
 	export let stars;
 	export let action;
+	export let constellation;
 
 	//SVG canvas spec
 	$: width = size;
@@ -69,7 +70,7 @@
 		});
 	}
 
-	$: if (customAngle.X != 0 || customAngle.Y != 0) {
+	$: if (customAngle.X != 0 || customAngle.Y != 0){
 		angleAnimation(customAngle);
 		customAngle = { X: 0, Y: 0 };
 	}
@@ -138,6 +139,14 @@
 			}
 		}
 	}
+	$: {
+		console.log(constellation);
+		if(constellation != null){
+			const timeout = setTimeout(() => {constellation = null;}, 3000);
+		}
+	}
+
+
 </script>
 
 <!-- svg used as canvas for d3 plotting -->
@@ -158,6 +167,18 @@
 				stroke="#aaa"
 				stroke-width="1"
 			/>
+			{#if constellation === starA.con}
+			<line
+				x1={xScale(starA.x)}
+				y1={yScale(starA.y)}
+				x2={xScale(starB.x)}
+				y2={yScale(starB.y)}
+				stroke="#d9ed2880"
+				stroke-width="4"
+			/>
+			<!--azul: #2f05d990-->
+			<!--rosa maluco: #e94b8aB0-->
+			{/if}
 		{/each}
 	</g>
 	<path

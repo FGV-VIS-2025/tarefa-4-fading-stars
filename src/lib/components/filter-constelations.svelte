@@ -3,7 +3,7 @@
 	import * as d3 from "d3";
     export let starsRaw; //Input of all stars, this selector never changes so it needs to be made with all the data
     export let selectedCons; //Output of the component - the filtered cons
-    export let consPosition; //Output of the component - the selected cons location
+    export let consPosition = {position: {X: 0, Y: 0}, name: ""}; //Output of the component - the selected cons location
 
 	//To hold what the user types in input
 	let userQuery = "";
@@ -41,7 +41,7 @@
 				(Math.atan(Math.abs(z_proj / x_proj)) + Math.PI / 2);
 		}
 		X = Math.sign(y_proj) * Math.atan(Math.abs(y_proj / z_proj));
-		return { X: X, Y: Y };
+		return {position: { X: X, Y: Y }, name: cons};
 	}
 
 	for (let cons of constellationList) {

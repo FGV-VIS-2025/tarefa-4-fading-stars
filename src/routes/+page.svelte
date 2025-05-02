@@ -75,7 +75,7 @@
 	let customAngle = { X: 0, Y: 0 };
 	let fixedYabsmag = 2300;
 	let fixedYtemp = 1450;
-	//Magnitude Filter
+	//Magnitude Filter (also affects histogram vars)
 	let maxMagnitude = 30;
 	let starsFiltered = [];
 	let starsFilteredIds = [];
@@ -92,7 +92,7 @@
 	//Constelation Filter
 	let selectedCons = [];
 	let linesFiltered = {};
-	let consPos = { X: 0, Y: 0 };
+	let consPos = {position: { X: 0, Y: 0 }, name: ""};
 	$: linesFiltered = linesRaw.filter(
 		([A, B]) =>
 			selectedCons.includes(A.con) &&
@@ -100,7 +100,10 @@
 			starsFilteredIds.includes(A.id) &&
 			starsFilteredIds.includes(B.id),
 	);
-	$: customAngle = consPos;
+	$: {
+		customAngle = consPos.position;
+		console.log(consPos);
+	}
 
 	//Place finder
 	let userCoordinates = { lat: 0, lon: 0 };
@@ -209,6 +212,7 @@
 					{snapCurr}
 					action={highlightAction}
 					bind:stars={visibleStars}
+					constellation={consPos.name}
 				/>
 			{/if}
 		</div>
