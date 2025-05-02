@@ -156,56 +156,19 @@
 			Hello, I'm testing another highlight:
 			<span class="highlight" data-action="rotate">highlight</span>
 		</div>
-		<div class="step filter-step" style="padding-top:10%;">
+		<div class="step" style="padding-top:10%;">
 			<ConstelationFilter
 				{starsRaw}
 				bind:selectedCons
 				bind:consPosition={consPos}
 			/>
-			<div class="help-box">
-				?
-				<div class="help-hover">
-				<p>As constelações foram essenciais para a história humana. Cada uma das
-				88 constelações definidas atualmente é relacionada com diferentes mitos e
-				lendas, e seus papéis foram importantes para o desenvolvimento humano:
-				constelações como Ursa Maior e o Cruzeiro do Sul, por exemplo, permitiam
-				com que humanos se localizassem e guiassem suas viagens sem a necessidade de
-				GPS.</p>
-				<p>Por meio desse filtro, é possível tanto selecionar quais constelações
-				aparecem na visualização do globo celeste quanto focar em alguma
-				específica. Quando o foco é aplicado, o globo se move para simular um
-				observador que tem a constelação no topo do céu, e ela brilha
-				momentaneamente para sua localização fique clara. é possível filtrar a
-				lista pelo nome de uma constelação específica, em inglês.</p>
-				</div>
-			</div>
 			<MagnitudeFilter
 				{starsRaw}
 				bind:maxMagnitude
 				percentage={percentageFiltered}
 			/>
-			<div class="help-box">
-				?
-				<div class="help-hover">
-				<p>Cada estrela tem associado a si um valor de magnitude aparente, que diz
-				o quão brilhante uma estrela aparenta ser quando vista da terra. Estrelas mais
-				brilhantes (com magnitude <i>menor</i>), naturalmente, são visiveis mesmo
-				com outras fontes de luz por perto, enquanto estrelas menos brilhantes
-				(com magnitude <i>maior</i>) não são vistas quando há outras fontes de luz
-				interferindo. </p>
-				<p>Esse slider permite mostrar apenas as estrelas mais brilhantes,
-				simulando diferentes níveis de poluição visual interferindo na observação do
-				globo celeste.</p>
-				</div>
-			</div>
 			<!-- 			<p>posição saída da constelation filter: {consPos.X}, {consPos.Y}</p> -->
 			<LocationFinder bind:coordinates={userCoordinates} />
-			<div class="help-box">
-				?
-				<div class="help-hover">
-				<p>TODO</p>
-				</div>
-			</div>
 			<!-- 			<p>Magnitude máxima de saída da magnitude filter: {maxMagnitude}</p> -->
 			<!-- 			<p>posição saída da location finder: {userCoordinates.lat}, {userCoordinates.lon}</p> -->
 		</div>
@@ -326,46 +289,4 @@
 			opacity 0.3s ease;
 	}
 
-	.filter-step {
-		display: grid;
-		grid-template-columns: auto 2.5ch;
-	}
-
-	.help-box {
-		width: 2.5ch;
-		height: 2.5ch;
-
-		border-style: solid;
-		border-radius: 6px;
-		border-width: 2px;
-
-		text-align: center;
-		align-self: end;
-
-		margin-left: 1ch;
-		margin-bottom: 20px;
-		padding: 1px;
-
-		position: relative;
-	}
-
-	.help-box div {
-		display: none;
-		font-size: 80%;
-		text-align: justify;
-		width: 55ch;
-
-		border-style: solid;
-		border-radius: 6px;
-		border-width: 2px;
-		padding: 5px;
-		background-color: var(--accent-black);
-	}
-
-	.help-box:hover div {
-		display: block;
-		position: absolute;
-		bottom: 100%;
-		right: 100%;
-	}
 </style>

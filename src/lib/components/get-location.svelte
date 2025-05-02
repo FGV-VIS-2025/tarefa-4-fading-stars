@@ -102,6 +102,12 @@
     {#if successfulSearch}
         <p>A cidade selecionada está localizada na latitude {coordinates.lat}° e na longitude {coordinates.lon}°.</p>
     {/if}
+    <div class="help-box">
+        ?
+        <div class="help-hover">
+            <p>TODO</p>
+        </div>
+    </div>
 </div>
 
 <style>
@@ -114,7 +120,8 @@
 
     margin-bottom: 20px;
 
-    padding: 20px;
+    padding: 2ch;
+    position: relative;
 
 }
 
@@ -163,4 +170,39 @@ h3{
     border-color: #2f05d9B6;
     background-color: #2f05d93a;
 }
+
+.help-box {
+	width: 2.5ch;
+	height: 2.5ch;
+	border-style: solid;
+	border-radius: 6px;
+	border-width: 2px;
+	text-align: center;
+	align-self: end;
+	padding: 1px;
+	position: absolute;
+	bottom: 2ch;
+	right: 2ch;
+}
+
+.help-box div {
+	display: none;
+	font-size: 80%;
+	text-align: justify;
+	width: 55ch;
+	border-style: solid;
+	border-radius: 6px;
+	border-width: 2px;
+	padding: 5px;
+	background-color: var(--accent-black);
+}
+
+.help-box:hover div {
+	display: block;
+	position: absolute;
+	bottom: 100%;
+	right: 100%;
+}
+
+
 </style>

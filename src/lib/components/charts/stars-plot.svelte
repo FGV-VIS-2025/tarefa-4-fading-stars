@@ -226,7 +226,7 @@
 	{#if hoveredStar.proper != null}
 		<dt>Nome</dt>
 		<dd>{hoveredStar.proper}</dd>
-		<dd></dd>{/if}
+	{/if}
 
 	<dt>Magnitude aparente</dt>
 	<dd>{hoveredStar.mag}</dd>
@@ -239,7 +239,7 @@
 		<dd>{hoveredStar.tem.toFixed(2)} K</dd>
 	{/if}
 
-	{#if hoveredStar.dist != null}
+	{#if hoveredStar.lum != null}
 		<dt>Luminosidade</dt>
 		<dd>{hoveredStar.lum.toFixed(0)}x a do Sol</dd>
 	{/if}
@@ -282,7 +282,7 @@
 		margin: 0;
 
 		display: grid;
-		grid-template-columns: 2;
+		grid-template-columns: auto auto;
 
 		padding: 5px;
 

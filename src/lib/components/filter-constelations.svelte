@@ -99,6 +99,23 @@
 			>Ocultar todas</button
 		>
 	{/if}
+	<div class="help-box">
+		?
+		<div class="help-hover">
+			<p>As constelações foram essenciais para a história humana. Cada uma das
+			88 constelações definidas atualmente é relacionada com diferentes mitos e
+			lendas, e seus papéis foram importantes para o desenvolvimento humano:
+			constelações como Ursa Maior e o Cruzeiro do Sul, por exemplo, permitiam
+			com que humanos se localizassem e guiassem suas viagens sem a necessidade de
+			GPS.</p>
+			<p>Por meio desse filtro, é possível tanto selecionar quais constelações
+			aparecem na visualização do globo celeste quanto focar em alguma
+			específica. Quando o foco é aplicado, o globo se move para simular um
+			observador que tem a constelação no topo do céu, e ela brilha
+			momentaneamente para sua localização fique clara. é possível filtrar a
+			lista pelo nome de uma constelação específica, em inglês.</p>
+		</div>
+	</div>
 </div>
 
 <style>
@@ -109,7 +126,8 @@
 
 		margin-bottom: 20px;
 
-		padding: 20px;
+		padding: 2ch;
+		position: relative;
 	}
 
 	h3 {
@@ -180,4 +198,43 @@
 		font-size: 80%;
 		text-decoration: underline;
 	}
+
+	.help-box {
+		width: 2.5ch;
+		height: 2.5ch;
+
+		border-style: solid;
+		border-radius: 6px;
+		border-width: 2px;
+
+		text-align: center;
+		align-self: end;
+
+		padding: 1px;
+
+		position: absolute;
+		bottom: 2ch;
+		right: 2ch;
+	}
+
+	.help-box div {
+		display: none;
+		font-size: 80%;
+		text-align: justify;
+		width: 70ch;
+
+		border-style: solid;
+		border-radius: 6px;
+		border-width: 2px;
+		padding: 5px;
+		background-color: var(--accent-black);
+	}
+
+	.help-box:hover div {
+		display: block;
+		position: absolute;
+		bottom: 100%;
+		right: 100%;
+	}
+
 </style>
