@@ -76,7 +76,7 @@
 </script>
 
 <!-- svg used as canvas for d3 plotting -->
-<svg {width} {height} viewBox="0 0 {width} {height}" id="celest">
+<svg {width} {height} viewBox="0 0 {width} {height}" id="hr-plot">
 	<g transform="translate(0, {margin.h})" bind:this={xAxisLog}></g>
     <g transform="translate({margin.v}, 0)" bind:this={yAxisLog}></g>
 	
