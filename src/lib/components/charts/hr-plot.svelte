@@ -24,12 +24,12 @@
 		Math.min(...stars.map((stars3) => stars3.lum)),
 	];
 	const cinExtent = [
-		Math.min(...stars.map((stars3) => stars3.ci)),
-		Math.max(...stars.map((stars3) => stars3.ci)),
+		-0.39, // Math.min(...stars.map((stars3) => stars3.ci)),
+		 2.19, // Math.max(...stars.map((stars3) => stars3.ci)),
 	];
 	const magExtent = [
-		Math.min(...stars.map((stars3) => stars3.absmag)),
-		Math.max(...stars.map((stars3) => stars3.absmag)),
+		-7, // Math.min(...stars.map((stars3) => stars3.absmag)),
+		17, // Math.max(...stars.map((stars3) => stars3.absmag)),
 	];
 
 	$: xScaleLog = d3.scaleLog(tempExtent, [margin.v, width - margin.v]);
@@ -69,15 +69,39 @@
 				expr = null;
 		}
 	}
+
+	let offset = 55;
 </script>
 
 <!-- svg used as canvas for d3 plotting -->
 <svg {width} {height} viewBox="0 0 {width} {height}" id="hr-plot" class="svg-plot">
 	<g transform="translate(0, {margin.h})" bind:this={xAxisLog}></g>
 	<g transform="translate({margin.v}, 0)" bind:this={yAxisLog}></g>
-
+	
 	<g transform="translate(0, {height - margin.h})" bind:this={xAxisLin}></g>
 	<g transform="translate({width - margin.v}, 0)" bind:this={yAxisLin}></g>
+
+	<text transform={`translate(${width-offset},${height/2}) rotate(-90)`} dy="0.5ch">
+		<tspan>&#9664; escuro</tspan>
+		Magnitude Absoluta (M)
+		<tspan>claro &#9654;</tspan>
+	</text>
+	<text transform={`translate(${width/2},${offset})`} dy="0.5ch">
+		<tspan>&#9664; quente</tspan>
+		Temperatura (K)
+		<tspan>fria &#9654;</tspan>
+	</text>
+	<text transform={`translate(${width/2},${height-offset})`} dy="0.5ch">
+		<tspan>&#9664; azul</tspan>
+		Cor (B-V)
+		<tspan>vermelha &#9654;</tspan>
+	</text>
+	<text transform={`translate(${offset},${height/2}) rotate(-90)`} dy="0.5ch">
+		<tspan>&#9664; escuro</tspan>
+		log Luminosidade (L)
+		<tspan>claro &#9654;</tspan>
+	</text>
+
 
 	<g class="stars">
 		{#each stars as star}
@@ -94,6 +118,21 @@
 </svg>
 
 <style>
+	svg text {
+		fill: white;
+		text-anchor: middle;
+		font-family: 'Courier New', Courier, monospace;
+		font-weight: bold;
+		font-size: 10pt;
+	}
+
+	svg text tspan {
+		fill: gray;
+		text-anchor: middle;
+		font-family: 'Courier New', Courier, monospace;
+		/* font-weight: bold; */
+		font-size: 9pt;
+	}
 	.star {
 		opacity: 0;
 	}
