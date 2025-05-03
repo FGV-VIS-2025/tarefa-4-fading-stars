@@ -75,17 +75,20 @@
 		<div class="constellations">
 			{#each queriedCons as cons, index}
 				<div class="constellation">
-					<div class="cons-name"
-					   on:click={(evt) => (consPosition = consAngle[cons])}>
-					<a class="focus-button">Focar</a>
-					{consMap[cons]}
-					</div>
+					<button class="cons-name"
+							on:click={() => (consPosition = consAngle[cons])}
+							style="all:unset; cursor:pointer;">
+						<span class="focus-button">Focar:</span>
+						{consMap[cons]}
+					</button>
+
 					<input
+						alt=""
 						name="marker{cons}"
 						type="image"
-						src="{checkedCons[cons]? "visible.png" : "invisible.png"}"
+						src="{checkedCons[cons]? "eye-regular.svg" : "eye-slash-regular.svg"}"
 						class="show-button"
-						on:click={evt => checkedCons[cons] = !checkedCons[cons]}
+						on:click={() => checkedCons[cons] = !checkedCons[cons]}
 					/>
 				</div>
 			{/each}
@@ -196,6 +199,7 @@
 	}
 
 	.show-button {
+		margin: 0 2ch;
 		height: 1.1em;
 		filter: invert(100%);
 	}
