@@ -1,8 +1,10 @@
 <script>
     import Help from "$lib/components/Help.svelte";
 
-    // //Output of the component - a lat lon pair from the place the user searched and searched
+    //Output of the component - a lat lon pair from the place the user searched and searched
     export let coordinates = { lat: 0, lon: 0 };
+    export let action = null;
+
     //To get what the user typed
     let userInput;
     //To manage search success
@@ -124,14 +126,32 @@
         </div>
     {/if}
     {#if successfulSearch}
-        <p>
-            A cidade selecionada está localizada na latitude {coordinates.lat}°
-            e na longitude {coordinates.lon}°.
-        </p>
+        <p>A cidade selecionada está localizada na latitude {coordinates.lat}° e na longitude {coordinates.lon}°.</p>
+        <p on:mouseenter={evt => action = "rotate"}
+              on:mouseleave={evt => action = null}
+              class="rotation-trigger"
+        >Veja a movimentação do esfera celeste ao longo de um dia.</p>
     {/if}
-    <Help>
-        <p>TODO</p>
+	<Help>
+        <p>
+            A localização de um observador interfere na observação do esfera celeste: existem estrelas que
+            só são visíveis apenas do hemisfério sul, bem como estrelas que só são visíveis do hemisfério norte.
+        </p>
+        <p>
+            Como a Terra rotaciona em torno de um eixo um pouco deslocado em comparação com os polos, a
+            latitude da localização é o fator que determina quais estrelas nunca poderão ser vistas de um determinado
+            local, enquanto a longitude influencia em qual será o momento do dia em que determinado pedaço do esfera
+            celeste estará acima de um observador. Evidentemente, como a luz do sol impede a observação das estrelas,
+            na prática uma longitude diferente interferirá em que época do ano determinadas constelações serão vistas.
+        </p>
+        <p>
+            Essa ferramenta permite com que uma cidade seja pesquisada, e posiciona o esfera celeste para
+            coincidir com o pedaço visível da latitude dessa cidade. Após selecionar uma cidade, é fornecida
+            a opção de girar a esfera em torno do eixo, permitindo ver como o céu fica em diferentes partes
+            do dia, ignorando a luz solar.
+        </p>
     </Help>
+
 </div>
 
 <style>
@@ -192,4 +212,9 @@
         border-color: #2f05d9b6;
         background-color: #2f05d93a;
     }
+
+    .rotation-trigger {
+        text-decoration: underline;
+    }
+
 </style>
