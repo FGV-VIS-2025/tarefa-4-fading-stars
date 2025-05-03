@@ -107,7 +107,9 @@
 
 	//Place finder
 	let userCoordinates = { lat: 0, lon: 0 };
+	let placeAction = null;
 	$: customAngle = { X: -(userCoordinates.lat * Math.PI) / 180, Y: 0 };
+	$: highlightAction = placeAction;
 
 	//histogram inputs
 	let visibleStars = starsRaw;
@@ -173,7 +175,7 @@
 				percentage={percentageFiltered}
 			/>
 			<!-- 			<p>posição saída da constelation filter: {consPos.X}, {consPos.Y}</p> -->
-			<LocationFinder bind:coordinates={userCoordinates} />
+			<LocationFinder bind:coordinates={userCoordinates} bind:action = {placeAction}/>
 			<!-- 			<p>Magnitude máxima de saída da magnitude filter: {maxMagnitude}</p> -->
 			<!-- 			<p>posição saída da location finder: {userCoordinates.lat}, {userCoordinates.lon}</p> -->
 		</div>
@@ -209,7 +211,7 @@
 	<div class="scroll__graphic">
 		<div id="viz">
 			{#if innerHeight != null}
-				<HRPlot
+				<StarsPlot
 					starsRaw={starsFiltered}
 					linesRaw={linesFiltered}
 					{customAngle}
