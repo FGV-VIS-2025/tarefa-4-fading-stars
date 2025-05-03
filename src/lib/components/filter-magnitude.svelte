@@ -1,10 +1,48 @@
 <script>
     import Help from "$lib/components/Help.svelte";
+    import { onMount } from "svelte";
 
     import * as d3 from "d3";
     export let starsRaw; //Input of all stars, this slider never changes so it needs to be made with all the data
     export let maxMagnitude; //Output of the component - the max magnitude value selected
     export let percentage;
+    export let userCoordinates;
+
+    let canvas;
+    let canvasContext;
+    let img;
+    onMount(() => {
+        img = new Image();
+        img.onload = () => console.log("oiii");
+        img.src = "/world2024.png";
+        canvas.width = 100;
+        canvas.height = 100;
+        canvasContext = canvas.getContext("2d");
+	});
+
+	function getCoordinateMag(lat, lon){
+        console.log(lat, lon);
+        let x, y;
+        if(-65 <= lat && lat <= 75 && -180 <= lon && lon <= 180){
+            x = Math.floor((((lon*1) + 180) / 360) * img.width);
+            y = Math.floor(((75 - (lat*1)) / 140) * img.height);
+        }
+        console.log(x, y);
+        canvasContext.drawImage(img, -x, -y);
+        const pixel = canvasContext.getImageData(0, 0, 1, 1);
+        console.log(pixel);
+//        console.log(`RGB: (${pixel[0]}, ${pixel[1]}, ${pixel[2]})`);
+
+//         def latlon_para_pixel(lat, lon, largura=43200, altura=16800):
+// ...     if not (-65 <= lat <= 75):
+// ...         ...
+// ...     if not (-180 <= lon <= 180):
+// ...         ...
+// ...
+// ...     x = int((lon + 180) / 360 * largura)
+// ...     y = int((75 - lat) / 140 * altura)
+// ...     return x, y
+	};
 
     let maxDataMagnitude, minDataMagnitude;
     maxDataMagnitude = d3.max(starsRaw.map((star) => star.mag));
@@ -16,6 +54,9 @@
         .domain([minDataMagnitude, maxDataMagnitude])
         .range([0, 200]);
     $: maxMagnitude = linScale.invert(userBarInput);
+
+
+
 </script>
 
 <div class="container">
@@ -45,6 +86,7 @@
                     1,
                 )}%</span
             >
+            <button on:click = {evt => getCoordinateMag(userCoordinates.lat, userCoordinates.lon)}>aperta</button>
         </div>
     </div>
 
@@ -64,6 +106,8 @@
         </p>
     </Help>
 </div>
+
+<canvas bind:this={canvas}></canvas>
 
 <style>
     .container {

@@ -181,6 +181,7 @@
 				{starsRaw}
 				bind:maxMagnitude
 				percentage={percentageFiltered}
+				{userCoordinates}
 			/>
 			<!-- 			<p>posição saída da constelation filter: {consPos.X}, {consPos.Y}</p> -->
 			<LocationFinder bind:coordinates={userCoordinates} bind:action = {placeAction}/>
