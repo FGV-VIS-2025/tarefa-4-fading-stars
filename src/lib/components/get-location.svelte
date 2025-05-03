@@ -132,7 +132,7 @@
               class="rotation-trigger"
         >Veja a movimentação do esfera celeste ao longo de um dia.</p>
     {/if}
-	<Help>
+	<Help alignTop={false}>
         <p>
             A localização de um observador interfere na observação do esfera celeste: existem estrelas que
             só são visíveis apenas do hemisfério sul, bem como estrelas que só são visíveis do hemisfério norte.

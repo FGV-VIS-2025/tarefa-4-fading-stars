@@ -1,22 +1,30 @@
 <script>
+    import { fade } from "svelte/transition";
+
+    export let alignTop = true;
     let showHelp = false;
 </script>
 
 <button
     class="help-button"
     class:selected={showHelp}
-    on:mouseenter={() => (showHelp = true)}
+    on:click={() => (showHelp = !showHelp)}
     on:mouseleave={() => (showHelp = false)}
 >
     <!-- on:click={() => showHelp = !showHelp} -->
     ?
 </button>
 
-
-
 {#if showHelp}
-    <div class="overlay"></div>
-    <div class="help-div">
+    <div class="overlay" transition:fade={{ duration: 200 }}></div>
+    <div
+        role="complementary"
+        class="help-div"
+        class:top={alignTop}
+        class:bottom={!alignTop}
+        on:mouseenter={() => (showHelp = true)}
+        on:mouseleave={() => (showHelp = false)}
+    >
         <slot></slot>
     </div>
 {/if}
@@ -59,7 +67,6 @@
 
         width: 80%;
         left: 105%;
-        top: 0;
 
         border-style: solid;
         border-radius: 6px;
@@ -73,6 +80,14 @@
             display 0.3s ease,
             filter 0.3s ease,
             opacity 0.3s ease;
+    }
+
+    .help-div.top {
+        top: 0;
+    }
+
+    .help-div.bottom {
+        bottom: 0;
     }
 
     .overlay {
