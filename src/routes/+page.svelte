@@ -58,6 +58,12 @@
 				if (index === sizeSteps - 1 && direction === "up") {
 					vizElement.classList.add("focused");
 				}
+
+				if (index <= 0) {
+					plot = "hr";
+				} else if (index >= 0) {
+					plot = "sphere";
+				}
 			})
 			.onStepExit(({ element, direction, index }) => {
 				element.classList.remove("focused");
@@ -113,6 +119,8 @@
 	let visibleStars = starsRaw;
 
 	let snapCurr = null;
+
+	let plot = "hr";
 </script>
 
 <svelte:window bind:innerWidth bind:innerHeight />
@@ -209,7 +217,14 @@
 	<div class="scroll__graphic">
 		<div id="viz">
 			{#if innerHeight != null}
-				<HRPlot
+				<div class="plot" class:visible={plot=="hr"}>
+					<HRPlot
+					size={0.9 * innerHeight}
+					action={highlightAction}
+					/>
+				</div>
+				<div class="plot" class:visible={plot=="sphere"}>
+					<StarsPlot
 					starsRaw={starsFiltered}
 					linesRaw={linesFiltered}
 					{customAngle}
@@ -217,7 +232,10 @@
 					action={highlightAction}
 					bind:stars={visibleStars}
 					constellation={consPos.name}
-				/>
+
+					class="plot"
+					/>
+				</div>
 			{/if}
 		</div>
 	</div>
@@ -229,7 +247,7 @@
 	.debugbox {
 		scroll-snap-align: start;
 		background-color: antiquewhite;
-		height: 50vh;
+		height: 60vh;
 	}
 
 	.highlight {
@@ -253,8 +271,18 @@
 		flex: 1;
 	}
 
-	.step:not(.focused) {
+	.plot {
+		display: none;
+		opacity: 0;
+	}
+
+	.plot.visible {
 		display: block;
+		opacity: 1;
+	}
+
+	.step:not(.focused) {
+		pointer-events: none;
 		filter: blur(2px);
 		opacity: 0.5;
 	}

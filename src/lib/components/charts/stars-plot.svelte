@@ -35,7 +35,7 @@
 			angle.Y -= event.dx * dragSpeed;
 		});
 
-		d3.select("#celest").call(dragFun);
+		d3.select("#celestial-sphere").call(dragFun);
 	});
 
 	function rotate(d, angle) {
@@ -172,7 +172,7 @@
 </script>
 
 <!-- svg used as canvas for d3 plotting -->
-<svg {width} {height} viewBox="0 0 {width} {height}" id="celest">
+<svg {width} {height} viewBox="0 0 {width} {height}" id="celestial-sphere">
 	" <path
 		d={pathGenerator(graticule)}
 		fill="none"
