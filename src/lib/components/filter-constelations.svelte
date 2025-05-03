@@ -69,26 +69,24 @@
 
 <div class="container">
 	<h3>Filtre as constelações visíveis.</h3>
-	<div class="searchBox">
-		<label for="consSearch">Busque por uma constelação!</label>
-		<input type="text" id="consSearch" bind:value={userQuery} />
+	<div class="search-box">
+		<label for="cons-search">Busque por uma constelação!</label>
+		<input type="text" id="cons-search" bind:value={userQuery} />
 		<div class="constellations">
 			{#each queriedCons as cons, index}
 				<div class="constellation">
-					<a
-						class="showButton"
-						on:click={(evt) => (consPosition = consAngle[cons])}
-						>Focar
-					</a>
-					<label class="consName">
-						{consMap[cons]}
-						<input
-							name="marker{cons}"
-							class="showCheck"
-							type="checkbox"
-							bind:checked={checkedCons[cons]}
-						/>
-					</label>
+					<div class="cons-name"
+					   on:click={(evt) => (consPosition = consAngle[cons])}>
+					<a class="focus-button">Focar</a>
+					{consMap[cons]}
+					</div>
+					<input
+						name="marker{cons}"
+						type="image"
+						src="{checkedCons[cons]? "visible.png" : "invisible.png"}"
+						class="show-button"
+						on:click={evt => checkedCons[cons] = !checkedCons[cons]}
+					/>
 				</div>
 			{/each}
 		</div>
@@ -140,13 +138,13 @@
 		text-align: justify;
 	}
 
-	.searchBox {
+	.search-box {
 		position: relative;
 		width: 100%;
 		margin-bottom: 1ch;
 	}
 
-	#consSearch {
+	#cons-search {
 		width: 100%;
 		box-sizing: border-box;
 	}
@@ -175,32 +173,30 @@
 
 	.constellation {
 		margin: 0.5ch 0;
+		display: flex;
+		justify-content: space-between;
 	}
 
-	.showCheck {
-		display: none;
-	}
-
-	.searchBox:hover .constellations {
+	.search-box:hover .constellations {
 		display: flex;
 	}
 
-	.searchBox:focus-within .constellations {
+	.search-box:focus-within .constellations {
 		display: flex;
 	}
 
-	.constellation:hover .showCheck {
-		display: inline;
-	}
-
-	/* .consName{
-    color: black;
-} */
-
-	.showButton {
+	.cons-name {
 		cursor: pointer;
+	}
+
+	.focus-button {
 		color: #b4b4b4;
 		font-size: 80%;
 		text-decoration: underline;
+	}
+
+	.show-button {
+		height: 1.1em;
+		filter: invert(100%);
 	}
 </style>

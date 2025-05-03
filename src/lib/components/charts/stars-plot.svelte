@@ -163,9 +163,12 @@
 	}
 	$: {
 		console.log(constellation);
+		const curr = constellation
 		if (constellation != null) {
 			const timeout = setTimeout(() => {
-				constellation = null;
+				if(constellation == curr){
+					constellation = null;
+				}
 			}, 3000);
 		}
 	}
