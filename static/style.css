@@ -22,11 +22,10 @@ body, html {
 	color: var(--font-color);
 }
 
-svg {
+.svg-plot {
 	width: 100% !important;
 	height: auto !important;
 }
-
 
 .justified-text {
 	text-align: justify;

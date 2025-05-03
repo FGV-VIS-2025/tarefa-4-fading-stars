@@ -23,6 +23,9 @@
 
 	let highlightAction = null;
 	let vizElement = null;
+	let snapCurr = null;
+	let plot = "hr";
+
 	onMount(() => {
 		innerWidth = window.innerWidth;
 		innerHeight = window.innerHeight;
@@ -119,10 +122,6 @@
 
 	//histogram inputs
 	let visibleStars = starsRaw;
-
-	let snapCurr = null;
-
-	let plot = "hr";
 </script>
 
 <svelte:window bind:innerWidth bind:innerHeight />
@@ -234,8 +233,6 @@
 					action={highlightAction}
 					bind:stars={visibleStars}
 					constellation={consPos.name}
-
-					class="plot"
 					/>
 				</div>
 			{/if}

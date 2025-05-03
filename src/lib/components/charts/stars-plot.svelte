@@ -175,7 +175,7 @@
 </script>
 
 <!-- svg used as canvas for d3 plotting -->
-<svg {width} {height} viewBox="0 0 {width} {height}" id="celestial-sphere">
+<svg {width} {height} viewBox="0 0 {width} {height}" id="celestial-sphere" class="svg-plot">
 	" <path
 		d={pathGenerator(graticule)}
 		fill="none"
