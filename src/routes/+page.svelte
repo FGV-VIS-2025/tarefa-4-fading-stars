@@ -263,6 +263,7 @@
 	}
 
 	.scroll {
+		padding: 0 5%;
 		position: relative;
 		display: flex;
 	}
@@ -301,7 +302,9 @@
 	}
 
 	.scroll__text {
-		margin-top: 10%;
+		margin: 10% 0;
+		padding-right: 100px;
+		max-width: 40%;
 	}
 
 	.scroll__graphic {
@@ -315,8 +318,7 @@
 	}
 
 	.step {
-		padding: 100px;
-		padding-right: 150px;
+		padding: 100px 0;
 		scroll-snap-align: center;
 		scroll-snap-stop: always;
 		transition:
