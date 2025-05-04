@@ -118,11 +118,15 @@
         </div>
     {/if}
     {#if successfulSearch}
-        <p>A cidade selecionada está localizada na latitude {coordinates.lat.toFixed(2)}° e na longitude {coordinates.lon.toFixed(2)}°.</p>
+        <p><i>Latitude:</i> {coordinates.lat.toFixed(2)}°, <i>Longitude</i> {coordinates.lon.toFixed(2)}°</p>
+        Veja a:
         <p on:mouseenter={evt => action = "rotate"}
               on:mouseleave={evt => action = null}
               class="highlight"
-        >Veja a movimentação do esfera celeste ao longo de um dia.</p>
+        >movimentação da esfera celeste.</p>
+        <p>
+            <span class="tip">Sincronize a magnitude no filtro.</span>
+        </p>
     {/if}
 	<Help alignTop={false}>
         <p>
@@ -215,4 +219,8 @@
 		cursor: default;
 	}
 
+    .tip {
+		color: gray;
+		border-bottom: 2px dashed #aaa;
+	}
 </style>
