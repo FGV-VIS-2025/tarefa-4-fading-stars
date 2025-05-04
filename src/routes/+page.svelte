@@ -137,13 +137,13 @@
 		<li>Entender, de forma interativa e por meio de um diagrama já conhecido, como
 		é o ciclo de vida das estrelas e como suas classificações funcionam;</li>
 		<li>Explorar como o céu observado da terra sofre interferência de diversos
-		fatores, como latitude do observador e poluição lumionsa do local em que
+		fatores, como latitude do observador e poluição luminosa do local em que
 		está sendo feita a observação.</li>
 	</ol>
 	<p>
 		A coluna esquerda da página contém textos informativos que te guiarão pela
 		visualização, explicando os principais conceitos por trás das estrelas e
-		explicando como usar as ferramentas interativas que colocamos no site.
+		como utilizar as ferramentas interativas que colocamos no site.
 		Leia atentamente os textos e passe o mouse por cima de áreas
 		<span class="highlight">destacadas</span> para interagir com a página!
 	</p>
@@ -227,7 +227,6 @@
 					>
 					observa os polos celestes exatamente no horizonte.
 				</li>
-				<br />
 				<li>
 					A <i>longitude</i> determina no horário em que certa região do
 					céu estará visivel.
@@ -387,11 +386,11 @@
 		<ul>
 			<li>
 				<a href="https://github.com/pedrotokar" target="_blank">Pedro Santos Tokar</a>
- 				<img src="github-mark.svg">
+ 				<img src="github-mark.svg" alt="github">
 			</li>
 			<li>
-				<a href="https://github.com/vitor-n" target="_blank">Vitor Matheus do Nascimento Moreira</a>
- 				<img src="github-mark.svg">
+				<a href="https://github.com/vitor-n" target="_blank">Vitor do Nascimento</a>
+ 				<img src="github-mark.svg" alt="github">
 			</li>
 		</ul>
 	</div>
@@ -401,9 +400,9 @@
 	.introbox {
 		scroll-snap-align: start;
 		background-color: #e1d3c1;
-		height: 60vh;
-		padding: 5% 30% 0% 20%;
-		}
+		min-height: 50vh;
+		padding: 5% 30% 5% 20%;
+	}
 
 	.introbox h1 {
 		font-size: 300%;
@@ -417,12 +416,11 @@
 	.endbox {
 		scroll-snap-align: start;
 		background-color: #e1d3c1;
-		height: 60vh;
-		padding: 5% 20% 0% 10%;
+		min-height: 60vh;
+		padding: 5% 20% 5% 10%;
 		display: grid;
 		grid-template-columns: 70% 30%
-
-		}
+	}
 
 	.endbox div {
 		padding-right: 10%;
