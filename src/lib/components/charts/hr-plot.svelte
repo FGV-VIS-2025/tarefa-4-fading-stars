@@ -32,7 +32,6 @@
 		17, // Math.max(...stars.map((stars3) => stars3.absmag)),
 	];
 
-
 	$: xScaleLin = d3.scaleLinear(cinExtent, [margin.h, height - margin.h]);
 	$: yScaleLin = d3.scaleLinear(magExtent, [margin.h, height - margin.h]);
 
@@ -43,16 +42,19 @@
 	);
 
 	function color(temperature) {
-	const u = 8464 / temperature;
-	return (u - 2.1344 + Math.hypot(0.9936, u)) / 1.6928;
+		const u = 8464 / temperature;
+		return (u - 2.1344 + Math.hypot(0.9936, u)) / 1.6928;
 	}
 
 	let xAxisLog, yAxisLog, xAxisLin, yAxisLin;
 	const temperatures = [3000, 4000, 5000, 6000, 7000, 8000, 9000, 20000];
 	$: {
-		d3.select(xAxisLog).call(d3.axisTop(xScaleLin)
-					.tickValues(temperatures.map(color))
-					.tickFormat((_, i) => temperatures[i].toLocaleString("pt")));
+		d3.select(xAxisLog).call(
+			d3
+				.axisTop(xScaleLin)
+				.tickValues(temperatures.map(color))
+				.tickFormat((_, i) => temperatures[i].toLocaleString("pt")),
+		);
 
 		d3.select(yAxisLog).call(d3.axisLeft(yScaleLog));
 
@@ -86,12 +88,22 @@
 	let showCross = false;
 	let x, y;
 
+	function updateBackground(textId, bgId) {
+		const text = d3.select(textId);
+		const bbox = text.node().getBBox();
+		d3.select(bgId)
+			.attr("x", bbox.x - 4)
+			.attr("y", bbox.y - 2)
+			.attr("width", bbox.width + 8)
+			.attr("height", bbox.height + 4);
+	}
+
 	function mouseMove(event) {
 		showCross = true;
 		[x, y] = d3.pointer(event);
 
 		const ci = xScaleLin.invert(x);
-		const tem = 4600 * (1/(0.92 * ci + 1.7) + 1/(0.92 * ci + 0.62));
+		const tem = 4600 * (1 / (0.92 * ci + 1.7) + 1 / (0.92 * ci + 0.62));
 		const absmag = yScaleLin.invert(y);
 		const lum = yScaleLog.invert(y);
 
@@ -113,12 +125,16 @@
 			.attr("y", y)
 			.attr("text-anchor", "end");
 
-
 		d3.select("#tem-value")
 			.text(`${tem.toFixed(0)}K`)
 			.attr("x", x)
 			.attr("y", margin.h + offset)
 			.attr("text-anchor", "middle");
+
+		updateBackground("#ci-value", "#ci-bg");
+		updateBackground("#lum-value", "#lum-bg");
+		updateBackground("#absmag-value", "#absmag-bg");
+		updateBackground("#tem-value", "#tem-bg");
 	}
 
 	function mouseLeave(event) {
@@ -168,10 +184,22 @@
 				x2={width - margin.v}
 			/>
 
-			<text id="ci-value" dy="0.5ch"></text>
-			<text id="lum-value" dy="0.5ch"></text>
-			<text id="absmag-value" dy="0.5ch"></text>
-			<text id="tem-value" dy="0.5ch"></text>
+			<g id="ci-label">
+				<rect id="ci-bg" fill="var(--accent-black)"></rect>
+				<text id="ci-value" dy="0.5ch" fill="white"></text>
+			</g>
+			<g id="lum-label">
+				<rect id="lum-bg" fill="var(--accent-black)"></rect>
+				<text id="lum-value" dy="0.5ch" fill="white"></text>
+			</g>
+			<g id="absmag-label">
+				<rect id="absmag-bg" fill="var(--accent-black)"></rect>
+				<text id="absmag-value" dy="0.5ch" fill="white"></text>
+			</g>
+			<g id="tem-label">
+				<rect id="tem-bg" fill="var(--accent-black)"></rect>
+				<text id="tem-value" dy="0.5ch" fill="white"></text>
+			</g>
 		</g>
 	{/if}
 
