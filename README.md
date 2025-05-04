@@ -14,9 +14,9 @@ ou storytelling de um conjunto de dados da escolha do grupo.
 
 No nosso trabalho, optamos por usar conjuntos de dados relacionados
 às estrelas e às constelações. Informações sobre a fonte dos dados podem ser
-encontradas na página da visualização. Para facilitar o desenvolvimento e permitir
-uma melhor modularização de nossa base de código, optamos por usar o framework
-[Svelte](https://svelte.dev/).
+encontradas no final da página da visualização. Para facilitar o desenvolvimento
+e permitir uma melhor modularização de nossa base de código, optamos por usar o
+framework [Svelte](https://svelte.dev/).
 
 Os principais objetivos da visualização são:
 

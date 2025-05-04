@@ -126,7 +126,31 @@
 
 <svelte:window bind:innerWidth bind:innerHeight />
 
-<div class="debugbox"></div>
+<div class="introbox">
+	<h1>Fading Stars</h1>
+	<p>
+		Bem vindo à nossa visualização interativa sobre as
+		<a href="https://pt.wikipedia.org/wiki/Estrela" target="_blank">estrelas</a>!
+		Explorando essa página, você poderá:
+	</p>
+	<ol>
+		<li>Entender, de forma interativa e por meio de um diagrama já conhecido, como
+		é o ciclo de vida das estrelas e como suas classificações funcionam;</li>
+		<li>Explorar como o céu observado da terra sofre interferência de diversos
+		fatores, como latitude do observador e poluição lumionsa do local em que
+		está sendo feita a observação.</li>
+	</ol>
+	<p>
+		A coluna esquerda da página contém textos informativos que te guiarão pela
+		visualização, explicando os principais conceitos por trás das estrelas e
+		explicando como usar as ferramentas interativas que colocamos no site.
+		Leia atentamente os textos e passe o mouse por cima de áreas
+		<span class="highlight">destacadas</span> para interagir com a página!
+	</p>
+	<p>
+		Desenvolvido por Pedro Tokar e Vitor do Nascimento.
+	</p>
+</div>
 
 <div class="scroll">
 	<div class="scroll__text">
@@ -252,14 +276,102 @@
 	</div>
 </div>
 
-<div class="debugbox"></div>
+<div class="endbox">
+	<div>
+		<h2>Origem dos dados</h2>
+		<p>Utilizamos, no total, quatro bases de dados e uma API pública para o desenvolvimento
+		do site. As informações de cada uma, bem como links para acesso, estão disponíveis a seguir:</p>
+		<ul>
+			<li>
+				A Base de Dados HYG, disponível no site
+				<a href="https://www.astronexus.com/projects/hyg-details" target="_blank">
+				Astronexus</a>. Essa é a principal base do projeto, e contém diversas variáveis
+				sobre aproximadamente 150 mil estrelas. Todas as informações relacionadas
+				a estrelas individuais, incluindo suas posições, são retiradas dessa base.
+			</li>
+			<li>
+				Um dataset de constelações, que contém as informações de quais ligações
+				entre estrelas contituem cada constelação. Utilizamos esse dataset para
+				poder traçar as linhas das constelações e poder realizar a filtragem delas.
+				Foi necessário realizar algumas alterações manuais nessa base de dados para
+				adequá-la a base HYG. A base pode ser encontrada <a href="https://zenodo.org/records/10401591"
+				target="_blank">aqui</a>.
+			</li>
+			<li>
+				Um pequeno dataset, também sobre as constelações, para obter as correspondências
+				entre suas siglas e seus nomes em inglês. Disponível no
+				<a href="https://www.kaggle.com/datasets/stpeteishii/iau-designated-constellations"
+				target="_blank">Kaggle</a>.
+			</li>
+			<li>
+				O <a href="https://djlorenz.github.io/astronomy/lp/" target="_blank">
+				Light Pollution Atlas</a>, um projeto que usa imagens de satelite para criar
+				um mapa com a distribuição da poluição luminosa ao redor do mundo.
+			</li>
+			<li>
+				A API aberta do <a href="https://nominatim.org/release-docs/develop/api/Overview/"
+				target="_blank">Nominatim</a>, um serviço parte do OpenStreetMap que oferece a busca
+				de locais específicos, retornando diversas informações de um local que corresponde
+				à busca, incluindo localização. Utilizamos esta API para fornecer os resultados
+				da busca por cidades.
+			</li>
+		</ul>
+	</div>
+	<div>
+		<h2>Sobre a página</h2>
+		<p>
+			Essa página foi desenvolvida como entrega para uma tarefa da disciplina
+			de Visualização de Dados, matéria da graduação em Ciência de Dados e Inteligência
+			Artifical da FGV-EMAp. Acesse o
+			<a href="https://github.com/FGV-VIS-2025/tarefa-4-fading-stars" target="_blank">
+			GitHub do projeto</a> para saber mais sobre as motivações por trás da tarefa.
+		</p>
+		<h2>Autores</h2>
+		<ul>
+			<li>Pedro Santos Tokar
+			<a href="https://github.com/pedrotokar" target="_blank" style="font-size: 80%">(GitHub)</a></li>
+			<li>Vitor Matheus do Nascimento Moreira
+			<a href="https://github.com/vitor-n" target="_blank" style="font-size: 80%">(GitHub)</a></li>
+		</ul>
+	</div>
+</div>
 
 <style>
-	.debugbox {
+	.introbox {
 		scroll-snap-align: start;
-		background-color: antiquewhite;
+		background-color: #e1d3c1;
 		height: 60vh;
+		padding: 5% 30% 0% 20%;
+		}
+
+	.introbox h1 {
+		font-size: 300%;
 	}
+
+	.introbox * {
+		color: black;
+		text-align: justify;
+	}
+
+	.endbox {
+		scroll-snap-align: start;
+		background-color: #e1d3c1;
+		height: 60vh;
+		padding: 5% 20% 0% 10%;
+		display: grid;
+		grid-template-columns: 70% 30%
+
+		}
+
+	.endbox div {
+		padding-right: 10%;
+	}
+
+	.endbox * {
+		color: black;
+		text-align: justify;
+	}
+
 
 	.highlight {
 		background-color: #f1f1f1;
