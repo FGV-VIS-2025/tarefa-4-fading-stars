@@ -157,30 +157,38 @@
 		<div class="step">
 			<h1><u>Diagrama HR</u></h1>
 			<p>
-				O <i>diagrama de Hertzprung-Russell (HR)</i> é muito conhecido na área da astronomia. 
-				Ele mostra a relação entre a magnitude absoluta ou luminosidade pela cor de uma estrela ou
-				temperatura efetiva. A criação desse diagrama foi um grande
-				avanço para o entendimento do ciclo de vida estelar.
+				O <i>diagrama de Hertzprung-Russell (HR)</i> é muito conhecido na
+				área da astronomia. Ele mostra a relação entre a magnitude absoluta
+				ou luminosidade pela cor de uma estrela ou temperatura efetiva. A
+				criação desse diagrama foi um grande avanço para o entendimento do
+				ciclo de vida estelar.
 			</p>
 			<p>
-				O ciclo se inicia a partir da formação de uma <i>proto-estrela</i>, e
-				quando a fusão nuclear se inicia a estrela entra na
-				<span class="highlight" data-action="mainseq">sequência principal.</span>
+				O ciclo se inicia a partir da formação de uma <i
+					>proto-estrela</i
+				>, e quando a fusão nuclear se inicia a estrela entra na
+				<span class="highlight" data-action="mainseq"
+					>sequência principal.</span
+				>
 				Todas estrelas entram nesse grupo em algum momento da sua vida.
 			</p>
 			<p>
-				O <span class="highlight" data-action="sun">Sol</span> por exemplo,
-				é uma estrela pequena da sequência principal.
+				O <span class="highlight" data-action="sun">Sol</span> por
+				exemplo, é uma estrela pequena da sequência principal.
+				<span class="tip"
+					>Passe o mouse sobre outras estrelas também.</span
+				>
 			</p>
 			<p>
-				Algumas estrelas são classificadas como 
+				Algumas estrelas são classificadas como
 				<span class="highlight" data-action="gig">gigantes</span>
 				podendo ser ou <i>gigantes azuis</i> ou
 				<i>gigantes vermelhas</i>. No caso das <i>vermelhas</i>, elas
 				surgem quando uma estrela pequena da sequência principal esgota
 				seu hidrogênio. Se a estrela for massiva, ao esgotar seu
 				hidrogênio ela se torna uma
-				<span class="highlight" data-action="supgig">super-gigante</span>
+				<span class="highlight" data-action="supgig">super-gigante</span
+				>
 				<i>vermelha</i>.
 			</p>
 			<p>
@@ -190,20 +198,69 @@
 				<i>gigante vermelha</i>
 			</p>
 			<p>
-				Algo curioso, é que estrelas mais quentes possuem tonalidade 
-				<span style="color: #b5c4f0">azul</span>, 
-				enquanto estrelas mais frias tem tonalidade
-				<span style="color: #d97923">vermelha</span>. Note também que estrelas mais brilhantes tem magnitude menor.
+				Algo curioso, é que estrelas mais quentes possuem tonalidade
+				<span style="color: #b5c4f0">azul</span>, enquanto estrelas mais
+				frias tem tonalidade
+				<span style="color: #d97923">vermelha</span>. Note também que
+				estrelas mais brilhantes tem magnitude menor.
 			</p>
 		</div>
 		<div class="step">
-			Hello, I'm testing a highlight: <span
-				class="highlight"
-				data-action="latitude">highlight</span
-			>
+			<h1><u>Esfera Celestial</u></h1>
 
-			Hello, I'm testing another highlight:
-			<span class="highlight" data-action="rotate">highlight</span>
+			<p>
+				A <i>Esfera Celestial</i> é uma representação geocêntrica imaginária
+				usada para mapear estrelas e constelações. A forma como o céu é visto
+				depende da posição do observador na Terra:
+			</p>
+			<p>
+				<li>
+					A <i>latitude</i> define a altura do polo celeste acima do
+					horizonte. Por exemplo, um observador que está na
+					<span class="highlight" data-action="latitude-90"
+						>latitude 90ºS</span
+					>
+					vê somente metade da esfera celeste, enquanto um observador que
+					está na
+					<span class="highlight" data-action="latitude-0"
+						>latitude 0º</span
+					>
+					observa os polos celestes exatamente no horizonte.
+				</li>
+				<br />
+				<li>
+					A <i>longitude</i> determina no horário em que certa região do
+					céu estará visivel.
+				</li>
+			</p>
+			<p>
+				A visão completa do céu resulta por fim da combinação entre <i
+					>latitude</i
+				>, <i>longitude</i> e
+				<span class="highlight" data-action="rotate">rotação</span>
+				da esfera celeste. Note que a depender da <i>latitude</i>, certa
+				parte do céu nunca poderá ser vista.
+				<span class="tip">Experimente arrastar a esfera.</span>
+			</p>
+			<p>
+				As <i>constelações</i>, são linhas imaginárias criadas por
+				diferentes culturas para representar mitos, animais ou objetos.
+				Atualmente são reconhecidas 88 constelações pela IAU, sendo
+				<span class="highlight" data-action="orion"> Orion </span>
+				uma das mais conhecidas.
+			</p>
+			<p>
+				Obviamente,
+				<span class="highlight" data-action="hide"
+					>não vemos linhas</span
+				>
+				no céu, mas algo que também estamos vendo cada vez menos são as próprias
+				estrelas. Estrelas com alta magnitude <i>(as menores na esfera celeste)</i>
+				se tornam invisiveis a olho nu por conta da 
+				<span class="highlight" data-action="pollution">
+					poluição luminosa.
+				</span>
+			</p>
 		</div>
 		<div class="step" style="padding-top:10%;">
 			<ConstelationFilter
@@ -455,5 +512,10 @@
 		transition:
 			filter 0.3s ease,
 			opacity 0.3s ease;
+	}
+
+	.tip {
+		color: gray;
+		border-bottom: 2px dashed #aaa;
 	}
 </style>
