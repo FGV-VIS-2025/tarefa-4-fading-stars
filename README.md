@@ -2,19 +2,29 @@
 
 *Desenvolvido por Pedro Santos Tokar e Vitor Matheus do Nascimento Moreira.*
 
+-------------------------------------------------------------------------------
+
 ## Sobre o projeto
 
 Este repositório contém a nossa submissão da tarefa 4 da disciplina de Visualização
 de Dados, do 5º período da graduação de Ciência de Dados e Inteligência Artificial
-da FGV-EMAp. O trabalho consiste em implementar, em [**D3.js**](https://d3js.org/),
-uma visualização que permite a exploração interativa ou storytelling de um
-conjunto de dados da escolha do grupo.
+da FGV-EMAp. O trabalho consiste em implementar, com a biblioteca
+[D3.js](https://d3js.org/), uma visualização que permite a exploração interativa
+ou storytelling de um conjunto de dados da escolha do grupo.
 
 No nosso trabalho, optamos por usar conjuntos de dados relacionados
 às estrelas e às constelações. Informações sobre a fonte dos dados podem ser
 encontradas na página da visualização. Para facilitar o desenvolvimento e permitir
 uma melhor modularização de nossa base de código, optamos por usar o framework
 [Svelte](https://svelte.dev/).
+
+Os principais objetivos da visualização são:
+
+1. Mostrar, de forma interativa e usando um diagrama já conhecido, como é o
+ciclo de vida das estrelas e como suas classificações funcionam;
+2. Mostrar, também de forma interativa, como o céu observado da terra sofre
+interferência de diversos fatores, como latitude do observador e poluição
+lumionsa do local em que está sendo feita a observação.
 
 ## Como acessar a visualização.
 
@@ -135,3 +145,12 @@ para o cálculo dos histogramas.
 ## Processo de desenvolvimento
 
 TODO.
+
+## Uso de GPT
+
+Durante o trabalho, LLMs foram úteis principalmente para ter ideias de como
+implementar certas ferramentas, e em como fazer certos efeitos com CSS e JavaScript.
+Como essas linguagens tem uma ampla documentação e uma ampla gama de recursos, o
+GPT foi uma boa ferramenta para ajudar a localizar quais desses recursos poderiam
+ser usados para implementar alguma coisa específica, e para sumarizar a documentação
+delas.
