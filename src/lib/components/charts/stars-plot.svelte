@@ -39,13 +39,18 @@
 	});
 
 	function rotate(d, angle) {
-		let x, y, z;
-		x = d.x_proj * Math.cos(angle.Y) - d.z_proj * Math.sin(angle.Y);
-		z = d.x_proj * Math.sin(angle.Y) + d.z_proj * Math.cos(angle.Y);
-		y = d.y_proj * Math.cos(angle.X) - z * Math.sin(angle.X);
-		z = d.y_proj * Math.sin(angle.X) + z * Math.cos(angle.X);
+		const cosY = Math.cos(angle.Y);
+		const sinY = Math.sin(angle.Y);
+		const cosX = Math.cos(angle.X);
+		const sinX = Math.sin(angle.X);
 
-		return { ...d, x: x, y: y, z: z };
+		const x1 = d.x_proj * cosY - d.z_proj * sinY;
+		const z1 = d.x_proj * sinY + d.z_proj * cosY;
+
+		const y1 = d.y_proj * cosX - z1 * sinX;
+		const z2 = d.y_proj * sinX + z1 * cosX;
+
+		return { ...d, x: x1, y: y1, z: z2 };
 	}
 
 	function angleAnimation(newAngle, ignoreY = false) {
