@@ -181,6 +181,20 @@
 
 	<g class:cross-hidden={!showCross}>
 		<line
+			class="crosshair-bg"
+			x1={x}
+			x2={x}
+			y1={height - margin.h}
+			y2={margin.h}
+		/>
+		<line
+			class="crosshair-bg"
+			y1={y}
+			y2={y}
+			x1={margin.v}
+			x2={width - margin.v}
+		/>
+		<line
 			id="v-line"
 			class="crosshair"
 			x1={x}
@@ -282,6 +296,12 @@
 		stroke: crimson;
 		stroke-width: 2;
 		stroke-dasharray: 5 2;
+		pointer-events: none;
+	}
+
+	.crosshair-bg {
+		stroke: var(--accent-black);
+		stroke-width: 4;
 		pointer-events: none;
 	}
 

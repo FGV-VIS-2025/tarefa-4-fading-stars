@@ -31,6 +31,7 @@
 
 <style>
     .help-button {
+        background-color: var(--accent-black);
         cursor: pointer;
         width: 2.5ch;
         height: 2.5ch;
