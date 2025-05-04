@@ -28,28 +28,20 @@
                 successfulRequest = true;
                 if (data.length > 0) {
                     console.log(data);
+                    let possible_fields = ["city", "municipality", "town", "village"]
                     //idk if this will stay here...
                     for (let result of data) {
-                        if (result.address.city != null) {
-                            result.display_text =
-                                result.address.city +
-                                " - " +
-                                result.address.country;
-                        } else if (result.address.municipality != null) {
-                            result.display_text =
-                                result.address.municipality +
-                                " - " +
-                                result.address.country;
-                        } else if (result.address.town != null) {
-                            result.display_text =
-                                result.address.town +
-                                " - " +
-                                result.address.country;
-                        } else {
-                            result.display_text = result.display_name;
+                        result.display_text = result.display_name;
+                        for (let field of possible_fields){
+                            if (result.address[field] != null) {
+                                result.display_text = result.address[field];
+                                if(result.address.state != null){result.display_text += " - " + result.address.state;}
+                                result.display_text += " - " + result.address.country;
+                                break;
+                            }
                         }
                     }
-                    successfulSearch = true; //
+                    successfulSearch = true;
                     searchResults = data;
                     selectedResult = 0;
                 } else {
