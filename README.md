@@ -13,8 +13,8 @@ da FGV-EMAp. O trabalho consiste em implementar, com a biblioteca
 ou storytelling de um conjunto de dados da escolha do grupo.
 
 No nosso trabalho, optamos por usar conjuntos de dados relacionados
-às estrelas e às constelações. _Informações sobre a fonte dos dados podem ser
-encontradas no final da página da visualização._ Para facilitar o desenvolvimento
+às estrelas e às constelações. __Informações sobre a fonte dos dados podem ser
+encontradas no final da página da visualização.__ Para facilitar o desenvolvimento
 e permitir uma melhor modularização de nossa base de código, optamos por usar o
 framework [Svelte](https://svelte.dev/).
 
@@ -158,7 +158,7 @@ a introdução dos snaps, e depois o foco foi tanto para os histogramas quanto p
 o diagrama HR. Uma versão inicial deles ficou pronta, coincidindo com a data da
 apresentação do MVP.
 
-Após a apresentação, as seguintes ferramemntas foram incorporadas de acordo com
+Após a apresentação, as seguintes ferramentas foram incorporadas de acordo com
 as sugestões dos colegas e do professor:
 
 - Melhoria do diagrama HR;
@@ -176,13 +176,37 @@ o presente relatório, além de mudanças de estilo que foram se fazendo necess�
 Diferentes highlights foram sendo adicionados a mais junto com a escrita dos textos
 finais da página.
 
-A estimativa é de que tenham sido desempenhadas 45h por membro do grupo no
-desenvolvimento do trabalho, sendo um pouco mais da metade empenhada após a apresentação
-do MVP. As implementações que mais contribuiram para essa estimativa de tempo incluem:
+As implementações que consumiram tempo incluem:
 o diagrama HR, os snaps e o scroll da página, a integração entre a busca de
 cidades e o filtro de magnitude e o foco em constelações específicas. Além disso,
 a correção de pequenas falhas no dataset de constelações também tomou certo tempo,
 mesmo não sendo uma tarefa de implementação.
+
+### Divisão de tarefas
+
+Durante o desenvolvimento, ambos os membros do grupo fizeram alterações em praticamente
+todas as partes do site. Ainda assim, é possível separar de forma aproximada em que
+partes cada um focou:
+
+Pedro: adição de tooltip na visualização da esfera, confecção da busca por cidades,
+do filtro de magnitude e do filtro de constelações, desenvolvimento dos histogramas
+filtrados, redação dos textos de ajuda, desenvolvimento da integração da busca por
+cidades com o filtro de magnitude, redação de textos explicativos no começo e
+fim da página.
+
+Vitor: desenvolvimento incial da esfera celeste, incluindo movimentação interativa e
+constelações, estilização do layout e configuração do scroll da página,
+desenvolvimento do diagrama HR, desenvolvimento dos highlights interativos,
+redação dos textos laterais e integração deles com os highlights.
+
+Novamente, ressaltamos que *ambos os membros fizeam alterações em quase todas as partes
+das visualizações e filtros*, sendo essa divisão apenas uma ideia do que cada um
+majoritariamente se concentrou. Diversas reuniões e conversas foram feitas para
+alinhar os detalhes do desenvolvimento e acompanhar o que faltava ser implementado.
+
+A estimativa é de que tenham sido desempenhadas 45h por membro do grupo no
+desenvolvimento do trabalho, sendo um pouco mais da metade empenhada após a apresentação
+do MVP.
 
 ## Uso de GPT
 
