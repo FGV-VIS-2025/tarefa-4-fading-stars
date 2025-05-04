@@ -8,11 +8,15 @@
 	--border-color: #FFFFFF;
 }
 
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif&display=swap');
+
 /*Regras gerais de conteúdo para o corpo de todas as páginas*/
 body, html {
 	margin: 0;
 	padding: 0;
 	background-color: var(--accent-black);
+	font-family: "Noto Serif", sans-serif;
+/* 	font-family: Verdana, sans-serif; */
 
 	scroll-snap-type: y proximity;
 	scroll-behavior: smooth;

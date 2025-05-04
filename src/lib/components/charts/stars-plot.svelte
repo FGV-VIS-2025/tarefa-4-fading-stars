@@ -214,10 +214,15 @@
 			}, 3000);
 		}
 	}
+
+	let svgFocus = false;
 </script>
 
 <!-- svg used as canvas for d3 plotting -->
-<svg {width} {height} viewBox="0 0 {width} {height}" id="celestial-sphere" class="svg-plot">
+<svg {width} {height} viewBox="0 0 {width} {height}" id="celestial-sphere" class="svg-plot"
+	role="figure"
+	on:mouseenter={() => svgFocus = true}
+	on:mouseleave={() => svgFocus = false}>
 	{#if action !== "hide"}
 	<path
 		d={pathGenerator(graticule)}
@@ -266,6 +271,7 @@
 		{/each}
 	</g>
 </svg>
+{#if svgFocus}
 <!-- Tooltip container - use dl tag since its key value-->
 <dl
 	class="info tooltip"
@@ -304,7 +310,7 @@
 		<dd>{consMap[hoveredStar.con]}</dd>
 	{/if}
 </dl>
-
+{/if}
 <style>
 	circle {
 		transition: 0ms;
