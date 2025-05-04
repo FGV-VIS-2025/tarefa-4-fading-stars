@@ -134,7 +134,7 @@
 			hoveredIndex = index;
 			cursorPos = { x: evt.x, y: evt.y };
 			tooltipPos = await computePosition(hoveredDot, starTooltip, {
-				strategy: "fixed",
+				strategy: "absolute",
 				middleware: [offset(5), autoPlacement()],
 			});
 		} else if (evt.type == "mouseleave") {
@@ -218,7 +218,6 @@
 		{/each}
 	</g>
 </svg>
-
 <!-- Tooltip container - use dl tag since its key value-->
 <dl
 	class="info tooltip"
@@ -317,7 +316,7 @@
 	}
 
 	.tooltip {
-		position: fixed;
+		position: absolute;
 		top: 1em;
 		left: 1em;
 	}

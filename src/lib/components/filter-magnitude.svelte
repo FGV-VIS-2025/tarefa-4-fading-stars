@@ -36,11 +36,11 @@
         img.onload = () => {
             canvas.width = img.width;
             canvas.height = img.height;
-            canvasContext = canvas.getContext("2d");
+            canvasContext = canvas.getContext("2d", { willReadFrequently: true });
             canvasContext.drawImage(img, 0, 0);
             imgMounted = true;
         }
-        img.src = "/world2024_low3.png";
+        img.src = "./world2024_low3.png";
 
 	});
 
@@ -59,17 +59,19 @@
 
         let newUBI = linScale(rgbMap[rgb]);
         let originalUBI = userBarInput;
+        if (newUBI != originalUBI){
 
-        const duration = Math.abs(rgbMap[rgb] - maxMagnitude) * 300;
-		const start = Date.now();
-		const transitionTimer = d3.timer(() => {
-			const elapsed = Date.now() - start;
-			const t = Math.min(1, elapsed / duration);
-            userBarInput = (newUBI - originalUBI)*t + originalUBI;
-			if (t >= 1) {
-				transitionTimer.stop();
-			}
-		});
+            const duration = Math.abs(rgbMap[rgb] - maxMagnitude) * 300;
+            const start = Date.now();
+            const transitionTimer = d3.timer(() => {
+                const elapsed = Date.now() - start;
+                const t = Math.min(1, elapsed / duration);
+                userBarInput = (newUBI - originalUBI)*t + originalUBI;
+                if (t >= 1) {
+                    transitionTimer.stop();
+                }
+            });
+        }
 	};
 
     let maxDataMagnitude, minDataMagnitude;
