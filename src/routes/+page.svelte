@@ -328,10 +328,14 @@
 		</p>
 		<h2>Autores</h2>
 		<ul>
-			<li>Pedro Santos Tokar
-			<a href="https://github.com/pedrotokar" target="_blank" style="font-size: 80%">(GitHub)</a></li>
-			<li>Vitor Matheus do Nascimento Moreira
-			<a href="https://github.com/vitor-n" target="_blank" style="font-size: 80%">(GitHub)</a></li>
+			<li>
+				<a href="https://github.com/pedrotokar" target="_blank">Pedro Santos Tokar</a>
+ 				<img src="github-mark.svg">
+			</li>
+			<li>
+				<a href="https://github.com/vitor-n" target="_blank">Vitor Matheus do Nascimento Moreira</a>
+ 				<img src="github-mark.svg">
+			</li>
 		</ul>
 	</div>
 </div>
@@ -370,6 +374,13 @@
 	.endbox * {
 		color: black;
 		text-align: justify;
+	}
+
+	li {
+		margin: 1em 0;
+	}
+	li img {
+		height: 1em;
 	}
 
 
