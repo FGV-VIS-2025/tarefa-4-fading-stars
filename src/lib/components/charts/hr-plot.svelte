@@ -19,7 +19,7 @@
 	let x, y;
 
 	const stars = starsRaw.filter(
-		(d) => d.tem != null && d.lum < 100000 && d.ci <= 2.19,
+		(d) => d.tem != null && d.absmag > -7 && -0.39 <= d.ci && d.ci <= 2.19,
 	);
 
 	const tempExtent = [

@@ -4,7 +4,7 @@
 
 	import StarsPlot from "$lib/components/charts/stars-plot.svelte";
 	import HRPlot from "$lib/components/charts/hr-plot.svelte";
-	
+
 	import StarsHistogram from "$lib/components/star-histogram.svelte";
 	//Components - filters
 	import LocationFinder from "$lib/components/get-location.svelte";
@@ -101,7 +101,7 @@
 	//Constelation Filter
 	let selectedCons = [];
 	let linesFiltered = {};
-	let consPos = {position: { X: 0, Y: 0 }, name: ""};
+	let consPos = { position: { X: 0, Y: 0 }, name: "" };
 	$: linesFiltered = linesRaw.filter(
 		([A, B]) =>
 			selectedCons.includes(A.con) &&
@@ -131,35 +131,45 @@
 <div class="scroll">
 	<div class="scroll__text">
 		<div class="step">
+			<h1><u>Diagrama HR</u></h1>
 			<p>
-				O diagrama de Hertzprung-Russell, também conhecido como diagrama
-				HR, é um tipo de visualização muito conhecida na astronomia. Ele
-				consiste em um scatterplot que mostra relações entre magnitude
-				(luminosidade) absoluta de diversas estrelas com suas
-				respectivas temperaturas.
+				O <i>diagrama de Hertzprung-Russell (HR)</i> é muito conhecido na área da astronomia. 
+				Ele mostra a relação entre a magnitude absoluta ou luminosidade pela cor de uma estrela ou
+				temperatura efetiva. A criação desse diagrama foi um grande
+				avanço para o entendimento do ciclo de vida estelar.
 			</p>
 			<p>
-				Essa forma de representação ignora a posição das estrelas em
-				relação à Terra, já que seu objetivo é mostrar que existem
-				relações entre os atributos plotados das estrelas. Essas
-				relações evidenciam o ciclo de vida de uma estrela.
+				O ciclo se inicia a partir da formação de uma <i>proto-estrela</i>, e
+				quando a fusão nuclear se inicia a estrela entra na
+				<span class="highlight" data-action="mainseq">sequência principal.</span>
+				Todas estrelas entram nesse grupo em algum momento da sua vida.
 			</p>
 			<p>
-				A formação de uma estrela inicia com a concentração de gás
-				hidrogênio em um único ponto. A temperatura e luminosidade desse
-				ponto, que é a estrela em formação, são altíssimos. Essas são as
-				estrelas localizadas no canto superior esquerdo do diagrama
+				O <span class="highlight" data-action="sun">Sol</span> por exemplo,
+				é uma estrela pequena da sequência principal.
 			</p>
 			<p>
-				Depois de milhões de anos nesse estado, o gás hidrogênio vai se
-				esgotando, e a estrela pode seguir por dois caminhos diferentes:
-				se tornar uma anã branca ou uma gigante vermelha.
-
-				<span class="highlight" data-action="mainseq">highlight</span>
-				<span class="highlight" data-action="supgig">highlight</span>
-				<span class="highlight" data-action="gig">highlight</span>
-				<span class="highlight" data-action="dwarf">highlight</span>
-				<span class="highlight" data-action="sun">highlight</span>
+				Algumas estrelas são classificadas como 
+				<span class="highlight" data-action="gig">gigantes</span>
+				podendo ser ou <i>gigantes azuis</i> ou
+				<i>gigantes vermelhas</i>. No caso das <i>vermelhas</i>, elas
+				surgem quando uma estrela pequena da sequência principal esgota
+				seu hidrogênio. Se a estrela for massiva, ao esgotar seu
+				hidrogênio ela se torna uma
+				<span class="highlight" data-action="supgig">super-gigante</span>
+				<i>vermelha</i>.
+			</p>
+			<p>
+				Por fim, surgem em sequência as
+				<span class="highlight" data-action="dwarf">anãs-brancas</span>
+				que são o estágio final de uma estrela que foi
+				<i>gigante vermelha</i>
+			</p>
+			<p>
+				Algo curioso, é que estrelas mais quentes possuem tonalidade 
+				<span style="color: #b5c4f0">azul</span>, 
+				enquanto estrelas mais frias tem tonalidade
+				<span style="color: #d97923">vermelha</span>. Note também que estrelas mais brilhantes tem magnitude menor.
 			</p>
 		</div>
 		<div class="step">
@@ -184,7 +194,10 @@
 				{userCoordinates}
 			/>
 			<!-- 			<p>posição saída da constelation filter: {consPos.X}, {consPos.Y}</p> -->
-			<LocationFinder bind:coordinates={userCoordinates} bind:action = {placeAction}/>
+			<LocationFinder
+				bind:coordinates={userCoordinates}
+				bind:action={placeAction}
+			/>
 			<!-- 			<p>Magnitude máxima de saída da magnitude filter: {maxMagnitude}</p> -->
 			<!-- 			<p>posição saída da location finder: {userCoordinates.lat}, {userCoordinates.lon}</p> -->
 		</div>
@@ -220,21 +233,18 @@
 	<div class="scroll__graphic">
 		<div id="viz">
 			{#if innerHeight != null}
-				<div class="plot" class:visible={plot=="hr"}>
-					<HRPlot
-					size={0.9 * innerHeight}
-					action={highlightAction}
-					/>
+				<div class="plot" class:visible={plot == "hr"}>
+					<HRPlot size={0.9 * innerHeight} action={highlightAction} />
 				</div>
-				<div class="plot" class:visible={plot=="sphere"}>
+				<div class="plot" class:visible={plot == "sphere"}>
 					<StarsPlot
-					starsRaw={starsFiltered}
-					linesRaw={linesFiltered}
-					{customAngle}
-					size={0.9 * innerHeight}
-					action={highlightAction}
-					bind:stars={visibleStars}
-					constellation={consPos.name}
+						starsRaw={starsFiltered}
+						linesRaw={linesFiltered}
+						{customAngle}
+						size={0.9 * innerHeight}
+						action={highlightAction}
+						bind:stars={visibleStars}
+						constellation={consPos.name}
 					/>
 				</div>
 			{/if}
@@ -324,5 +334,4 @@
 			filter 0.3s ease,
 			opacity 0.3s ease;
 	}
-
 </style>
