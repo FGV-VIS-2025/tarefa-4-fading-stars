@@ -13,8 +13,8 @@ da FGV-EMAp. O trabalho consiste em implementar, com a biblioteca
 ou storytelling de um conjunto de dados da escolha do grupo.
 
 No nosso trabalho, optamos por usar conjuntos de dados relacionados
-às estrelas e às constelações. Informações sobre a fonte dos dados podem ser
-encontradas no final da página da visualização. Para facilitar o desenvolvimento
+às estrelas e às constelações. _Informações sobre a fonte dos dados podem ser
+encontradas no final da página da visualização._ Para facilitar o desenvolvimento
 e permitir uma melhor modularização de nossa base de código, optamos por usar o
 framework [Svelte](https://svelte.dev/).
 
@@ -144,7 +144,45 @@ para o cálculo dos histogramas.
 
 ## Processo de desenvolvimento
 
-TODO.
+O desenvolvimento do projeto iniciou com a visualização da esfera celeste interativa.
+Ela foi o ponto de partida do projeto, e a primeira parte a ficar pronta, contando
+logo no começo com controles de movimentação e com o tooltip. Após ela ficar pronta,
+as seguintes ferramentas foram feitas, seguindo essa ordem:
+
+- Busca por cidades;
+- Filtro de magnitude;
+- Filtro de constelações (o que incluiu integrar elas ao globo já pronto).
+
+Após as três ferramentas estarem prontas, a navegação do site foi melhorada, com
+a introdução dos snaps, e depois o foco foi tanto para os histogramas quanto para
+o diagrama HR. Uma versão inicial deles ficou pronta, coincidindo com a data da
+apresentação do MVP.
+
+Após a apresentação, as seguintes ferramemntas foram incorporadas de acordo com
+as sugestões dos colegas e do professor:
+
+- Melhoria do diagrama HR;
+- Foco brilhante em constelações;
+- Textos de ajuda nas ferramentas de filtragem;
+- Correções no dataset de constelações;
+- Interação dos textos com as visualizações, por meio de highlights;
+- Integração entre o buscador de cidades e o filtro de magnitude;
+- Correção de problemas com os tooltips;
+- Criação do retículo no diagrama HR.
+
+As últimas etapas do trabalho envolveram melhorar os textos explicativos das
+visualizações, escrever informações sobre o site no início e no fim, e redigir
+o presente relatório, além de mudanças de estilo que foram se fazendo necessárias.
+Diferentes highlights foram sendo adicionados a mais junto com a escrita dos textos
+finais da página.
+
+A estimativa é de que tenham sido desempenhadas 45h por membro do grupo no
+desenvolvimento do trabalho, sendo um pouco mais da metade empenhada após a apresentação
+do MVP. As implementações que mais contribuiram para essa estimativa de tempo incluem:
+o diagrama HR, os snaps e o scroll da página, a integração entre a busca de
+cidades e o filtro de magnitude e o foco em constelações específicas. Além disso,
+a correção de pequenas falhas no dataset de constelações também tomou certo tempo,
+mesmo não sendo uma tarefa de implementação.
 
 ## Uso de GPT
 

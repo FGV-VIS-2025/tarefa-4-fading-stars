@@ -129,7 +129,7 @@
         <p>A cidade selecionada está localizada na latitude {coordinates.lat.toFixed(2)}° e na longitude {coordinates.lon.toFixed(2)}°.</p>
         <p on:mouseenter={evt => action = "rotate"}
               on:mouseleave={evt => action = null}
-              class="rotation-trigger"
+              class="highlight"
         >Veja a movimentação do esfera celeste ao longo de um dia.</p>
     {/if}
 	<Help alignTop={false}>
@@ -213,8 +213,14 @@
         background-color: #2f05d93a;
     }
 
-    .rotation-trigger {
-        text-decoration: underline;
-    }
+    .highlight {
+		background-color: #f1f1f1;
+		color: #000;
+		display: inline-block;
+		margin: 3px 0;
+		padding: 3px;
+		font-weight: bold;
+		cursor: default;
+	}
 
 </style>
