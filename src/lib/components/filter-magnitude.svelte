@@ -1,20 +1,75 @@
 <script>
     import Help from "$lib/components/Help.svelte";
+    import { onMount } from "svelte";
 
     import * as d3 from "d3";
     export let starsRaw; //Input of all stars, this slider never changes so it needs to be made with all the data
     export let maxMagnitude; //Output of the component - the max magnitude value selected
     export let percentage;
+    export let userCoordinates;
+
+    const rgbMap = {
+        "#FFFFFF": 3.799093644700977,
+        "#BFBFBF": 4.2820872887782375,
+        "#ED3833": 4.7338747438940665,
+        "#9A2421": 5.14477892481593,
+        "#D87635": 5.507673538161097,
+        "#A25827": 5.812163681385028,
+        "#CEC842": 6.0641111172184825,
+        "#908C2E": 6.2535872569129,
+        "#53B12E": 6.389567967218516,
+        "#316A1B": 6.479153564151049,
+        "#013EDC": 6.536806275297105,
+        "#012584": 6.574322752292328,
+        "#464646": 6.59280597486233,
+        "#232323": 6.620187747545812,
+        "#000000": 6.624711410308956,
+    };
+
+    let canvas;
+    let canvasContext;
+    let img;
+    let imgMounted = false;
+    onMount(() => {
+        //creates image object and associated canvas
+        img = new Image();
+        img.onload = () => {
+            canvas.width = img.width;
+            canvas.height = img.height;
+            canvasContext = canvas.getContext("2d");
+            canvasContext.drawImage(img, 0, 0);
+            imgMounted = true;
+        }
+        img.src = "/world2024_low3.png";
+
+	});
+
+
+
+	function getCoordinateMag(lat, lon){
+        lat = lat*1; lon = lon*1;
+        let x, y;
+        //TODO: condition button appearance to that if
+        if(-65 <= lat && lat <= 75 && -180 <= lon && lon <= 180){
+            x = Math.floor(((lon + 180) / 360) * img.width);
+            y = Math.floor(((75 - lat) / 140) * img.height);
+        }
+        const pixel = canvasContext.getImageData(x, y, 1, 1).data;
+        let rgb = pixel[2] | (pixel[1] << 8) | (pixel[0] << 16);
+        rgb = '#' + rgb.toString(16).padStart(6, '0').toUpperCase();
+        console.log(rgb);
+        userBarInput = linScale(rgbMap[rgb]);
+	};
 
     let maxDataMagnitude, minDataMagnitude;
     maxDataMagnitude = d3.max(starsRaw.map((star) => star.mag));
     minDataMagnitude = d3.min(starsRaw.slice(1).map((star) => star.mag));
 
-    let userBarInput = 200;
+    let userBarInput = 300;
     let linScale = d3
         .scaleLinear()
         .domain([minDataMagnitude, maxDataMagnitude])
-        .range([0, 200]);
+        .range([0, 300]);
     $: maxMagnitude = linScale.invert(userBarInput);
 </script>
 
@@ -29,7 +84,7 @@
                 id="slider"
                 name="slider"
                 min="0"
-                max="200"
+                max="300"
                 bind:value={userBarInput}
             />
             <div class="minmax">
@@ -37,14 +92,12 @@
                     >{maxDataMagnitude} m</span
                 >
             </div>
-            <span
-                >Magnitude máxima selecionada: {maxMagnitude.toFixed(2)} m</span
-            ><br />
-            <span
-                >Porcentagem de estrelas exibidas: {(percentage * 100).toFixed(
-                    1,
-                )}%</span
-            >
+            <span>Magnitude máxima selecionada: {maxMagnitude.toFixed(2)} m</span><br/>
+            <span>Porcentagem de estrelas exibidas: {(percentage * 100).toFixed(1,)}%</span><br/>
+            <!--TODO: move button to possibly other spot-->
+            {#if imgMounted && (userCoordinates.lat != 0 || userCoordinates.lon != 0)}
+            <button on:click = {evt => getCoordinateMag(userCoordinates.lat, userCoordinates.lon)}>aperta</button>
+            {/if}
         </div>
     </div>
 
@@ -63,7 +116,9 @@
             observação do globo celeste.
         </p>
     </Help>
+    <canvas bind:this={canvas} hidden=true></canvas>
 </div>
+
 
 <style>
     .container {
