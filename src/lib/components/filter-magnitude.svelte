@@ -44,10 +44,12 @@
 
 	});
 
-
+    function isOnRange(lat, lon){
+        return ((lat != 0) || (lon != 0)) && (-65 <= lat) &&
+        (lat <= 75) && (-180 <= lon) && (lon <= 180);
+    }
 
 	function getCoordinateMag(lat, lon){
-        lat = lat*1; lon = lon*1;
         let x, y;
         //TODO: condition button appearance to that if
         if(-65 <= lat && lat <= 75 && -180 <= lon && lon <= 180){
@@ -92,12 +94,13 @@
                     >{maxDataMagnitude} m</span
                 >
             </div>
-            <span>Magnitude máxima selecionada: {maxMagnitude.toFixed(2)} m</span><br/>
-            <span>Porcentagem de estrelas exibidas: {(percentage * 100).toFixed(1,)}%</span><br/>
-            <!--TODO: move button to possibly other spot-->
-            {#if imgMounted && (userCoordinates.lat != 0 || userCoordinates.lon != 0)}
-            <button on:click = {evt => getCoordinateMag(userCoordinates.lat, userCoordinates.lon)}>aperta</button>
+            {#if imgMounted && isOnRange(userCoordinates.lat, userCoordinates.lon)}
+                <button on:click = {evt => getCoordinateMag(userCoordinates.lat, userCoordinates.lon)}>
+                Sincronizar com a cidade selecionada</button>
             {/if}
+            <br/><span>Magnitude máxima selecionada: {maxMagnitude.toFixed(2)} m</span><br/>
+            <span>Porcentagem de estrelas exibidas: {(percentage * 100).toFixed(1)}%</span>
+            <!--TODO: improve label or move button to other spot-->
         </div>
     </div>
 

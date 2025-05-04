@@ -73,8 +73,8 @@
 
     $: {
         if (searchResults.length > 0) {
-            coordinates.lat = searchResults[selectedResult].lat;
-            coordinates.lon = searchResults[selectedResult].lon;
+            coordinates.lat = searchResults[selectedResult].lat * 1;
+            coordinates.lon = searchResults[selectedResult].lon * 1;
         } else {
             coordinates = { lat: 0, lon: 0 };
         }
@@ -126,7 +126,7 @@
         </div>
     {/if}
     {#if successfulSearch}
-        <p>A cidade selecionada está localizada na latitude {coordinates.lat}° e na longitude {coordinates.lon}°.</p>
+        <p>A cidade selecionada está localizada na latitude {coordinates.lat.toFixed(2)}° e na longitude {coordinates.lon.toFixed(2)}°.</p>
         <p on:mouseenter={evt => action = "rotate"}
               on:mouseleave={evt => action = null}
               class="rotation-trigger"
