@@ -32,16 +32,28 @@
 		17, // Math.max(...stars.map((stars3) => stars3.absmag)),
 	];
 
-	
+
 	$: xScaleLin = d3.scaleLinear(cinExtent, [margin.h, height - margin.h]);
 	$: yScaleLin = d3.scaleLinear(magExtent, [margin.h, height - margin.h]);
-	
-	$: xScaleLog = d3.scaleLinear(tempExtent, [margin.v, width - margin.v]);
-	$: yScaleLog = d3.scaleLog(yScaleLin.domain().map((m) => Math.pow(10, 4.83-m)), yScaleLin.range());
+
+	$: xScaleLog = d3.scaleLinear().range([margin.v, width - margin.v]);
+	$: yScaleLog = d3.scaleLog(
+		yScaleLin.domain().map((m) => Math.pow(10, 4.83 - m)),
+		yScaleLin.range(),
+	);
+
+	function color(temperature) {
+	const u = 8464 / temperature;
+	return (u - 2.1344 + Math.hypot(0.9936, u)) / 1.6928;
+	}
 
 	let xAxisLog, yAxisLog, xAxisLin, yAxisLin;
+	const temperatures = [3000, 4000, 5000, 6000, 7000, 8000, 9000, 20000];
 	$: {
-		d3.select(xAxisLog).call(d3.axisTop(xScaleLog));
+		d3.select(xAxisLog).call(d3.axisTop(xScaleLin)
+					.tickValues(temperatures.map(color))
+					.tickFormat((_, i) => temperatures[i].toLocaleString("pt")));
+
 		d3.select(yAxisLog).call(d3.axisLeft(yScaleLog));
 
 		d3.select(xAxisLin).call(d3.axisBottom(xScaleLin).ticks(null, "+f"));
@@ -79,29 +91,34 @@
 		[x, y] = d3.pointer(event);
 
 		const ci = xScaleLin.invert(x);
-		const tem = xScaleLog.invert(x);
+		const tem = 4600 * (1/(0.92 * ci + 1.7) + 1/(0.92 * ci + 0.62));
 		const absmag = yScaleLin.invert(y);
 		const lum = yScaleLog.invert(y);
 
 		d3.select("#ci-value")
 			.text(`${ci.toFixed(2)}`)
 			.attr("x", x)
-			.attr("y", height-margin.h-offset);
+			.attr("y", height - margin.h - offset)
+			.attr("text-anchor", "middle");
 
 		d3.select("#lum-value")
-			.text(`${lum.toFixed(2)}L⊙`)
-			.attr("x", margin.v+offset)
-			.attr("y", y);
+			.text(`${lum.toExponential(2)}L⊙`)
+			.attr("x", margin.v + offset)
+			.attr("y", y)
+			.attr("text-anchor", "start");
 
 		d3.select("#absmag-value")
 			.text(`${absmag.toFixed(2)}M`)
-			.attr("x", width-margin.v-offset)
-			.attr("y", y);
+			.attr("x", width - margin.v - offset)
+			.attr("y", y)
+			.attr("text-anchor", "end");
+
 
 		d3.select("#tem-value")
 			.text(`${tem.toFixed(0)}K`)
 			.attr("x", x)
-			.attr("y", margin.h+offset);
+			.attr("y", margin.h + offset)
+			.attr("text-anchor", "middle");
 	}
 
 	function mouseLeave(event) {
@@ -164,7 +181,10 @@
 	<g transform="translate(0, {height - margin.h})" bind:this={xAxisLin}></g>
 	<g transform="translate({width - margin.v}, 0)" bind:this={yAxisLin}></g>
 
-	<text transform={`translate(${width - offset},${height / 2}) rotate(-90)`} dy="0.5ch">
+	<text
+		transform={`translate(${width - offset},${height / 2}) rotate(-90)`}
+		dy="0.5ch"
+	>
 		<tspan>&#9664; escuro</tspan>
 		Magnitude Absoluta (M)
 		<tspan>claro &#9654;</tspan>
@@ -179,7 +199,10 @@
 		Cor (B-V)
 		<tspan>vermelha &#9654;</tspan>
 	</text>
-	<text transform={`translate(${offset},${height / 2}) rotate(-90)`} dy="0.5ch">
+	<text
+		transform={`translate(${offset},${height / 2}) rotate(-90)`}
+		dy="0.5ch"
+	>
 		<tspan>&#9664; escuro</tspan>
 		log Luminosidade (L⊙)
 		<tspan>claro &#9654;</tspan>
@@ -201,7 +224,6 @@
 <style>
 	svg text {
 		fill: white;
-		text-anchor: middle;
 		font-family: "Courier New", Courier, monospace;
 		font-weight: bold;
 		font-size: 10pt;
