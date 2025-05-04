@@ -51,16 +51,25 @@
 
 	function getCoordinateMag(lat, lon){
         let x, y;
-        //TODO: condition button appearance to that if
-        if(-65 <= lat && lat <= 75 && -180 <= lon && lon <= 180){
-            x = Math.floor(((lon + 180) / 360) * img.width);
-            y = Math.floor(((75 - lat) / 140) * img.height);
-        }
+        x = Math.floor(((lon + 180) / 360) * img.width);
+        y = Math.floor(((75 - lat) / 140) * img.height);
         const pixel = canvasContext.getImageData(x, y, 1, 1).data;
         let rgb = pixel[2] | (pixel[1] << 8) | (pixel[0] << 16);
         rgb = '#' + rgb.toString(16).padStart(6, '0').toUpperCase();
-        console.log(rgb);
-        userBarInput = linScale(rgbMap[rgb]);
+
+        let newUBI = linScale(rgbMap[rgb]);
+        let originalUBI = userBarInput;
+
+        const duration = Math.abs(rgbMap[rgb] - maxMagnitude) * 300;
+		const start = Date.now();
+		const transitionTimer = d3.timer(() => {
+			const elapsed = Date.now() - start;
+			const t = Math.min(1, elapsed / duration);
+            userBarInput = (newUBI - originalUBI)*t + originalUBI;
+			if (t >= 1) {
+				transitionTimer.stop();
+			}
+		});
 	};
 
     let maxDataMagnitude, minDataMagnitude;
