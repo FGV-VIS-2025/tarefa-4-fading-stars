@@ -1,4 +1,6 @@
-[{"tem":7774.2654039406,"absmag":1.321,"ci":0.253,"lum":25.7988293604,"spect":"A2","rgb":"#eff0ff","class":"?"},
+[
+{"absmag":4.85,"spect":"G2V","ci":0.656,"lum":1.0,"tem":5756.5881126939,"rgb":"#fff1e4","class":"sol"},
+{"tem":7774.2654039406,"absmag":1.321,"ci":0.253,"lum":25.7988293604,"spect":"A2","rgb":"#eff0ff","class":"?"},
 {"tem":4866.0843841567,"absmag":1.059,"ci":0.95,"lum":32.839761925,"spect":"K0","rgb":"#ffe7c9","class":"?"},
 {"tem":3531.0247608833,"absmag":-1.058,"ci":1.688,"lum":230.7809729698,"spect":"M3\/M4III","rgb":"#ffcb85","class":"gig"},
 {"tem":6619.8111716625,"absmag":1.675,"ci":0.451,"lum":18.6208713666,"spect":"F5IV","rgb":"#fff8f9","class":"subgig"},
