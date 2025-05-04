@@ -100,19 +100,19 @@
         <div class="results">
             {#each searchResults as result, index}
                 {#if selectedResult == index}
-                    <div
+                    <button
                         class="searchResult selected"
                         on:click={(evt) => onResultClick(evt, index)}
                     >
                         {result.display_text}
-                    </div>
+                    </button>
                 {:else}
-                    <div
+                    <button
                         class="searchResult"
                         on:click={(evt) => onResultClick(evt, index)}
                     >
                         {result.display_text}
-                    </div>
+                    </button>
                 {/if}
             {/each}
         </div>
