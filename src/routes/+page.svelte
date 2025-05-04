@@ -159,6 +159,7 @@
 				<span class="highlight" data-action="supgig">highlight</span>
 				<span class="highlight" data-action="gig">highlight</span>
 				<span class="highlight" data-action="dwarf">highlight</span>
+				<span class="highlight" data-action="sun">highlight</span>
 			</p>
 		</div>
 		<div class="step">

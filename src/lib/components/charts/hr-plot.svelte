@@ -1,6 +1,8 @@
 <script>
 	import * as d3 from "d3";
 
+	import { tick } from "svelte";
+
 	import starsRaw from "$lib/data/hr-data.json";
 	export let size = 800;
 	export let action;
@@ -10,6 +12,11 @@
 	$: width = size;
 	$: height = size;
 	let margin = { v: 40, h: 40 };
+
+	let offset = 55;
+	let showCross = false;
+	let mouseIn = false;
+	let x, y;
 
 	const stars = starsRaw.filter(
 		(d) => d.tem != null && d.lum < 100000 && d.ci <= 2.19,
@@ -62,34 +69,11 @@
 		d3.select(yAxisLin).call(d3.axisRight(yScaleLin).ticks(null, "+"));
 	}
 
-	let expr = null;
-	$: {
-		switch (action) {
-			case "mainseq":
-				expr = "mainseq";
-				break;
-			case "dwarf":
-				expr = "dwarf";
-				break;
-			case "subgig":
-				expr = "subgig";
-				break;
-			case "gig":
-				expr = "gig";
-				break;
-			case "supgig":
-				expr = "supgig";
-				break;
-			default:
-				expr = null;
-		}
-	}
-
-	let showCross = false;
-	let x, y;
-
 	function updateBackground(textId, bgId) {
 		const text = d3.select(textId);
+		if (text.node() == null) {
+			return;
+		}
 		const bbox = text.node().getBBox();
 		d3.select(bgId)
 			.attr("x", bbox.x - 4)
@@ -99,9 +83,11 @@
 	}
 
 	function mouseMove(event) {
-		showCross = true;
 		[x, y] = d3.pointer(event);
+		update(x, y);
+	}
 
+	function update(x, y) {
 		const ci = xScaleLin.invert(x);
 		const tem = 4600 * (1 / (0.92 * ci + 1.7) + 1 / (0.92 * ci + 0.62));
 		const absmag = yScaleLin.invert(y);
@@ -137,11 +123,39 @@
 		updateBackground("#tem-value", "#tem-bg");
 	}
 
-	function mouseLeave(event) {
-		showCross = false;
+	let expr = null;
+	$: {
+		switch (action) {
+			case "mainseq":
+				expr = "mainseq";
+				break;
+			case "dwarf":
+				expr = "dwarf";
+				break;
+			case "subgig":
+				expr = "subgig";
+				break;
+			case "gig":
+				expr = "gig";
+				break;
+			case "supgig":
+				expr = "supgig";
+				break;
+			default:
+				expr = null;
+		}
 	}
 
-	let offset = 55;
+	$: if (action == "sun") {
+		showCross = true;
+		x = xScaleLin(0.65);
+		y = yScaleLog(1);
+		tick().then(() => {
+			update(x, y);
+		});
+	} else if (!mouseIn) {
+		showCross = false;
+	}
 </script>
 
 <!-- svg used as canvas for d3 plotting -->
@@ -165,43 +179,41 @@
 		{/each}
 	</g>
 
-	{#if showCross}
-		<g>
-			<line
-				id="v-line"
-				class="crosshair"
-				x1={x}
-				x2={x}
-				y1={height - margin.h}
-				y2={margin.h}
-			/>
-			<line
-				id="h-line"
-				class="crosshair"
-				y1={y}
-				y2={y}
-				x1={margin.v}
-				x2={width - margin.v}
-			/>
+	<g class:cross-hidden={!showCross}>
+		<line
+			id="v-line"
+			class="crosshair"
+			x1={x}
+			x2={x}
+			y1={height - margin.h}
+			y2={margin.h}
+		/>
+		<line
+			id="h-line"
+			class="crosshair"
+			y1={y}
+			y2={y}
+			x1={margin.v}
+			x2={width - margin.v}
+		/>
 
-			<g id="ci-label">
-				<rect id="ci-bg" fill="var(--accent-black)"></rect>
-				<text id="ci-value" dy="0.5ch" fill="white"></text>
-			</g>
-			<g id="lum-label">
-				<rect id="lum-bg" fill="var(--accent-black)"></rect>
-				<text id="lum-value" dy="0.5ch" fill="white"></text>
-			</g>
-			<g id="absmag-label">
-				<rect id="absmag-bg" fill="var(--accent-black)"></rect>
-				<text id="absmag-value" dy="0.5ch" fill="white"></text>
-			</g>
-			<g id="tem-label">
-				<rect id="tem-bg" fill="var(--accent-black)"></rect>
-				<text id="tem-value" dy="0.5ch" fill="white"></text>
-			</g>
+		<g id="ci-label">
+			<rect id="ci-bg" fill="var(--accent-black)"></rect>
+			<text id="ci-value" dy="0.5ch" fill="white"></text>
 		</g>
-	{/if}
+		<g id="lum-label">
+			<rect id="lum-bg" fill="var(--accent-black)"></rect>
+			<text id="lum-value" dy="0.5ch" fill="white"></text>
+		</g>
+		<g id="absmag-label">
+			<rect id="absmag-bg" fill="var(--accent-black)"></rect>
+			<text id="absmag-value" dy="0.5ch" fill="white"></text>
+		</g>
+		<g id="tem-label">
+			<rect id="tem-bg" fill="var(--accent-black)"></rect>
+			<text id="tem-value" dy="0.5ch" fill="white"></text>
+		</g>
+	</g>
 
 	<g transform="translate(0, {margin.h})" bind:this={xAxisLog}></g>
 	<g transform="translate({margin.v}, 0)" bind:this={yAxisLog}></g>
@@ -245,7 +257,8 @@
 		opacity="0"
 		style="cursor: none;"
 		on:mousemove={mouseMove}
-		on:mouseleave={mouseLeave}
+		on:mouseenter={() => ((showCross = true), (mouseIn = true))}
+		on:mouseleave={() => ((showCross = false), (mouseIn = false))}
 	/>
 </svg>
 
@@ -270,6 +283,10 @@
 		stroke-width: 2;
 		stroke-dasharray: 5 2;
 		pointer-events: none;
+	}
+
+	.cross-hidden {
+		display: none;
 	}
 
 	.star {
