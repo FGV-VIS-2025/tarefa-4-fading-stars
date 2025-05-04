@@ -360,8 +360,7 @@
 	.endbox {
 		scroll-snap-align: start;
 		background-color: #e1d3c1;
-		height: 60vh;
-		padding: 5% 20% 0% 10%;
+		padding: 5% 20% 10% 10%;
 		display: grid;
 		grid-template-columns: 70% 30%
 
