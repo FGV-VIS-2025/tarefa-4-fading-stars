@@ -94,6 +94,23 @@
 		});
 	}
 
+	function magAnimation(fromMag, toMag) {
+		const interpolator = d3.interpolate(fromMag, toMag);
+		const duration = 500;
+		const start = Date.now();
+
+		const transitionTimer = d3.timer(() => {
+			const elapsed = Date.now() - start;
+			const t = Math.min(1, elapsed / duration);
+
+			limitMag = interpolator(t);
+			
+			if (t >= 1) {
+				transitionTimer.stop();
+			}
+		});
+	}
+
 	$: if (customAngle.X != 0 || customAngle.Y != 0) {
 		angleAnimation(customAngle);
 		customAngle = { X: 0, Y: 0 };
@@ -142,6 +159,14 @@
 		}
 	}
 
+	$: if (action === "latitude-90") {
+		angleAnimation({ X: Math.PI / 2, Y: 0 }, true);
+	}
+
+	$: if (action === "latitude-0") {
+		angleAnimation({ X: 0, Y: 0 }, true);
+	}
+
 	$: if (action === "latitude") {
 		angleAnimation({ X: Math.PI / 3, Y: 0 }, true);
 	}
@@ -161,6 +186,23 @@
 			}
 		}
 	}
+
+	$: if (action === "orion") {
+		constellation = "Ori";
+		angleAnimation({ X: -0.07455171217057399, Y: -1.473016528051261 });
+	}
+
+	let limitMag = 7;
+	let animatingMag = false;
+
+	$: if (action === "pollution") {
+		animatingMag = true;
+		magAnimation(limitMag, 4);
+	} else {
+		magAnimation(limitMag, 7);
+		animatingMag = false;
+	}
+
 	$: {
 		console.log(constellation);
 		const curr = constellation
@@ -176,7 +218,8 @@
 
 <!-- svg used as canvas for d3 plotting -->
 <svg {width} {height} viewBox="0 0 {width} {height}" id="celestial-sphere" class="svg-plot">
-	" <path
+	{#if action !== "hide"}
+	<path
 		d={pathGenerator(graticule)}
 		fill="none"
 		stroke="#444"
@@ -184,6 +227,7 @@
 	/>
 	<g class="constellation-lines">
 		{#each lines as [starA, starB], index (starA.id + "-" + starB.id)}
+			{#if starA.mag <= limitMag && starB.mag <= limitMag}
 			<line
 				x1={xScale(starA.x)}
 				y1={yScale(starA.y)}
@@ -192,11 +236,13 @@
 				class="constellation"
 				class:highlight={constellation === starA.con}
 			/>
+			{/if}
 			<!--amarelo: #d9ed2880 -->
 			<!--azul: #2f05d990-->
 			<!--rosa maluco: #e94b8aB0-->
 		{/each}
 	</g>
+	{/if}
 	<path
 		d={pathGenerator(sphere)}
 		fill="none"
@@ -206,6 +252,7 @@
 
 	<g class="stars">
 		{#each stars as star, index (star.id)}
+			{#if star.mag <= limitMag}
 			<circle
 				role="tooltip"
 				on:mouseenter={(evt) => mouseTooltipHandler(index, evt)}
@@ -215,6 +262,7 @@
 				r={1.2 * ((5 * (star.mag - 7)) / (-1.45 - 7)) ** 0.9}
 				fill={star.rgb}
 			/>
+			{/if}
 		{/each}
 	</g>
 </svg>
