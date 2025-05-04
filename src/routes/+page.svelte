@@ -82,8 +82,8 @@
 	$: console.log(innerHeight, innerWidth);
 
 	let customAngle = { X: 0, Y: 0 };
-	let fixedYabsmag = 2300;
-	let fixedYtemp = 1450;
+	let fixedYabsmag = 800;
+	let fixedYtemp = 800;
 	//Magnitude Filter (also affects histogram vars)
 	let maxMagnitude = 30;
 	let starsFiltered = [];
@@ -94,8 +94,8 @@
 		starsFiltered = starsRaw.filter((star) => star.mag <= maxMagnitude);
 		starsFilteredIds = starsFiltered.map((star) => star.id);
 		percentageFiltered = starsFiltered.length / starsRawTotalCount;
-		fixedYabsmag = 2130 * percentageFiltered;
-		fixedYtemp = 1360 * percentageFiltered;
+		fixedYabsmag = 800 * percentageFiltered;
+		fixedYtemp = 800 * percentageFiltered;
 	}
 
 	//Constelation Filter

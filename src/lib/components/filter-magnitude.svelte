@@ -57,11 +57,11 @@
         let rgb = pixel[2] | (pixel[1] << 8) | (pixel[0] << 16);
         rgb = '#' + rgb.toString(16).padStart(6, '0').toUpperCase();
 
-        let newUBI = linScale(rgbMap[rgb]);
+        let newUBI = linScale(Math.min(rgbMap[rgb], 6.5));
         let originalUBI = userBarInput;
         if (newUBI != originalUBI){
 
-            const duration = Math.abs(rgbMap[rgb] - maxMagnitude) * 300;
+            const duration = Math.abs(Math.min(rgbMap[rgb], 6.5) - maxMagnitude) * 300;
             const start = Date.now();
             const transitionTimer = d3.timer(() => {
                 const elapsed = Date.now() - start;
