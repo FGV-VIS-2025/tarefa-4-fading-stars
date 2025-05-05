@@ -83,6 +83,7 @@
 	}
 
 	function mouseMove(event) {
+		showCross = true;
 		[x, y] = d3.pointer(event);
 		update(x, y);
 	}
@@ -144,10 +145,6 @@
 			default:
 				expr = null;
 		}
-	}
-
-	$: if (x == 0 && y == 0) {
-		showCross = false;
 	}
 
 	$: if (action == "sun") {
@@ -275,7 +272,7 @@
 		opacity="0"
 		style="cursor: none;"
 		on:mousemove={mouseMove}
-		on:mouseenter={() => ((showCross = true), (mouseIn = true))}
+		on:mouseenter={() => ((showCross = (x != null || y != null)), (mouseIn = true))}
 		on:mouseleave={() => ((showCross = false), (mouseIn = false))}
 	/>
 </svg>
