@@ -46,6 +46,7 @@ input[type="text"] {
 
 button {
 	background-color: transparent;
+	cursor: pointer;
 	border: 2px solid var(--border-color);
 	outline: none;
 	padding: 10px 5px;

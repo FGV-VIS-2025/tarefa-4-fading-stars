@@ -228,16 +228,16 @@
 	role="figure"
 	on:mouseenter={() => svgFocus = true}
 	on:mouseleave={() => svgFocus = false}>
-	{#if action !== "hide"}
 	<path
 		d={pathGenerator(graticule)}
 		fill="none"
 		stroke="#444"
 		stroke-width="1.5"
+		class="graticule-lines"
+		class:hide={action === "hide"}
 	/>
 	<g class="constellation-lines">
 		{#each lines as [starA, starB], index (starA.id + "-" + starB.id)}
-			{#if starA.mag <= limitMag && starB.mag <= limitMag}
 			<line
 				x1={xScale(starA.x)}
 				y1={yScale(starA.y)}
@@ -245,14 +245,13 @@
 				y2={yScale(starB.y)}
 				class="constellation"
 				class:highlight={constellation === starA.con}
+				class:hide={action === "hide" || !(starA.mag <= limitMag && starB.mag <= limitMag)}
 			/>
-			{/if}
 			<!--amarelo: #d9ed2880 -->
 			<!--azul: #2f05d990-->
 			<!--rosa maluco: #e94b8aB0-->
 		{/each}
 	</g>
-	{/if}
 	<path
 		d={pathGenerator(sphere)}
 		fill="none"
@@ -262,7 +261,6 @@
 
 	<g class="stars">
 		{#each stars as star, index (star.id)}
-			{#if star.mag <= limitMag}
 			<circle
 				role="tooltip"
 				on:mouseenter={(evt) => mouseTooltipHandler(index, evt)}
@@ -271,8 +269,9 @@
 				cy={yScale(star.y)}
 				r={1.2 * ((5 * (star.mag - 7)) / (-1.45 - 7)) ** 0.9}
 				fill={star.rgb}
+				class="star"
+				class:hide={!(star.mag <= limitMag)}
 			/>
-			{/if}
 		{/each}
 	</g>
 </svg>
@@ -326,17 +325,41 @@
 		}
 	}
 
+	.graticule-lines {
+		opacity: 1;
+		transition: opacity 0.5s ease;
+	}
+
+	.graticule-lines.hide {
+		opacity: 0;
+	}
+
+	.star {
+		opacity: 1;
+		transition: opacity 0.5s ease;
+	}
+
+	.star.hide {
+		opacity: 0;
+	}
+
 	.constellation {
+		opacity: 1;
 		stroke-width: 1;
 		stroke: #aaa;
 		transition:
 			stroke 0.6s ease,
-			stroke-width 0.6s ease;
+			stroke-width 0.6s ease,
+			opacity 0.5s ease-in-out;
 	}
 
 	.constellation.highlight {
 		stroke: #e94b8ab0;
 		stroke-width: 3;
+	}
+
+	.constellation.hide {
+		opacity: 0;
 	}
 
 	.info {
