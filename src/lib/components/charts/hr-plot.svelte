@@ -179,7 +179,7 @@
 		{/each}
 	</g>
 
-	<g class:cross-hidden={!showCross}>
+	<g class="cross" class:hidden={!showCross}>
 		<line
 			class="crosshair-bg"
 			x1={x}
@@ -305,8 +305,13 @@
 		pointer-events: none;
 	}
 
-	.cross-hidden {
-		display: none;
+	.cross {
+		opacity: 1;
+		transition: opacity 0.3s ease;
+	}
+
+	.cross.hidden {
+		opacity: 0;
 	}
 
 	.star {
