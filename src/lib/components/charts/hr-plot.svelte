@@ -146,6 +146,10 @@
 		}
 	}
 
+	$: if (x == 0 && y == 0) {
+		showCross = false;
+	}
+
 	$: if (action == "sun") {
 		showCross = true;
 		x = xScaleLin(0.65);
