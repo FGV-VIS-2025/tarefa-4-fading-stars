@@ -261,7 +261,7 @@
 				</span>
 			</p>
 		</div>
-		<div class="step" style="padding-top:10%;">
+		<div class="step">
 			<ConstelationFilter
 				{starsRaw}
 				bind:selectedCons
@@ -281,7 +281,7 @@
 			<!-- 			<p>Magnitude máxima de saída da magnitude filter: {maxMagnitude}</p> -->
 			<!-- 			<p>posição saída da location finder: {userCoordinates.lat}, {userCoordinates.lon}</p> -->
 		</div>
-		<div class="step" style="padding-top:5%;">
+		<div class="step">
 			{#if innerHeight != null}
 				<h3>Distribuição das temperaturas das estrelas visíveis</h3>
 				<StarsHistogram

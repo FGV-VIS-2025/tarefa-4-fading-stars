@@ -61,7 +61,7 @@
 	<g id="rects" fill="white">
 	{#each bins as d}
 		<rect x="{xScale(d.x0) + 1}"
-			  width="{xScale(d.x1) - xScale(d.x0) - 1}"
+			  width="{xScale(d.x1) - xScale(d.x0)}"
 			  y="{yScale(d.length)}"
 			  height="{yScale(0) - yScale(d.length)}"
 		/>
