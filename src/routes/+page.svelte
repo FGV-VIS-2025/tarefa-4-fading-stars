@@ -382,17 +382,23 @@
 			<a href="https://github.com/FGV-VIS-2025/tarefa-4-fading-stars" target="_blank">
 			GitHub do projeto</a> para saber mais sobre as motivações por trás da tarefa.
 		</p>
+		<div id="authors">
 		<h2>Autores</h2>
 		<ul>
-			<li>
-				<a href="https://github.com/pedrotokar" target="_blank">Pedro Santos Tokar</a>
- 				<img src="github-mark.svg" alt="github">
-			</li>
-			<li>
-				<a href="https://github.com/vitor-n" target="_blank">Vitor do Nascimento</a>
- 				<img src="github-mark.svg" alt="github">
-			</li>
-		</ul>
+				<li>
+					<a href="https://github.com/pedrotokar" target="_blank">
+						<span class="link-text">Pedro Santos Tokar</span>
+						<img src="github-mark.svg" alt="github">
+					</a>
+				</li>
+				<li>
+					<a href="https://github.com/vitor-n" target="_blank">
+						<span class="link-text">Vitor do Nascimento</span>
+						<img src="github-mark.svg" alt="github">
+					</a>
+				</li>
+			</ul>
+		</div>
 	</div>
 </div>
 
@@ -436,6 +442,17 @@
 	}
 	li img {
 		height: 1em;
+	}
+
+	#authors a {
+		text-decoration: none;
+		display: inline-flex;
+		align-items: center;
+		gap: 6px;
+	}
+
+	.link-text {
+		text-decoration: underline;
 	}
 
 

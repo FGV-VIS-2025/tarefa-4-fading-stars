@@ -69,8 +69,8 @@
 
 <div class="container">
 	<h3>Filtre as constelações visíveis.</h3>
+	<label for="cons-search">Busque por uma constelação!</label>
 	<div class="search-box">
-		<label for="cons-search">Busque por uma constelação!</label>
 		<input type="text" id="cons-search" bind:value={userQuery} />
 		<div class="constellations">
 			{#each queriedCons as cons, index}
@@ -178,10 +178,6 @@
 		margin: 0.5ch 0;
 		display: flex;
 		justify-content: space-between;
-	}
-
-	.search-box:hover .constellations {
-		display: flex;
 	}
 
 	.search-box:focus-within .constellations {
